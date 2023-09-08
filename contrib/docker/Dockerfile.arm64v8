@@ -123,14 +123,12 @@ RUN pip3 install --upgrade pip setuptools wheel
 RUN pip3 wheel cryptography
 RUN pip3 install grpcio-tools
 
-RUN /root/.local/bin/poetry install
+RUN /root/.local/bin/poetry export -o requirements.txt --without-hashes --with dev
+RUN pip3 install -r requirements.txt
 
 RUN ./configure --prefix=/tmp/lightning_install --enable-static && \
     make DEVELOPER=${DEVELOPER} && \
     /root/.local/bin/poetry run make install
-
-RUN pip3 install -r plugins/clnrest/requirements.txt
-RUN pip3 install ./contrib/pyln-client
 
 FROM debian:bullseye-slim as final
 
