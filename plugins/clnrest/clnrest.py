@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # For --hidden-import gunicorn.glogging gunicorn.workers.sync
 try:
+    from gevent import monkey
+    monkey.patch_all()
     import sys
     import os
     import re
@@ -34,18 +36,21 @@ multiprocessing.set_start_method('fork')
 
 
 def check_origin(origin):
-    from utilities.shared import REST_CORS_ORIGINS
-    is_whitelisted = False
-    if REST_CORS_ORIGINS[0] == "*":
-        is_whitelisted = True
-    else:
-        for whitelisted_origin in REST_CORS_ORIGINS:
-            try:
-                does_match = bool(re.compile(whitelisted_origin).match(origin))
-                is_whitelisted = is_whitelisted or does_match
-            except Exception as err:
-                plugin.log(f"Error from rest-cors-origin {whitelisted_origin} match with {origin}: {err}", "info")
-    return is_whitelisted
+    try:
+        from utilities.shared import REST_CORS_ORIGINS
+        is_whitelisted = False
+        if REST_CORS_ORIGINS[0] == "*":
+            is_whitelisted = True
+        else:
+            for whitelisted_origin in REST_CORS_ORIGINS:
+                try:
+                    does_match = bool(re.compile(whitelisted_origin).match(origin))
+                    is_whitelisted = is_whitelisted or does_match
+                except Exception as err:
+                    plugin.log(f"Error from rest-cors-origin {whitelisted_origin} match with {origin}: {err}", "info")
+        return is_whitelisted
+    except Exception as err:
+        return f"Error from check origin: {err}", 500
 
 
 jobs = {}
@@ -97,17 +102,20 @@ def ws_connect():
 
 
 def create_app():
-    from utilities.shared import REST_CORS_ORIGINS
-    global app
-    app.config["SECRET_KEY"] = os.urandom(24).hex()
-    authorizations = {
-        "rune": {"type": "apiKey", "in": "header", "name": "Rune"}
-    }
-    CORS(app, resources={r"/*": {"origins": REST_CORS_ORIGINS}})
-    blueprint = Blueprint("api", __name__)
-    api = Api(blueprint, version="1.0", title="Core Lightning Rest", description="Core Lightning REST API Swagger", authorizations=authorizations, security=["rune"])
-    app.register_blueprint(blueprint)
-    api.add_namespace(rpcns, path="/v1")
+    try:
+        from utilities.shared import REST_CORS_ORIGINS
+        global app
+        app.config["SECRET_KEY"] = os.urandom(24).hex()
+        authorizations = {
+            "rune": {"type": "apiKey", "in": "header", "name": "Rune"}
+        }
+        CORS(app, resources={r"/*": {"origins": REST_CORS_ORIGINS}})
+        blueprint = Blueprint("api", __name__)
+        api = Api(blueprint, version="1.0", title="Core Lightning Rest", description="Core Lightning REST API Swagger", authorizations=authorizations, security=["rune"])
+        app.register_blueprint(blueprint)
+        api.add_namespace(rpcns, path="/v1")
+    except Exception as err:
+        return f"Error from create application: {err}", 500
 
 
 @app.after_request
@@ -121,92 +129,113 @@ def add_csp_headers(response):
 
 
 def set_application_options(plugin):
-    from utilities.shared import CERTS_PATH, REST_PROTOCOL, REST_HOST, REST_PORT
-    plugin.log(f"REST Server is starting at {REST_PROTOCOL}://{REST_HOST}:{REST_PORT}", "debug")
-    if REST_PROTOCOL == "http":
-        # Assigning only one worker due to added complexity between gunicorn's multiple worker process forks
-        # and websocket connection's persistance with a single worker.
-        options = {
-            "bind": f"{REST_HOST}:{REST_PORT}",
-            "workers": 1,
-            "worker_class": "geventwebsocket.gunicorn.workers.GeventWebSocketWorker",
-            "timeout": 60,
-            "loglevel": "warning",
-        }
-    else:
-        cert_file = Path(f"{CERTS_PATH}/client.pem")
-        key_file = Path(f"{CERTS_PATH}/client-key.pem")
-        try:
-            if not cert_file.is_file() or not key_file.is_file():
-                plugin.log(f"Certificate not found at {CERTS_PATH}. Generating a new certificate!", "debug")
-                generate_certs(plugin, REST_HOST, CERTS_PATH)
-            plugin.log(f"Certs Path: {CERTS_PATH}", "debug")
-        except Exception as err:
-            raise Exception(f"{err}: Certificates do not exist at {CERTS_PATH}")
+    try:
+        from utilities.shared import CERTS_PATH, REST_PROTOCOL, REST_HOST, REST_PORT
+        plugin.log(f"REST Server is starting at {REST_PROTOCOL}://{REST_HOST}:{REST_PORT}", "debug")
+        if REST_PROTOCOL == "http":
+            # Assigning only one worker due to added complexity between gunicorn's multiple worker process forks
+            # and websocket connection's persistance with a single worker.
+            options = {
+                "bind": f"{REST_HOST}:{REST_PORT}",
+                "workers": 1,
+                "worker_class": "geventwebsocket.gunicorn.workers.GeventWebSocketWorker",
+                "timeout": 60,
+                "loglevel": "warning",
+            }
+        else:
+            cert_file = Path(f"{CERTS_PATH}/client.pem")
+            key_file = Path(f"{CERTS_PATH}/client-key.pem")
+            try:
+                if not cert_file.is_file() or not key_file.is_file():
+                    plugin.log(f"Certificate not found at {CERTS_PATH}. Generating a new certificate!", "debug")
+                    generate_certs(plugin, REST_HOST, CERTS_PATH)
+                plugin.log(f"Certs Path: {CERTS_PATH}", "debug")
+            except Exception as err:
+                raise Exception(f"{err}: Certificates do not exist at {CERTS_PATH}")
 
-        # Assigning only one worker due to added complexity between gunicorn's multiple worker process forks
-        # and websocket connection's persistance with a single worker.
-        options = {
-            "bind": f"{REST_HOST}:{REST_PORT}",
-            "workers": 1,
-            "worker_class": "geventwebsocket.gunicorn.workers.GeventWebSocketWorker",
-            "timeout": 60,
-            "loglevel": "warning",
-            "certfile": f"{CERTS_PATH}/client.pem",
-            "keyfile": f"{CERTS_PATH}/client-key.pem",
-            "ssl_version": ssl.PROTOCOL_TLSv1_2
-        }
-    return options
+            # Assigning only one worker due to added complexity between gunicorn's multiple worker process forks
+            # and websocket connection's persistance with a single worker.
+            options = {
+                "bind": f"{REST_HOST}:{REST_PORT}",
+                "workers": 1,
+                "worker_class": "geventwebsocket.gunicorn.workers.GeventWebSocketWorker",
+                "timeout": 60,
+                "loglevel": "warning",
+                "certfile": f"{CERTS_PATH}/client.pem",
+                "keyfile": f"{CERTS_PATH}/client-key.pem",
+                "ssl_version": ssl.PROTOCOL_TLSv1_2
+            }
+        return options
+    except Exception as err:
+        return f"Error from set application options: {err}", 500
 
 
 class CLNRestApplication(BaseApplication):
     def __init__(self, app, options=None):
-        from utilities.shared import REST_PROTOCOL, REST_HOST, REST_PORT
-        self.application = app
-        self.options = options or {}
-        super().__init__()
-        plugin.log(f"REST server running at {REST_PROTOCOL}://{REST_HOST}:{REST_PORT}", "info")
+        try:
+            from utilities.shared import REST_PROTOCOL, REST_HOST, REST_PORT
+            self.application = app
+            self.options = options or {}
+            super().__init__()
+            plugin.log(f"REST server running at {REST_PROTOCOL}://{REST_HOST}:{REST_PORT}", "info")
+        except Exception as err:
+            return f"Error from application init: {err}", 500
 
     def load_config(self):
-        config = {key: value for key, value in self.options.items()
-                  if key in self.cfg.settings and value is not None}
-        for key, value in config.items():
-            self.cfg.set(key.lower(), value)
+        try:
+            config = {key: value for key, value in self.options.items()
+                      if key in self.cfg.settings and value is not None}
+            for key, value in config.items():
+                self.cfg.set(key.lower(), value)
+        except Exception as err:
+            return f"Error from application load config: {err}", 500
 
     def load(self):
-        return self.application
+        try:
+            return self.application
+        except Exception as err:
+            return f"Error from application load: {err}", 500
 
 
 def worker():
-    global app
-    options = set_application_options(plugin)
-    create_app()
-    CLNRestApplication(app, options).run()
+    try:
+        global app
+        options = set_application_options(plugin)
+        create_app()
+        CLNRestApplication(app, options).run()
+    except Exception as err:
+        return f"Error from worker: {err}", 500
 
 
 def start_server():
-    global jobs
-    from utilities.shared import REST_PORT
-    if REST_PORT in jobs:
-        return False, "server already running"
-    p = Process(
-        target=worker,
-        args=[],
-        name="server on port {}".format(REST_PORT),
-    )
-    p.daemon = True
-    jobs[REST_PORT] = p
-    p.start()
-    return True
+    try:
+        global jobs
+        from utilities.shared import REST_PORT
+        if REST_PORT in jobs:
+            return False, "server already running"
+        p = Process(
+            target=worker,
+            args=[],
+            name="server on port {}".format(REST_PORT),
+        )
+        p.daemon = True
+        jobs[REST_PORT] = p
+        p.start()
+        return True
+    except Exception as err:
+        return f"Error from start server: {err}", 500
 
 
 @plugin.init()
 def init(options, configuration, plugin):
-    # We require options before we open a port.
-    err = set_config(options)
-    if err:
-        return {'disable': err}
-    start_server()
+    try:
+        # We require options before we open a port.
+        err = set_config(options)
+        if err:
+            return {'disable': err}
+        start_server()
+    except Exception as err:
+        return f"Error from plugin init: {err}", 500
 
 
 @plugin.subscribe("*")
