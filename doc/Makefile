@@ -156,8 +156,8 @@ MARKDOWN_WITH_SCHEMA := $(shell grep -l GENERATE-FROM-SCHEMA $(MANPAGES:=.md))
 LBRACKET=(
 RBRACKET=)
 
-$(MARKDOWN_WITH_SCHEMA): doc/lightning-%.7.md: doc/schemas/%.schema.json tools/fromschema.py
-	@if $(call SHA256STAMP_CHANGED); then $(call VERBOSE, "fromschema $@", tools/fromschema.py --markdownfile=$@ doc/schemas/$*.schema.json > $@.tmp && grep -v SHA256STAMP: $@.tmp > $@ && rm -f $@.tmp && $(call SHA256STAMP,[comment]: # $(LBRACKET),$(RBRACKET))); else touch $@; fi
+$(MARKDOWN_WITH_SCHEMA): doc/lightning-%.7.md: doc/schemas/%.json tools/fromschema.py
+	@if $(call SHA256STAMP_CHANGED); then $(call VERBOSE, "fromschema $@", tools/fromschema.py --markdownfile=$@ doc/schemas/$*.json > $@.tmp && grep -v SHA256STAMP: $@.tmp > $@ && rm -f $@.tmp && $(call SHA256STAMP,[comment]: # $(LBRACKET),$(RBRACKET))); else touch $@; fi
 
 # If we need to build lowdown, make tools/md2man.sh depend on it.
 # That way it's not used in SHA256STAMP (which only uses direct
