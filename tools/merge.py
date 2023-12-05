@@ -78,7 +78,7 @@ for base_name in grouped_files:
             merged_json["request"] = request_json
             merged_json["response"] = response_json
         # Write merged JSON to the new file
-        output_file = os.path.join(input_folder, "schemas", f"{base_name}.json")
+        output_file = os.path.join(input_folder, "schemas", f"{base_name}.new.json")
         with open(output_file, "w") as outfile:
             json.dump(merged_json, outfile, indent=2)
     else:

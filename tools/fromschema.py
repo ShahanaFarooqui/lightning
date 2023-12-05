@@ -6,12 +6,10 @@ from argparse import ArgumentParser
 import json
 import re
 
-md_output = []
-
 def output_title(title, underline="-", num_leading_newlines=1, num_trailing_newlines=2):
     """Add a title to the output"""
-    md_output.append("\n" * num_leading_newlines + title + "\n")
-    md_output.append(underline * len(title) + "\n" * num_trailing_newlines)
+    print("\n" * num_leading_newlines + title, end="\n")
+    print(underline * len(title) + "\n" * num_trailing_newlines, end="")
 
 
 def esc_underscores(s):
@@ -34,12 +32,12 @@ def json_value(obj):
 
 def outputs(lines, separator=""):
     """Add these lines to the final output"""
-    md_output.append(separator.join(lines))
+    print(separator.join(lines), end="")
 
 
 def output(line):
     """Add this line to the final output"""
-    md_output.append(line)
+    print(line, end='')
 
 
 def output_type(properties, is_optional):
@@ -51,7 +49,6 @@ def output_type(properties, is_optional):
             typename += " of {}s".format(esc_underscores(properties["items"]["type"]))
     if is_optional:
         typename += ", optional"
-    # output(" ({}):".format(typename) if ("type" in properties and (properties["type"] == "array" or properties["type"] == "one of")) or "description" in properties and properties["description"] != "" else " ({})".format(typename))
     output(" ({}):".format(typename) if "description" in properties and properties["description"] != "" else " ({})".format(typename))
 
 
@@ -366,6 +363,7 @@ def generate_from_response(schema):
 def generate_header(schema):
     output_title("".join(["lightning-", schema["rpc"], " -- ", schema["title"]]), "=", 0, 1)
 
+
 def generate_description(schema):
     output_title("DESCRIPTION")
     if "deprecated" in schema:
@@ -374,17 +372,17 @@ def generate_description(schema):
         output("Command *added* in {}.\n\n".format(schema["added"]))
     outputs(schema["request"]["description"] + ["\n"])
 
+
 def generate_footer(schema):
     if "categories" in schema:
         output_title("CATEGORIES")
         outputs(schema["categories"], ", ")
-    output_title("AUTHOR", "-", 2)
-    outputs(schema["authors"] + ["\n"])
-    output_title("SEE ALSO")
+    output_title("AUTHOR")
+    outputs(schema["authors"])
+    output_title("SEE ALSO", "-", 2)
     outputs(schema["seeAlso"], ", ")
     output_title("RESOURCES", "-", 2)
-    output("Main web site: <https://github.com/ElementsProject/lightning>")
-    # output_title("[comment]: # ( SHA256STAMP:)", "", 2, 0)
+    output("Main web site: <https://github.com/ElementsProject/lightning>\n\n")
 
 
 def main(schemafile, markdownfile):
@@ -397,12 +395,7 @@ def main(schemafile, markdownfile):
     generate_footer(schema)
 
     if markdownfile is None:
-        print("".join(md_output))
         return
-
-    with open(markdownfile, "w") as f:
-        f.writelines(md_output)
-        print("Updated {}".format(markdownfile))
 
 
 if __name__ == "__main__":
