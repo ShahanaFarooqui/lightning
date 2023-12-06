@@ -357,7 +357,7 @@ def generate_from_response(schema):
     if warnings:
         outputs(["\n", "The following warnings may also be returned:\n\n"])
         for w, desc in warnings:
-            output("- {}: {}\n".format(fmt_propname(w), desc))
+            output("- {}: {}".format(fmt_propname(w), desc))
 
 
 def generate_header(schema):
@@ -370,18 +370,15 @@ def generate_description(schema):
         output("Command **deprecated, removal in {}**.\n\n".format(deprecated_to_deleted(schema["deprecated"])))
     if "added" in schema:
         output("Command *added* in {}.\n\n".format(schema["added"]))
-    outputs(schema["request"]["description"] + ["\n"])
+    output("\n".join(schema["request"]["description"]) + "\n")
 
 
 def generate_footer(schema):
-    if "categories" in schema:
-        output_title("CATEGORIES")
-        outputs(schema["categories"], ", ")
-    output_title("AUTHOR")
-    outputs(schema["authors"])
-    output_title("SEE ALSO", "-", 2)
-    outputs(schema["seeAlso"], ", ")
-    output_title("RESOURCES", "-", 2)
+    keys = list(schema.keys())
+    footer_key_list = [key for key in keys if key not in ['$schema', 'type', 'additionalProperties', 'rpc', 'title', 'request', 'response']]
+    for key in footer_key_list:
+        output_title(key.replace("_", " ").upper(), "-", 2)
+        outputs(schema[key], ", " if key in ['categories', 'see_also'] else "\n")
     output("Main web site: <https://github.com/ElementsProject/lightning>\n\n")
 
 

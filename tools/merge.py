@@ -28,48 +28,40 @@ for base_name in grouped_files:
             merged_json["$schema"] = request_json.get("$schema", "http://json-schema.org/draft-07/schema#")
             merged_json["type"] = request_json.get("type", "object")
             merged_json["additionalProperties"] = request_json.get("additionalProperties", False)
-            request_json.pop("$schema", None)
-            request_json.pop("type", None)
-            request_json.pop("additionalProperties", None)
+            for key in ["$schema", "type", "additionalProperties"]:
+                request_json.pop(key, None)
+                response_json.pop(key, None)
             if "added" in request_json:
                 merged_json["added"] = request_json["added"]
                 request_json.pop("added", None)
             if "deprecated" in request_json:
                 merged_json["deprecated"] = request_json["deprecated"]
                 request_json.pop("deprecated", None)
-            description_line_s = 0
-            description_line_e = 0
-            md_file_contents = md_file.readlines()
-            for i, line in enumerate(md_file_contents):
+            # md_file_contents = md_file.readlines()
+            md_file_contents = [line.strip("\n") for line in md_file.readlines()]
+            for i in range(0, len(md_file_contents)):
+                line = md_file_contents[i]
                 if i == 0:
                     line = line.removeprefix("lightning-")
                     rpc, title = line.split(" -- ")
                     merged_json["rpc"] = rpc.strip()
                     merged_json["title"] = title.strip("\n")
-                if line.startswith("DESCRIPTION"):
-                    description_line_s = i + 3
-                if line.startswith("RETURN VALUE"):
-                    description_line_e = i - 1
-
-                title_line = md_file_contents[i - 1].strip("\n")
-                if line.startswith("----") and not (title_line.startswith("SYNOPSIS") or title_line.startswith("DESCRIPTION") or title_line.startswith("RETURN VALUE")):
-                    for j in range(i+2, len(md_file_contents)):
-                        if md_file_contents[j].startswith("----"):
-                            title_line_end = j - 2
-                            break
-                    response_json[title_line.lower()] = md_file_contents[i+2:title_line_end]
-                    break
-
-            md_file_contents[description_line_e - 1] = md_file_contents[description_line_e - 1].strip("\n")
-            description = md_file_contents[description_line_s:description_line_e]
-            request_json["description"] = description
-
-            response_json.pop("$schema", None)
-            response_json.pop("type", None)
-            response_json.pop("additionalProperties", None)
-
-            merged_json["request"] = request_json
-            merged_json["response"] = response_json
+                else:
+                    title_line = md_file_contents[i - 1].strip("\n")
+                    if line.startswith("----") and not (title_line.startswith("SYNOPSIS") or title_line.startswith("RETURN VALUE")):
+                        for j in range(i+2, len(md_file_contents)):
+                            if md_file_contents[j].startswith("----"):
+                                title_line_end = j - 2
+                                break
+                        if title_line.startswith("DESCRIPTION"):
+                            request_json["description"] = md_file_contents[i+2:title_line_end]
+                            merged_json["request"] = request_json
+                            merged_json["response"] = response_json
+                        elif title_line.startswith("SEE ALSO"):
+                            merged_json["see_also"] = "".join(md_file_contents[i+2:title_line_end]).strip(".").split(", ")
+                        else:
+                            merged_json[title_line.lower().replace(" ", "_")] = md_file_contents[i+2:title_line_end]
+                        i = j
         # Write merged JSON to the new file
         output_file = os.path.join(input_folder, "schemas", f"{base_name}.new.json")
         with open(output_file, "w") as outfile:
