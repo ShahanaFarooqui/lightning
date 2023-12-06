@@ -13,7 +13,6 @@ for root, _, files in os.walk(os.path.join(input_folder, "schemas")):
             if base_name not in grouped_files:
                 grouped_files.append(base_name)
 
-grouped_files = ['feerates']
 # Merge and create new JSON files
 for base_name in grouped_files:
     if os.path.exists(input_folder + "schemas/" + base_name + ".request.json") \
