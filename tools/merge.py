@@ -13,6 +13,7 @@ for root, _, files in os.walk(os.path.join(input_folder, "schemas")):
             if base_name not in grouped_files:
                 grouped_files.append(base_name)
 
+grouped_files = ['feerates']
 # Merge and create new JSON files
 for base_name in grouped_files:
     if os.path.exists(input_folder + "schemas/" + base_name + ".request.json") \
@@ -38,10 +39,6 @@ for base_name in grouped_files:
                 request_json.pop("deprecated", None)
             description_line_s = 0
             description_line_e = 0
-            author_line_s = 0
-            author_line_e = 0
-            see_also_line_s = 0
-            see_also_line_e = 0
             md_file_contents = md_file.readlines()
             for i, line in enumerate(md_file_contents):
                 if i == 0:
@@ -53,23 +50,19 @@ for base_name in grouped_files:
                     description_line_s = i + 3
                 if line.startswith("RETURN VALUE"):
                     description_line_e = i - 1
-                if line.startswith("AUTHOR"):
-                    author_line_s = i + 3
-                if line.startswith("SEE ALSO"):
-                    see_also_line_s = i + 3
-                    author_line_e = i - 1
-                if line.startswith("RESOURCES"):
-                    see_also_line_e = i - 1
+
+                title_line = md_file_contents[i - 1].strip("\n")
+                if line.startswith("----") and not (title_line.startswith("SYNOPSIS") or title_line.startswith("DESCRIPTION") or title_line.startswith("RETURN VALUE")):
+                    for j in range(i+2, len(md_file_contents)):
+                        if md_file_contents[j].startswith("----"):
+                            title_line_end = j - 2
+                            break
+                    response_json[title_line.lower()] = md_file_contents[i+2:title_line_end]
+                    break
+
             md_file_contents[description_line_e - 1] = md_file_contents[description_line_e - 1].strip("\n")
-            md_file_contents[author_line_e - 1] = md_file_contents[author_line_e - 1].strip("\n")
-
             description = md_file_contents[description_line_s:description_line_e]
-            authors = md_file_contents[author_line_s:author_line_e]
-            see_also = "".join(md_file_contents[see_also_line_s:see_also_line_e]).replace("\n", "").replace(" ", "").split(",")
-
             request_json["description"] = description
-            merged_json["authors"] = authors
-            merged_json["seeAlso"] = see_also
 
             response_json.pop("$schema", None)
             response_json.pop("type", None)

@@ -130,7 +130,7 @@ doc-wrongdir:
 # 	doc/lightning-getlog.7 \
 # 	doc/reckless.7
 # REMOVE COMMENT AFTER TESTING
-MANPAGES := doc/lightning-withdraw.7
+MANPAGES := doc/lightning-feerates.7
 
 ifeq ($(HAVE_SQLITE3),1)
 MANPAGES += doc/lightning-listsqlschemas.7 \
@@ -154,7 +154,7 @@ check-doc: check-config-docs check-manpages check-fmt-schemas
 # Some manpages use a schema, so need that added.
 # MARKDOWN_WITH_SCHEMA := $(shell grep -l GENERATE-FROM-SCHEMA $(MANPAGES:=.md))
 # REMOVE COMMENT AFTER TESTING
-MARKDOWN_WITH_SCHEMA := doc/lightning-withdraw.7.md
+MARKDOWN_WITH_SCHEMA := doc/lightning-feerates.7.md
 
 # These are hard to use in $(call) functions.
 LBRACKET=(
