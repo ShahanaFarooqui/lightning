@@ -32,7 +32,6 @@ MANPAGES := doc/lightning-cli.1 \
 	doc/lightning-createinvoice.7 \
 	doc/lightning-createrune.7 \
 	doc/lightning-datastore.7 \
-	doc/lightning-datastoreusage.7 \
 	doc/lightning-decodepay.7 \
 	doc/lightning-decode.7 \
 	doc/lightning-deldatastore.7 \
@@ -60,7 +59,6 @@ MANPAGES := doc/lightning-cli.1 \
 	doc/lightning-keysend.7 \
 	doc/lightning-listchannels.7 \
 	doc/lightning-listclosedchannels.7 \
-	doc/lightning-listdatastore.7 \
 	doc/lightning-listforwards.7 \
 	doc/lightning-listfunds.7 \
 	doc/lightning-listhtlcs.7 \
@@ -83,7 +81,6 @@ MANPAGES := doc/lightning-cli.1 \
 	doc/lightning-openchannel_init.7 \
 	doc/lightning-openchannel_signed.7 \
 	doc/lightning-openchannel_update.7 \
-	doc/lightning-pay.7 \
 	doc/lightning-parsefeerate.7 \
 	doc/lightning-plugin.7 \
 	doc/lightning-preapproveinvoice.7 \
@@ -119,7 +116,6 @@ MANPAGES := doc/lightning-cli.1 \
 	doc/lightning-waitsendpay.7 \
 	doc/lightning-withdraw.7 \
 	doc/lightning-ping.7 \
-	doc/lightning-stop.7 \
 	doc/lightning-signpsbt.7 \
 	doc/lightning-sendpsbt.7 \
 	doc/lightning-getinfo.7 \
