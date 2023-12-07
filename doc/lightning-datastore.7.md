@@ -43,6 +43,7 @@ On success, an object is returned, containing:
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+
 The following error codes may occur:
 
 - 1202: The key already exists (and mode said it must not)

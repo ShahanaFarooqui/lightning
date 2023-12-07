@@ -18,6 +18,7 @@ only be created by something with access to this node's secret key.
 
 RETURN VALUE
 ------------
+
 [comment]: # (GENERATE-FROM-SCHEMA-START)
 On success, an object is returned, containing:
 

@@ -377,6 +377,9 @@ Objects in the *htlcs* array will contain these fields:
   Generally true if the HTLC is below the *dust\_limit\_msat* for the
   channel.
 
+ERRORS
+------
+
 On error the returned object will contain `code` and `message` properties,
 with `code` being one of the following:
 

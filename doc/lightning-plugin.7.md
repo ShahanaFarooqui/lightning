@@ -71,11 +71,15 @@ If **command** is "stop":
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+ERRORS
+------
+
 On error, the reason why the action could not be taken upon the
 plugin is returned.
 
 SEE ALSO
 --------
+
 lightning-cli(1), lightning-listconfigs(1), [writing plugins][writing plugins]
 
 AUTHOR

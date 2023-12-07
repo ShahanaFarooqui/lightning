@@ -55,6 +55,9 @@ On success, an object containing **channels** is returned.  It is an array of ob
 If one of *short\_channel\_id*, *source* or *destination* is supplied and no
 matching channels are found, a "channels" object with an empty list is returned.
 
+ERRORS
+------
+
 On error the returned object will contain `code` and `message` properties,
 with `code` being one of the following:
 

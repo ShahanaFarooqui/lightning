@@ -3,6 +3,7 @@ lightning-listoffers -- Command for listing offers
 
 SYNOPSIS
 --------
+
 **(WARNING: experimental-offers only)**
 
 **listoffers** [*offer\_id*] [*active\_only*]
@@ -16,6 +17,7 @@ set and is true, only offers with `active` true are returned.
 
 EXAMPLE JSON REQUEST
 ------------
+
 ```json
 {
   "id": 82,
@@ -43,6 +45,7 @@ On success, an object containing **offers** is returned.  It is an array of obje
 
 EXAMPLE JSON RESPONSE
 -----
+
 ```json
 {
   "offers": [

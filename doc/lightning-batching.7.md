@@ -21,6 +21,7 @@ default).
 
 EXAMPLE JSON REQUEST
 --------------------
+
 ```json
 {
   "id": 82,
@@ -38,6 +39,9 @@ RETURN VALUE
 On success, an empty object is returned.
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
+
+ERRORS
+------
 
 On failure, one of the following error codes may be returned:
 

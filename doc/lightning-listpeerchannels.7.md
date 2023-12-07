@@ -179,6 +179,9 @@ The *state* field values (and *old\_state* / *new\_state*) are worth describing 
     know what happened (i.e. if it was a proper unilateral close by the
     peer, or a theft attempt).
 
+ERRORS
+------
+
 On error the returned object will contain `code` and `message` properties,
 with `code` being one of the following:
 

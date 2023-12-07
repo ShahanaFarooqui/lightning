@@ -59,6 +59,7 @@ This is obviously inefficient, so there are two optimizations:
 
 RETURN VALUE
 ------------
+
 [comment]: # (GENERATE-FROM-SCHEMA-START)
 On success, an object is returned, containing:
 
@@ -94,6 +95,9 @@ If **subsystem** is "sendpays":
     - **payment\_hash** (hash, optional): the hash of the *payment\_preimage* which will prove payment
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
+
+ERRORS
+------
 
 On error the returned object will contain `code` and `message` properties,
 with `code` being one of the following:

@@ -35,6 +35,9 @@ If **reserved** is *true*:
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+ERRORS
+------
+
 On failure, an error is reported and no UTXOs are unreserved.
 
 The following error codes may occur:

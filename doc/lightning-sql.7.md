@@ -58,6 +58,7 @@ represented as an integer in the database, so a query will return 0 or
 
 PERMITTED SQLITE3 FUNCTIONS
 ---------------------------
+
 Writing to the database is not permitted, and limits are placed
 on various other query parameters.
 
@@ -80,6 +81,7 @@ Additionally, only the following functions are allowed:
 
 TABLES
 ------
+
 Note that the first column of every table is a unique integer called
 `rowid`: this is used for related tables to refer to specific rows in
 their parent.  sqlite3 usually has this as an implicit column, but we
@@ -406,10 +408,14 @@ On success, an object containing **rows** is returned.  It is an array.  Each ar
 
 The object may contain **warning\_db\_failure** if the database fails partway through its operation.
 
+ERRORS
+------
+
 On failure, an error is returned.
 
 EXAMPLES
 --------
+
 Here are some example using lightning-cli.  Note that you may need to
 use `-o` if you use queries which contain `=` (which make
 lightning-cli(1) default to keyword style):

@@ -94,6 +94,9 @@ The following warnings may also be returned:
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+ERRORS
+------
+
 On failure, an error is returned and no invoice is created. If the
 lightning process fails before responding, the caller should use
 lightning-listinvoices(7) to query whether this invoice was created or

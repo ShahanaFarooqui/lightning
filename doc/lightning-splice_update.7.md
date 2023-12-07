@@ -3,6 +3,7 @@ lightning-splice\_update -- Command to initiate a channel to a peer
 
 SYNOPSIS
 --------
+
 **(WARNING: experimental-splicing only)**
 
 **splice\_update** *channel\_id* *psbt*

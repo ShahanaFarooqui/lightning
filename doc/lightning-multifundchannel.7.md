@@ -114,6 +114,9 @@ On success, an object is returned, containing:
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+ERRORS
+------
+
 On failure, none of the channels are created.
 
 The following error codes may occur:

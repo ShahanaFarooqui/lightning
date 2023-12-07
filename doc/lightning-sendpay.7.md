@@ -94,6 +94,9 @@ If **status** is "pending":
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+ERRORS
+------
+
 On error, if the error occurred from a node other than the final
 destination, the route table will be updated so that
 lightning-getroute(7) should return an alternate route (if any). An

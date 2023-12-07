@@ -54,6 +54,9 @@ On success, an object is returned, containing:
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+ERRORS
+------
+
 On failure, an error is reported and the transaction is not created.
 
 The following error codes may occur:

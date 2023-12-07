@@ -3,6 +3,7 @@ lightning-disableinvoicerequest -- Command for removing an invoice request
 
 SYNOPSIS
 --------
+
 **(WARNING: experimental-offers only)**
 
 **disableinvoicerequest** *invreq\_id*

@@ -28,6 +28,9 @@ On success, an object is returned, containing:
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+ERRORS
+------
+
 On error the returned object will contain `code` and `message` properties,
 with `code` being one of the following:
 

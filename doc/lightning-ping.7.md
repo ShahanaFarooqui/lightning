@@ -21,6 +21,7 @@ It accepts the following parameters:
 
 EXAMPLE JSON REQUEST
 ------------
+
 ```json
 {
   "id": 82,
@@ -42,12 +43,16 @@ On success, an object is returned, containing:
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+ERRORS
+------
+
 On failure, one of the following error codes may be returned:
 
 - -32602: Error in given parameters or we're already waiting for a ping response from peer.
 
 EXAMPLE JSON RESPONSE
 -----
+
 ```json
 {
    "totlen": 132

@@ -38,6 +38,9 @@ On success, an object is returned, containing:
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+ERRORS
+------
+
 On failure, one of the following error codes may be returned:
 
 - -32602: Error in given parameters or some error happened during the command process.

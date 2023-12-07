@@ -73,6 +73,9 @@ updated rate card for the lease fee (*lease\_fee\_proportional\_basis*,
 be added to the lease fee at a rate of *funding\_feerate* * *weight\_charge*
 / 1000.
 
+ERRORS
+------
+
 On error the returned object will contain `code` and `message` properties,
 with `code` being one of the following:
 

@@ -44,6 +44,9 @@ On success, an object is returned, containing:
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+ERRORS
+------
+
 On failure, an error is reported and the withdrawal transaction is not
 created.
 

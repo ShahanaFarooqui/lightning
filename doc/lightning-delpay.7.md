@@ -20,6 +20,7 @@ Only deletes if the payment status matches.
 
 EXAMPLE JSON REQUEST
 ------------
+
 ```json
 {
   "id": 82,
@@ -61,6 +62,9 @@ On success, an object containing **payments** is returned.  It is an array of ob
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+ERRORS
+------
+
 On failure, an error is returned. If the lightning process fails before responding, the
 caller should use lightning-listsentpays(7) or lightning-listpays(7) to query whether this payment was deleted or not.
 
@@ -72,6 +76,7 @@ The following error codes may occur:
 
 EXAMPLE JSON RESPONSE
 -----
+
 ```json
 {
    "payments": [

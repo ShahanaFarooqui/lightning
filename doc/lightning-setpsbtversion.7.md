@@ -16,6 +16,7 @@ The **setpsbtversion** RPC command converts the provided PSBT to the given versi
 
 EXAMPLE JSON REQUEST
 ------------
+
 ```json
 {
   "id": 82,
@@ -32,6 +33,9 @@ RETURN VALUE
 
 If successful the command returns a converted PSBT of the requested version.
 
+ERRORS
+------
+
 On failure, an error is returned.
 
 The following error codes may occur:
@@ -40,6 +44,7 @@ The following error codes may occur:
 
 EXAMPLE JSON RESPONSE
 -----
+
 ```json
 {
     "psbt": "cHNidP8BAgQCAAAAAQQBAAEFAQABBgEDAfsEAgAAAAA="

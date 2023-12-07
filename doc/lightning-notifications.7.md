@@ -20,6 +20,7 @@ notifications which indicate their progress.
 
 EXAMPLE JSON REQUEST
 --------------------
+
 ```json
 {
   "id": 82,
@@ -59,6 +60,9 @@ On success, an empty object is returned.
 
 On success, if *enable* was *true*, notifications will be forwarded
 from then on.
+
+ERRORS
+------
 
 On failure, one of the following error codes may be returned:
 

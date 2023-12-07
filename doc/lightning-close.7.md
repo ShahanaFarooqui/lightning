@@ -88,6 +88,7 @@ closed if the peer reconnected.
 
 NOTIFICATIONS
 -------------
+
 Notifications may be returned indicating what is going on, especially
 if the peer is offline and we are waiting.
 

@@ -48,6 +48,9 @@ If *commitments\_secured* is true, will also return:
 - The *funding\_outnum*, the index of the funding output for this channel
   in the funding transaction.
 
+ERRORS
+------
+
 On error, the returned object will contain `code` and `message` properties,
 with `code` being one of the following:
 

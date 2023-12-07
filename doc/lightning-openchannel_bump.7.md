@@ -52,6 +52,9 @@ will return an error.
 If the channel is not in a state that is eligible for RBF, this command
 will return an error.
 
+ERRORS
+------
+
 On error the returned object will contain `code` and `message` properties,
 with `code` being one of the following:
 

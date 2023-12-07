@@ -90,6 +90,9 @@ added to the PSBT for the excess amount. The *excess\_msat* will
 be zero. A *change\_outnum* will be returned with the index of
 the change output.
 
+ERRORS
+------
+
 On error the returned object will contain `code` and `message` properties,
 with `code` being one of the following:
 

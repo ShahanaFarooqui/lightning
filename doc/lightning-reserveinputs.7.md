@@ -44,6 +44,9 @@ which was reserved:
 - *reserved* indicates that the input is now reserved (i.e. true).
 - *reserved\_to\_block* indicates what blockheight the reservation will expire.
 
+ERRORS
+------
+
 On failure, an error is reported and no UTXOs are reserved.
 
 The following error codes may occur:

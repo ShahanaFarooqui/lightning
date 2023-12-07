@@ -57,6 +57,9 @@ If **status** is "complete":
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+ERRORS
+------
+
 On error, and even if the error occurred from a node other than the
 final destination, the route table will no longer be updated. Use the
 *exclude* parameter of the `getroute` command to ignore the failing

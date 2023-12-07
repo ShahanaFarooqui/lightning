@@ -59,6 +59,9 @@ On success, an object is returned, containing:
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+ERRORS
+------
+
 On failure, an error is returned and no `invoice_request` is
 created. If the lightning process fails before responding, the caller
 should use lightning-listinvoicerequests(7) to query whether it was

@@ -25,6 +25,7 @@ if the inputs to be signed were not previously reserved.
 
 EXAMPLE JSON REQUEST
 --------------------
+
 ```json
 {
   "id": 82,
@@ -44,6 +45,9 @@ On success, an object is returned, containing:
 - **signed\_psbt** (string): The fully signed PSBT
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
+
+ERRORS
+------
 
 On failure, one of the following error codes may be returned:
 
