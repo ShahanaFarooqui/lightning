@@ -364,18 +364,23 @@ def generate_header(schema):
     output_title("".join(["lightning-", schema["rpc"], " -- ", schema["title"]]), "=", 0, 1)
 
 
-def generate_description(schema):
-    output_title("DESCRIPTION")
-    if "deprecated" in schema:
-        output("Command **deprecated, removal in {}**.\n\n".format(deprecated_to_deleted(schema["deprecated"])))
-    if "added" in schema:
-        output("Command *added* in {}.\n\n".format(schema["added"]))
-    output("\n".join(schema["request"]["description"]) + "\n")
-
+def generate_request_details(schema):
+    request = schema["request"]
+    request_key_list = [key for key in list(request.keys()) if key not in ['required', 'properties']]
+    for key in request_key_list:
+        output_title(key.replace("_", " ").upper())
+        if key == "description":
+            if "deprecated" in schema:
+                output("Command **deprecated, removal in {}**.\n\n".format(deprecated_to_deleted(schema["deprecated"])))
+            if "added" in schema:
+                output("Command *added* in {}.\n\n".format(schema["added"]))
+        outputs(request[key], "\n")
+        # Add single newline after the section
+        output("\n")
 
 def generate_footer(schema):
     keys = list(schema.keys())
-    footer_key_list = [key for key in keys if key not in ['$schema', 'type', 'additionalProperties', 'rpc', 'title', 'request', 'response']]
+    footer_key_list = [key for key in keys if key not in ['$schema', 'type', 'additionalProperties', 'rpc', 'title', 'request', 'response', 'added', 'deprecated']]
     for key in footer_key_list:
         output_title(key.replace("_", " ").upper(), "-", 2)
         outputs(schema[key], ", " if key in ['categories', 'see_also'] else "\n")
@@ -387,7 +392,7 @@ def main(schemafile, markdownfile):
         schema = json.load(f)
     generate_header(schema)
     generate_from_request(schema)
-    generate_description(schema)
+    generate_request_details(schema)
     generate_from_response(schema)
     generate_footer(schema)
 

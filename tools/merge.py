@@ -68,8 +68,8 @@ for base_name in grouped_files:
                         if md_file_contents[j].startswith("----"):
                             title_line_end = j - 2
                             break
-                    if title_line.startswith("DESCRIPTION"):
-                        request_json["description"] = md_file_contents[i+2:title_line_end]
+                    if title_line.startswith("DESCRIPTION") or title_line.startswith("EXAMPLE JSON REQUEST"):
+                        request_json[title_line.lower().replace(" ", "_")] = md_file_contents[i+2:title_line_end]
                         merged_json["request"] = request_json
                         merged_json["response"] = response_json
                     elif title_line.startswith("SEE ALSO"):
