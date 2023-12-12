@@ -52,7 +52,8 @@ for base_name in grouped_files:
         if "deprecated" in request_json:
             merged_json["deprecated"] = request_json["deprecated"]
             request_json.pop("deprecated", None)
-        # md_file_contents = md_file.readlines()
+        if base_name == "stop":
+            response_json["type"] = "string"
         md_file_contents = [line.strip("\n") for line in md_file.readlines()]
         for i in range(0, len(md_file_contents)):
             line = md_file_contents[i]
@@ -63,12 +64,29 @@ for base_name in grouped_files:
                 merged_json["title"] = title.strip("\n")
             else:
                 title_line = md_file_contents[i - 1].strip("\n")
-                if line.startswith("----") and not (title_line.startswith("SYNOPSIS") or title_line.startswith("RETURN VALUE")):
+                if line.startswith("----") and not (title_line.startswith("SYNOPSIS")):
                     for j in range(i+2, len(md_file_contents)):
                         if md_file_contents[j].startswith("----"):
                             title_line_end = j - 2
                             break
-                    if title_line.startswith("DESCRIPTION") or title_line.startswith("EXAMPLE JSON REQUEST"):
+                    if title_line.startswith("RETURN VALUE"):
+                        for j in range(i+2, len(md_file_contents)):
+                            if md_file_contents[j].startswith("[comment]: # (GENERATE-FROM-SCHEMA-START)"):
+                                pre_notes_end = j - 1
+                                break
+                        pre_return_value_notes = md_file_contents[i+2:pre_notes_end]
+                        for k in range(j, len(md_file_contents)):
+                            if md_file_contents[k].startswith("[comment]: # (GENERATE-FROM-SCHEMA-END)"):
+                                post_notes_start = k + 2
+                            if md_file_contents[k].startswith("----"):
+                                post_notes_end = k - 2
+                                break
+                        post_return_value_notes = md_file_contents[post_notes_start:post_notes_end]
+                        if len(pre_return_value_notes) > 0:
+                            response_json["pre_return_value_notes"] = pre_return_value_notes
+                        if len(post_return_value_notes) > 0:
+                            response_json["post_return_value_notes"] = post_return_value_notes
+                    elif title_line.startswith("DESCRIPTION") or title_line.startswith("EXAMPLE JSON REQUEST"):
                         request_json[title_line.lower().replace(" ", "_")] = md_file_contents[i+2:title_line_end]
                         merged_json["request"] = request_json
                         merged_json["response"] = response_json

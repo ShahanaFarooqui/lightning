@@ -24,7 +24,7 @@ def json_value(obj):
             return "*true*"
         return "*false*"
     if type(obj) is str:
-        return "'" + esc_underscores(obj) + "'"
+        return '"' + esc_underscores(obj) + '"'
     if obj is None:
         return "*null*"
     assert False
@@ -123,7 +123,7 @@ def output_member(propname, properties, is_optional, indent, print_type=True, pr
     """Generate description line(s) for this member"""
 
     if prefix is None:
-        prefix = "- " + fmt_propname(propname)
+        prefix = "- " + fmt_propname(propname) if propname is not None else "- "
     output(indent + prefix)
 
     # We make them explicitly note if they don"t want a type!
@@ -153,22 +153,22 @@ def output_member(propname, properties, is_optional, indent, print_type=True, pr
 
 def output_array(items, indent):
     """We"ve already said it"s an array of {type}"""
-    if list(items.keys()) == ["type"]:
+    if "oneOf" in items and isinstance(items["oneOf"], list):
+        output_members(items, indent + "  ")
+    elif list(items.keys()) == ["type"]:
         output(indent + "- " + items["type"] + "\n")
     elif items["type"] == "object":
         output_members(items, indent)
     elif items["type"] == "array":
         output(indent + "-")
         output_type(items, False)
-        if "description" in items and items["description"] != "": 
-            output(" {}\n".format(esc_underscores(items["description"])))
-        else:
-            output("\n")
+        output(" {}\n".format(esc_underscores(items["description"])) if "description" in items and items["description"] != "" else "\n")
         if "items" in items: 
             output_array(items["items"], indent + "  ")
     else:
         if "description" in items and items["description"] != "": 
-            output(" {}\n".format(esc_underscores(items["description"])))
+            output(indent + "-")
+            output(" {}".format(esc_underscores(items["description"])))
         output_range(items)
         output("\n")
 
@@ -187,71 +187,20 @@ def has_members(sub):
 def output_members(sub, indent=""):
     """Generate lines for these properties"""
     warnings = []
-    if "properties" not in sub:
-        if "additionalProperties" in sub:
-            return
-        elif "oneOf" in sub:
-            for oneOfItem in sub["oneOf"]:
-                if "type" in oneOfItem and oneOfItem["type"] == "object":
-                    output_member(None, oneOfItem, False, indent, prefix="-")
-                elif "type" in oneOfItem and oneOfItem["type"] == "array":
-                    output_array(oneOfItem, indent)
-                elif "type" in oneOfItem and oneOfItem["type"] == "string":
-                    output(indent + "- ")
-                    output_range(oneOfItem, False)
-                    output("\n")
-        else:
-            # If we have multiple ifs, we have to wrap them in allOf.
-            if "allOf" in sub:
-                ifclauses = sub["allOf"]
-            elif "if" in sub:
-                ifclauses = [sub]
-            else:
-                ifclauses = []
+    # Remove deprecated: True and stub properties, collect warnings
+    # (Stubs required to keep additionalProperties: false happy)
 
-            # We partially handle if, assuming it depends on particular values of prior properties.
-            for ifclause in ifclauses:
-                conditions = []
-
-                # "required" are fields that simply must be present
-                for r in ifclause["if"].get("required", []):
-                    conditions.append(fmt_propname(r) + " is present")
-
-                # "properties" are enums of field values
-                for tag, vals in ifclause["if"].get("properties", {}).items():
-                    # Don"t have a description field here, it"s not used.
-                    assert "description" not in vals
-                    whichvalues = vals["enum"]
-
-                    cond = fmt_propname(tag) + " is"
-                    if len(whichvalues) == 1:
-                        cond += " {}".format(json_value(whichvalues[0]))
-                    else:
-                        cond += " {} or {}".format(", ".join([json_value(v) for v in whichvalues[:-1]]),
-                                                json_value(whichvalues[-1]))
-                    conditions.append(cond)
-
-                sentence = indent + "If " + ", and ".join(conditions) + ":\n\n"
-
-                if has_members(ifclause["then"]):
-                    # Prefix with blank line.
-                    outputs(["\n", sentence])
-
-                    output_members(ifclause["then"], indent + "  ")
-    else:
-        # Remove deprecated: True and stub properties, collect warnings
-        # (Stubs required to keep additionalProperties: false happy)
-
-        # FIXME: It fails for schemas which have only an array type with
-        # no properties, ex:
-        # "abcd": {
-        #  "type": "array",
-        #   "items": {
-        #    "type": "whatever",
-        #    "description": "efgh"
-        #   }
-        # }
-        # Checkout the schema of `staticbackup`.
+    # FIXME: It fails for schemas which have only an array type with
+    # no properties, ex:
+    # "abcd": {
+    #  "type": "array",
+    #   "items": {
+    #    "type": "whatever",
+    #    "description": "efgh"
+    #   }
+    # }
+    # Checkout the schema of `staticbackup`.
+    if "properties" in sub:
         for p in list(sub["properties"].keys()):
             if len(sub["properties"][p]) == 0 or sub["properties"][p].get("deprecated") is True:
                 del sub["properties"][p]
@@ -271,10 +220,59 @@ def output_members(sub, indent=""):
             if "required" not in sub or p not in sub["required"]:
                 output_member(p, sub["properties"][p], True, indent)
 
-        if warnings != []:
-            output(indent + "- the following warnings are possible:\n")
-            for w in warnings:
-                output_member(w, sub["properties"][w], False, indent + "  ", print_type=False)
+    if warnings != []:
+        output(indent + "- the following warnings are possible:\n")
+        for w in warnings:
+            output_member(w, sub["properties"][w], False, indent + "  ", print_type=False)
+
+    if "oneOf" in sub:
+        for oneOfItem in sub["oneOf"]:
+            if "type" in oneOfItem and oneOfItem["type"] == "object":
+                output_member(None, oneOfItem, False, indent, "-")
+            elif "type" in oneOfItem and oneOfItem["type"] == "array":
+                output_array(oneOfItem, indent)
+            elif "type" in oneOfItem and oneOfItem["type"] == "string":
+                output(indent + "- ")
+                output_range(oneOfItem, False)
+                output("\n")
+
+    # If we have multiple ifs, we have to wrap them in allOf.
+    if "allOf" in sub:
+        ifclauses = sub["allOf"]
+    elif "if" in sub:
+        ifclauses = [sub]
+    else:
+        ifclauses = []
+
+    # We partially handle if, assuming it depends on particular values of prior properties.
+    for ifclause in ifclauses:
+        conditions = []
+
+        # "required" are fields that simply must be present
+        for r in ifclause["if"].get("required", []):
+            conditions.append(fmt_propname(r) + " is present")
+
+        # "properties" are enums of field values
+        for tag, vals in ifclause["if"].get("properties", {}).items():
+            # Don"t have a description field here, it"s not used.
+            assert "description" not in vals
+            whichvalues = vals["enum"]
+
+            cond = fmt_propname(tag) + " is"
+            if len(whichvalues) == 1:
+                cond += " {}".format(json_value(whichvalues[0]))
+            else:
+                cond += " {} or {}".format(", ".join([json_value(v) for v in whichvalues[:-1]]),
+                                        json_value(whichvalues[-1]))
+            conditions.append(cond)
+
+        sentence = indent + "If " + ", and ".join(conditions) + ":\n"
+
+        if has_members(ifclause["then"]):
+            # Prefix with blank line.
+            outputs(["\n", sentence])
+            output_members(ifclause["then"], indent + "  ")
+            output("\n")
 
 
 def output_params(schema):
@@ -293,37 +291,55 @@ def output_params(schema):
 def generate_from_request(schema):
     props = schema["request"]["properties"]
     toplevels = list(props.keys())
+    indent=""
 
     output_title("SYNOPSIS")
     output_params(schema)
 
-    output_title("PARAMETERS")
-    if toplevels == []:
-        sub = schema["request"]
-    elif len(toplevels) == 1 and props[toplevels[0]]["type"] == "object":
-        output("{}\n".format(fmt_propname(toplevels[0])))
-        assert "description" not in toplevels[0]
-        sub = props[toplevels[0]]
-    elif len(toplevels) == 1 and props[toplevels[0]]["type"] == "array" and props[toplevels[0]]["items"]["type"] == "object":
-        output("{}\n".format(fmt_propname(toplevels[0])))
-        assert "description" not in toplevels[0]
-        sub = props[toplevels[0]]["items"]
-    else:
-        sub = schema["request"]
-    output_members(sub)
+    if len(schema["request"]["properties"]) > 0:
+        output_title("METHOD PARAMETERS")
+        if toplevels == []:
+            sub = schema["request"]
+        elif len(toplevels) == 1 and "oneOf" in props[toplevels[0]] and isinstance(props[toplevels[0]]["oneOf"], list):
+            output("{}".format(fmt_propname(toplevels[0])))
+            output_type(props[toplevels[0]], False if toplevels[0] in schema["request"]["required"] else True)
+            output("\n")
+            indent = indent + "  "
+            sub = props[toplevels[0]]
+        elif len(toplevels) == 1 and props[toplevels[0]]["type"] == "object":
+            output("{}\n".format(fmt_propname(toplevels[0])))
+            assert "description" not in toplevels[0]
+            sub = props[toplevels[0]]
+        elif len(toplevels) == 1 and props[toplevels[0]]["type"] == "array" and props[toplevels[0]]["items"]["type"] == "object":
+            output("{}\n".format(fmt_propname(toplevels[0])))
+            assert "description" not in toplevels[0]
+            sub = props[toplevels[0]]["items"]
+        else:
+            sub = schema["request"]
+        output_members(sub, indent)
 
 
 def generate_from_response(schema):
     """This is not general, but works for us"""
     output_title("RETURN VALUE")
-    if schema["type"] != "object":
-        # "stop" returns a single string!
-        output_member(None, schema, False, "", prefix="On success, returns a single element")
+    
+    response = schema["response"]
+
+    if "pre_return_value_notes" in response:
+        outputs(response["pre_return_value_notes"], "\n")
+        output("\n\n")
+
+    if "properties" not in response and "enum" in response:
+        # "stop" returns a single enum string and post_return_value_notes!
+        output_member(None, response, False, "", prefix="On success, returns a single element")
+        output("\n")
+        if "post_return_value_notes" in response:
+            outputs(response["post_return_value_notes"], "\n")
         return
 
     toplevels = []
     warnings = []
-    props = schema["response"]["properties"]
+    props = response["properties"]
     
     # We handle warnings on top-level objects with a separate section,
     # so collect them now and remove them
@@ -350,7 +366,7 @@ def generate_from_response(schema):
         sub = props[toplevels[0]]["items"]
     else:
         output("On success, an object is returned, containing:\n\n")
-        sub = schema["response"]
+        sub = response
 
     output_members(sub)
 
@@ -358,6 +374,11 @@ def generate_from_response(schema):
         outputs(["\n", "The following warnings may also be returned:\n\n"])
         for w, desc in warnings:
             output("- {}: {}".format(fmt_propname(w), desc))
+
+    if "post_return_value_notes" in response:
+        if warnings:
+            output("\n\n")
+        outputs(response["post_return_value_notes"], "\n")
 
 
 def generate_header(schema):
