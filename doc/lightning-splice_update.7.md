@@ -4,12 +4,12 @@ lightning-splice\_update -- Command to initiate a channel to a peer
 SYNOPSIS
 --------
 
-**(WARNING: experimental-splicing only)**
-
 **splice\_update** *channel\_id* *psbt*
 
 DESCRIPTION
 -----------
+
+**(WARNING: experimental-splicing only)**
 
 `splice_update` is a low level RPC command which updates the active channel
 splice associated with `channel_id`.

@@ -15,11 +15,7 @@ with an error if any of the inputs are known to be spent, and ignore inputs
 which are unknown.
 
 Normally the command will fail (with no reservations made) if an input
-is already reserved.  If *exclusive* is set to *False*, then existing
-reservations are simply extended, rather than causing failure.
-
-By default, reservations are for the next 72 blocks (approximately 6
-hours), but this can be changed by setting *reserve*.
+is already reserved.
 
 RETURN VALUE
 ------------

@@ -4,12 +4,12 @@ lightning-splice\_init -- Command to initiate a channel to a peer
 SYNOPSIS
 --------
 
-**(WARNING: experimental-splicing only)**
-
 **splice\_init** *channel\_id* *relative\_amount* [*initalpsbt*] [*feerate\_per\_kw*] [*force\_feerate*]
 
 DESCRIPTION
 -----------
+
+**(WARNING: experimental-splicing only)**
 
 `splice_init` is a low level RPC command which initiates a channel splice for a
 given channel specified by `channel_id`.

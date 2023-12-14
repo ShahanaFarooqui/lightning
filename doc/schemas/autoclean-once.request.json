@@ -21,7 +21,7 @@
     },
     "age": {
       "type": "u64",
-      "description": "How many seconds old an entry must be to delete it"
+      "description": "non-zero number in seconds. How many seconds old an entry must be to delete it"
     }
   }
 }

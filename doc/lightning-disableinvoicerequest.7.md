@@ -4,12 +4,12 @@ lightning-disableinvoicerequest -- Command for removing an invoice request
 SYNOPSIS
 --------
 
-**(WARNING: experimental-offers only)**
-
 **disableinvoicerequest** *invreq\_id*
 
 DESCRIPTION
 -----------
+
+**(WARNING: experimental-offers only)**
 
 The **disableinvoicerequest** RPC command disables an
 invoice\_request, so that no further invoices will be accepted (and

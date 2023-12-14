@@ -4,12 +4,12 @@ lightning-splice\_signed -- Command to initiate a channel to a peer
 SYNOPSIS
 --------
 
-**(WARNING: experimental-splicing only)**
-
 **splice\_signed** *channel\_id* *psbt* [*sign\_first*]
 
 DESCRIPTION
 -----------
+
+**(WARNING: experimental-splicing only)**
 
 `splice_signed` is a low level RPC command which finishes the active channel
 splice associated with `channel_id`.

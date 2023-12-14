@@ -16,8 +16,6 @@ disabled.
 Various commands, especially complex and slow ones, offer
 notifications which indicate their progress.
 
-- *enable*: *true* to enable notifications, *false* to disable them.
-
 EXAMPLE JSON REQUEST
 --------------------
 

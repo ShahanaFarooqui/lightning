@@ -4,12 +4,12 @@ lightning-disableoffer -- Command for removing an offer
 SYNOPSIS
 --------
 
-**(WARNING: experimental-offers only)**
-
 **disableoffer** *offer\_id*
 
 DESCRIPTION
 -----------
+
+**(WARNING: experimental-offers only)**
 
 The **disableoffer** RPC command disables an offer, so that no further
 invoices will be given out.

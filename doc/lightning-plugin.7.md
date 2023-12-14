@@ -13,15 +13,6 @@ DESCRIPTION
 The **plugin** RPC command command can be used to control dynamic plugins,
 i.e. plugins that declared themself "dynamic" (in getmanifest).
 
-*subcommand* can be **start**, **stop**, **startdir**, **rescan** or **list** and
-determines what action is taken
-
-*plugin* is the *path* or *name* of a plugin executable to start or stop
-
-*directory* is the *path* of a directory containing plugins
-
-*options* are optional *keyword=value* options passed to plugin, can be repeated
-
 *subcommand* **start** takes a *path* to an executable as argument and starts it as plugin.
 *path* may be an absolute path or a path relative to the plugins directory (default *~/.lightning/plugins*).
 If the plugin is already running and the executable (checksum) has changed, the plugin is

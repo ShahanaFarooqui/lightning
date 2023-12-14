@@ -20,10 +20,6 @@ Must be called until *commitments\_secured* is returned as true, at which point
 `openchannel_signed` should be called with a signed version of the PSBT
 returned by the last call to `openchannel_update`.
 
-*channel\_id* is the id of the channel.
-
-*psbt* is the updated PSBT to be sent to the peer. May be identical to
-the PSBT last returned by either `openchannel_init` or `openchannel_update`.
 
 RETURN VALUE
 ------------

@@ -16,9 +16,6 @@ which case it can offer a performance improvement (the cost being that if
 there is a crash, it's unclear how many of the commands will have been
 persisted).
 
-*enable* is *true* to enable batching, *false* to disable it (the
-default).
-
 EXAMPLE JSON REQUEST
 --------------------
 

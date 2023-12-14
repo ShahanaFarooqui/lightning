@@ -4,12 +4,12 @@ lightning-fetchinvoice -- Command for fetch an invoice for an offer
 SYNOPSIS
 --------
 
-**(WARNING: experimental-offers only)**
-
 **fetchinvoice** *offer* [*amount\_msat*] [*quantity*] [*recurrence\_counter*] [*recurrence\_start*] [*recurrence\_label*] [*timeout*] [*payer\_note*]
 
 DESCRIPTION
 -----------
+
+**(WARNING: experimental-offers only)**
 
 The **fetchinvoice** RPC command contacts the issuer of an *offer* to get
 an actual invoice that can be paid.  It highlights any changes between the

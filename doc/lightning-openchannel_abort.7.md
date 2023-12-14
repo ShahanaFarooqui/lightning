@@ -13,9 +13,6 @@ DESCRIPTION
 open with a specified peer. It uses the openchannel protocol
 which allows for interactive transaction construction.
 
-*channel\_id* is id of this channel.
-
-
 RETURN VALUE
 ------------
 

@@ -23,8 +23,6 @@ The *subsystem*s currently supported are:
 * `expiredinvoices`: invoices which were not paid (and cannot be) (`expired` in listinvoices `status`).
 * `paidinvoices`: invoices which were paid (`paid` in listinvoices `status).
 
-*age* is a non-zero number in seconds.
-
 RETURN VALUE
 ------------
 

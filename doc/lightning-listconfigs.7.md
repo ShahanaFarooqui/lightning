@@ -9,8 +9,6 @@ SYNOPSIS
 DESCRIPTION
 -----------
 
-*config* (optional) is a configuration option name to restrict return.
-
 The **listconfigs** RPC command to list all configuration options, or with *config* only one.
 
 The returned values reflect the current configuration, including

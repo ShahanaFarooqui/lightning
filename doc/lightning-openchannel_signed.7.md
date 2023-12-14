@@ -19,13 +19,6 @@ This command should be called after `openchannel_update` returns
 This command will broadcast the finalized funding transaction,
 if we receive valid signatures from the peer.
 
-*channel\_id* is the id of the channel.
-
-*signed\_psbt* is the PSBT returned from `openchannel_update` (where
-*commitments\_secured* was true) with partial signatures or finalized
-witness stacks included for every input that we contributed to the
-PSBT.
-
 RETURN VALUE
 ------------
 

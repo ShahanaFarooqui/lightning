@@ -11,8 +11,6 @@ DESCRIPTION
 
 The **getlog** the RPC command to show logs, with optional log *level*.
 
-- *level*: A string that represents the log level (*broken*, *unusual*, *info*, *debug*, or *io*).  The default is *info*.
-
 EXAMPLE JSON REQUEST
 --------------------
 

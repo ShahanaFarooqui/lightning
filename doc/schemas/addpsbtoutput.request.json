@@ -10,12 +10,12 @@
     "satoshi": {
       "type": "msat"
     },
-    "locktime": {
-      "type": "u32"
-    },
     "initialpsbt": {
       "type": "string",
       "description": "the (optional) base 64 encoded PSBT to begin with. If not specified, one will be generated automatically"
+    },
+    "locktime": {
+      "type": "u32"
     },
     "destination": {
       "type": "string"
