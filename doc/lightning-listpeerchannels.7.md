@@ -195,8 +195,7 @@ Michael Hawkins <<michael.hawkins@protonmail.com>>.
 SEE ALSO
 --------
 
-lightning-connect(7), lightning-fundchannel\_start(7),
-lightning-setchannelfee(7)
+lightning-connect(7), lightning-fundchannel\_start(7)
 
 RESOURCES
 ---------
