@@ -18,7 +18,10 @@ provided you with a *rune* which allows it.
 RETURN VALUE
 ------------
 
+[comment]: # (GENERATE-FROM-SCHEMA-START)
 On success, the return depends on the *method* invoked.
+
+[comment]: # (GENERATE-FROM-SCHEMA-END)
 
 ERRORS
 ------

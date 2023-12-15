@@ -4,12 +4,12 @@ lightning-invoicerequest -- Command for offering payments
 SYNOPSIS
 --------
 
-**(WARNING: experimental-offers only)**
-
 **invoicerequest** *amount* *description* [*issuer*] [*label*] [*absolute\_expiry*] [*single\_use*]
 
 DESCRIPTION
 -----------
+
+**(WARNING: experimental-offers only)**
 
 The **invoicerequest** RPC command creates an `invoice_request` to
 send payments: it automatically enables the processing of an incoming

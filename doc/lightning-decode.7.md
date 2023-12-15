@@ -300,13 +300,12 @@ SEE ALSO
 
 lightning-pay(7), lightning-offer(7), lightning-fetchinvoice(7), lightning-sendinvoice(7), lightning-commando-rune(7)
 
+RESOURCES
+---------
+
 [BOLT #11](https://github.com/lightning/bolts/blob/master/11-payment-encoding.md)
 
 [BOLT #12](https://github.com/rustyrussell/lightning-rfc/blob/guilt/offers/12-offer-encoding.md) (experimental, [bolt](https://github.com/lightning/bolts) #798)
-
-
-RESOURCES
----------
 
 Main web site: <https://github.com/ElementsProject/lightning>
 

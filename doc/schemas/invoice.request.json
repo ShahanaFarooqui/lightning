@@ -12,10 +12,6 @@
       "type": "msat_or_any",
       "description": ""
     },
-    "description": {
-      "type": "string",
-      "description": ""
-    },
     "label": {
       "oneOf": [
         {
@@ -27,6 +23,10 @@
           "description": ""
         }
       ]
+    },
+    "description": {
+      "type": "string",
+      "description": ""
     },
     "expiry": {
       "type": "u64",

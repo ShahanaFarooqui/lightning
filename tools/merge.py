@@ -3,23 +3,127 @@ import json
 
 # Input folder containing JSON files
 input_folder = "/home/shahana/workspace/lightning/doc/"
-raw_request_date = {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "type": "object",
-    "additionalProperties": False,
-    "required": [],
-    "properties": {}
-}
 
-# Process all files in the input folder
-for root, _, files in os.walk(os.path.join(input_folder, "schemas")):
-    # Group request and schema files with the same name
-    grouped_files = []
-    for file in files:
-        if file.endswith(".schema.json"):
-            base_name = file[:-12]
-            if base_name not in grouped_files:
-                grouped_files.append(base_name)
+# raw_request_date = {
+#     "$schema": "http://json-schema.org/draft-07/schema#",
+#     "type": "object",
+#     "additionalProperties": False,
+#     "required": [],
+#     "properties": {}
+# }
+
+# # Process all files in the input folder
+# for root, _, files in os.walk(os.path.join(input_folder, "schemas")):
+#     # Group request and schema files with the same name
+#     grouped_files = []
+#     for file in files:
+#         if file.endswith(".schema.json"):
+#             base_name = file[:-12]
+#             if base_name not in grouped_files:
+#                 grouped_files.append(base_name)
+
+grouped_files = [
+	"close",
+	"commando",
+	"datastore",
+	"datastoreusage",
+	"decodepay",
+	"decode",
+	"deldatastore",
+	"delexpiredinvoice",
+	"delforward",
+	"delinvoice",
+	"delpay",
+	"disableinvoicerequest",
+	"disableoffer",
+	"disconnect",
+	"emergencyrecover",
+	# "feerates",
+	# "fetchinvoice",
+	# "fundchannel",
+	# "fundchannel_start",
+	# "fundchannel_complete",
+	# "fundchannel_cancel",
+	# "funderupdate",
+	# "addpsbtoutput",
+	# "fundpsbt",
+	# "getroute",
+	# "hsmtool.8",
+	# "invoice",
+	# "invoicerequest",
+	# "keysend",
+	# "listchannels",
+	# "listclosedchannels",
+	# "listdatastore",
+	# "listforwards",
+	# "listfunds",
+	# "listhtlcs",
+	# "listinvoices",
+	# "listinvoicerequests",
+	# "listoffers",
+	# "listpays",
+	# "listpeers",
+	# "listpeerchannels",
+	# "showrunes",
+	# "listsendpays",
+	# "makesecret",
+	# "multifundchannel",
+	# "multiwithdraw",
+	# "newaddr",
+	# "notifications",
+	# "offer",
+	# "openchannel_abort",
+	# "openchannel_bump",
+	# "openchannel_init",
+	# "openchannel_signed",
+	# "openchannel_update",
+	# "pay",
+	# "parsefeerate",
+	# "plugin",
+	# "preapproveinvoice",
+	# "preapprovekeysend",
+	# "recover",
+	# "recoverchannel",
+	# "renepay",
+	# "renepaystatus",
+	# "reserveinputs",
+	# "sendinvoice",
+	# "sendonion",
+	# "sendonionmessage",
+	# "sendpay",
+	# "setchannel",
+	# "setconfig",
+	# "setpsbtversion",
+	# "sendcustommsg",
+	# "signinvoice",
+	# "signmessage",
+	# "splice_init",
+	# "splice_update",
+	# "splice_signed",
+	# "staticbackup",
+	# "txprepare",
+	# "txdiscard",
+	# "txsend",
+	# "unreserveinputs",
+	# "utxopsbt",
+	# "wait",
+	# "waitinvoice",
+	# "waitanyinvoice",
+	# "waitblockheight",
+	# "waitsendpay",
+	# "withdraw",
+	# "ping",
+	# "stop",
+	# "signpsbt",
+	# "sendpsbt",
+	# "getinfo",
+	# "listtransactions",
+	# "listnodes",
+	# "listconfigs",
+	# "help",
+	# "getlog",
+	# "reckless.7"
+]
 
 # Merge and create new JSON files
 for base_name in grouped_files:
@@ -31,7 +135,8 @@ for base_name in grouped_files:
         continue
     elif not os.path.exists(input_folder + "schemas/" + base_name + ".request.json"):
         with open(input_folder + "schemas/" + base_name + ".request.json", "w") as request_file:
-            json.dump(raw_request_date, request_file, indent=2)
+            json.dump("", request_file, indent=2)
+            # json.dump(raw_request_date, request_file, indent=2)
             print("REQUEST created for " + base_name)
 
     with open(input_folder + "schemas/" + base_name + ".request.json", "r") as request_file, \
@@ -92,10 +197,16 @@ for base_name in grouped_files:
                         merged_json["response"] = response_json
                     elif title_line.startswith("SEE ALSO"):
                         merged_json["see_also"] = "".join(md_file_contents[i+2:title_line_end]).strip(".").split(", ")
+                    elif title_line.startswith("RESOURCES"):
+                        for j in range(i+2, len(md_file_contents)):
+                            if md_file_contents[j].startswith("[comment]: # ( SHA256STAMP:"):
+                                title_line_end = j - 1
+                                break
+                        merged_json[title_line.lower()] = md_file_contents[i+2:title_line_end]
                     else:
                         merged_json[title_line.lower().replace(" ", "_")] = md_file_contents[i+2:title_line_end]
                     i = j
     # Write merged JSON to the new file
-    output_file = os.path.join(input_folder, "schemas", f"{base_name}.new.json")
+    output_file = os.path.join(input_folder, "schemas", f"lightning-{base_name}.json")
     with open(output_file, "w") as outfile:
         json.dump(merged_json, outfile, indent=2)

@@ -12,38 +12,12 @@ DESCRIPTION
 **(WARNING: experimental-offers only)**
 
 The **fetchinvoice** RPC command contacts the issuer of an *offer* to get
-an actual invoice that can be paid.  It highlights any changes between the
+an actual invoice that can be paid. It highlights any changes between the
 offer and the returned invoice.
 
 If **fetchinvoice-noconnect** is not specified in the configuation, it
 will connect to the destination in the (currently common!) case where it
 cannot find a route which supports `option_onion_messages`.
-
-*amount\_msat* is required if the *offer* does not specify an amount
-at all, otherwise it is optional (but presumably if you set it to less
-than the offer, you will get an error from the issuer).
-
-*quantity* is is required if the *offer* specifies
-*quantity\_max*, otherwise it is not allowed.
-
-*recurrence\_counter* is required if the *offer*
-specifies *recurrence*, otherwise it is not allowed.
-*recurrence\_counter* should first be set to 0, and incremented for
-each successive invoice in a given series.
-
-*recurrence\_start* is required if the *offer*
-specifies *recurrence\_base* with *start\_any\_period* set, otherwise it
-is not allowed.  It indicates what period number to start at.
-
-*recurrence\_label* is required if *recurrence\_counter* is set, and
-otherwise is not allowed.  It must be the same as prior fetchinvoice
-calls for the same recurrence, as it is used to link them together.
-
-*timeout* is an optional timeout; if we don't get a reply before this
-we fail (default, 60 seconds).
-
-*payer\_note* is an optional payer note to ask the issuer to include
-in the fetched invoice.
 
 RETURN VALUE
 ------------
