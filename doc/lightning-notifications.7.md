@@ -10,11 +10,10 @@ DESCRIPTION
 -----------
 
 The **notifications** the RPC command enabled notifications for this JSON-RPC
-connection.  By default (and for backwards-compatibility) notifications are
-disabled.
+connection.  By default (and for backwards-compatibility) notifications are disabled.
 
-Various commands, especially complex and slow ones, offer
-notifications which indicate their progress.
+Various commands, especially complex and slow ones, offer notifications which indicate 
+their progress.
 
 EXAMPLE JSON REQUEST
 --------------------
@@ -66,8 +65,8 @@ On failure, one of the following error codes may be returned:
 
 - -32602: Error in given parameters.
 
-EXAMPLE NOTIFICATIONS
----------------------
+EXAMPLE JSON NOTIFICATIONS
+--------------------------
 
 ```json
 {

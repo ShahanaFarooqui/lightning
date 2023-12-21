@@ -6,6 +6,7 @@
   "properties": {
     "destinations": {
       "type": "array",
+      "description": "there must be at least one entry in *destinations*; it cannot be an empty array",
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -16,7 +17,7 @@
         "properties": {
           "id": {
             "type": "pubkey",
-            "description": "node ID, with an optional *@host:port* appended to it in a manner understood by **connect**; see lightning-connect(7). Each entry in the *destinations* array must have a unique node *id*"
+            "description": "node ID, with an optional *@host:port* appended to it in a manner understood by **connect**; see lightning-connect(7). Each entry in the *destinations* array must have a unique node *id*. If not already connected, **multifundchannel** will automatically attempt to connect to the node"
           },
           "amount": {
             "type": "msat",
@@ -43,36 +44,40 @@
             "type": "string",
             "description": "compact represenation of the peer's expected channel lease terms. If the peer's terms don't match this set, we will fail to open the channel to this destination"
           },
+          "mindepth": {
+            "type": "u32",
+            "description": "number of confirmations before we consider the channel active"
+          },
           "reserve": {
             "type": "msat",
             "description": "amount we want the peer to maintain on its side of the channel. Default is 1% of the funding amount. It can be a whole number, a whole number ending in *sat*, a whole number ending in *000msat*, or a number with 1 to 8 decimal places ending in *btc*"
           }
         }
-      },
-      "feerate": {
-        "type": "feerate",
-        "description": "feerate used for the opening transaction, and if *commitment_feerate* is not set, as initial feerate for commitment and HTLC transactions. See NOTES in lightning-feerates(7) for possible values. The default is *normal*"
-      },
-      "minconf": {
-        "type": "integer",
-        "description": "minimum number of confirmations that used outputs should have. Default is 1",
-        "default": 1
-      },
-      "utxos": {
-        "type": "array",
-        "items": {
-          "type": "outpoint",
-          "description": "utxos to be used to fund the channel, as an array of `txid:vout`"
-        }
-      },
-      "minchannels": {
-        "type": "integer",
-        "description": "re-attempt funding as long as at least this many peers remain (must not be zero). The **multifundchannel** command will only fail if too many  peers fail the funding process"
-      },
-      "commitment_feerate": {
-        "type": "feerate",
-        "description": "initial feerate for commitment and HTLC transactions. See *feerate* for valid values"
       }
+    },
+    "feerate": {
+      "type": "feerate",
+      "description": "feerate used for the opening transaction, and if *commitment_feerate* is not set, as initial feerate for commitment and HTLC transactions. See NOTES in lightning-feerates(7) for possible values. The default is *normal*"
+    },
+    "minconf": {
+      "type": "integer",
+      "description": "minimum number of confirmations that used outputs should have. Default is 1",
+      "default": 1
+    },
+    "utxos": {
+      "type": "array",
+      "items": {
+        "type": "outpoint",
+        "description": "utxos to be used to fund the channel, as an array of `txid:vout`"
+      }
+    },
+    "minchannels": {
+      "type": "integer",
+      "description": "re-attempt funding as long as at least this many peers remain (must not be zero). The **multifundchannel** command will only fail if too many  peers fail the funding process"
+    },
+    "commitment_feerate": {
+      "type": "feerate",
+      "description": "initial feerate for commitment and HTLC transactions. See *feerate* for valid values"
     }
   }
 }

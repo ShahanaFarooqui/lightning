@@ -13,18 +13,6 @@ NOTE: Must have --experimental-dual-fund enabled for these settings to take effe
 
 For channel open requests using dual funding.
 
-There are three policy options, detailed below:
-
-* `match` -- Contribute *policy_mod* percent of their requested funds.
-   Valid *policy_mod* values are 0 to 200. If this is a channel lease
-   request, we match based on their requested funds. If it is not a
-   channel lease request (and *lease_only* is false), then we match
-   their funding amount. Note: any lease match less than 100 will
-   likely fail, as clients will not accept a lease less than their request.
-* `available` -- Contribute *policy_mod* percent of our available
-   node wallet funds. Valid *policy_mod* values are 0 to 100.
-* `fixed` -- Contributes a fixed  *policy_mod* sats to v2 channel open requests.
-
 Note: to maximize channel leases, best policy setting is (match, 100).
 
 Setting any of the 5 options from *lease_fee_base_msat*, *lease_fee_basis*, *funding_weight*, *channel_fee_max_base_msat* and, *channel_fee_max_proportional_thousandths* will activate channel leases for this node, and advertise these values via the lightning gossip network. If any one is set, the other values will be the default.

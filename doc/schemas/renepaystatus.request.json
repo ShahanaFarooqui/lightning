@@ -6,7 +6,7 @@
   "properties": {
     "invstring": {
       "type": "string",
-      "description": "bolt11 invoice to check status"
+      "description": "if specified, the command will return a list of payment attempts whose invoice matches *invstring*, otherwise all payments with be listed"
     }
   }
 }

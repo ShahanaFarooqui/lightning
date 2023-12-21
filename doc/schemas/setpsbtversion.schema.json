@@ -2,15 +2,11 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "additionalProperties": false,
-  "added": "v23.02",
-  "required": [
-    "bolt11"
-  ],
+  "required": ["psbt"],
   "properties": {
-    "bolt11": {
+    "psbt": {
       "type": "string",
-      "description": "bolt11 invoice to submit to the HSM to check",
-      "added": "v23.02"
+      "description": "a converted PSBT of the requested version"
     }
   }
 }

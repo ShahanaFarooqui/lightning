@@ -22,8 +22,6 @@ Once the transaction is confirmed, normal channel operations may begin.
 Readiness is indicated by **listpeers** reporting a *state* of
 `CHANNELD_NORMAL` for the channel.
 
-There must be at least one entry in *destinations*; it cannot be an empty array.
-
 RETURN VALUE
 ------------
 
@@ -54,10 +52,10 @@ On success, an object is returned, containing:
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+On failure, none of the channels are created.
+
 ERRORS
 ------
-
-On failure, none of the channels are created.
 
 The following error codes may occur:
 
@@ -86,8 +84,8 @@ Doing a **connect** with the peers separately, and waiting for a
 few seconds, should help clear this hurdle;
 running **multifundchannel** a third time would also clear this.
 
-EXAMPLE
--------
+EXAMPLE USAGE
+-------------
 
 This example opens three channels at once, with amounts 200,000 sats, 3,000,000 sats and the final channel using all remaining funds (actually, capped at 16,777,215 sats because large-channels is not enabled):
 

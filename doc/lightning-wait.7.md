@@ -107,8 +107,7 @@ with `code` being one of the following:
 AUTHOR
 ------
 
-Rusty Russell <<rusty@rustcorp.com.au>> is mainly
-responsible.
+Rusty Russell <<rusty@rustcorp.com.au>> is mainly responsible.
 
 SEE ALSO
 --------
@@ -119,4 +118,5 @@ RESOURCES
 ---------
 
 Main web site: <https://github.com/ElementsProject/lightning>
+
 [comment]: # ( SHA256STAMP:a3c55b5c6ee055fedc65954c784e72f0a7fbd14cef74b0e69bb254d64b3f0e77)

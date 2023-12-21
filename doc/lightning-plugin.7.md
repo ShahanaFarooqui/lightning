@@ -4,13 +4,12 @@ lightning-plugin -- Manage plugins with RPC
 SYNOPSIS
 --------
 
-**plugin** *subcommand* [plugin|directory] [*options*] ...
-
+**plugin** *subcommand* [*plugin*] [*directory*] [*options*]
 
 DESCRIPTION
 -----------
 
-The **plugin** RPC command command can be used to control dynamic plugins,
+The **plugin** RPC command can be used to control dynamic plugins,
 i.e. plugins that declared themself "dynamic" (in getmanifest).
 
 *subcommand* **start** takes a *path* to an executable as argument and starts it as plugin.
@@ -41,26 +40,29 @@ that are not already running. Checksum and timeout behavior as in **start** appl
 
 *subcommand* **list** lists all running plugins (incl. non-dynamic)
 
+- **subcommand** (string): determines what action is taken (one of "start", "stop", "rescan", "startdir", "list")
+- **plugin** (string, optional): *path* or *name* of a plugin executable to start or stop
+- **directory** (string, optional): *path* of a directory containing plugins
+- **options** (array of strings, optional)
+  - *keyword=value* options passed to plugin, can be repeated
+
 RETURN VALUE
 ------------
 
-[comment]: # (GENERATE-FROM-SCHEMA-START)
 On success, an object is returned, containing:
 
 - **command** (string): the subcommand this is responding to (one of "start", "stop", "rescan", "startdir", "list")
 
 If **command** is "start", "startdir", "rescan" or "list":
-
-  - **plugins** (array of objects):
+  - **plugins** (array of objects)
     - **name** (string): full pathname of the plugin
     - **active** (boolean): status; plugin completed init and is operational, plugins are configured asynchronously.
     - **dynamic** (boolean): plugin can be stopped or started without restarting lightningd
 
-If **command** is "stop":
 
+If **command** is "stop":
   - **result** (string): A message saying it successfully stopped
 
-[comment]: # (GENERATE-FROM-SCHEMA-END)
 
 ERRORS
 ------
@@ -83,5 +85,5 @@ RESOURCES
 
 Main web site: <https://github.com/ElementsProject/lightning>
 
-[writing plugins]: PLUGINS.md
-[comment]: # ( SHA256STAMP:66b5b924fa927c85e065fd01a7b94a0a892b3e027830a8c1f2c584586ee2a7e7)
+
+[comment]: # ( SHA256STAMP:dc82bdeb3609676de7b38918b57a7df61bd15a804d5de5687812a07574f2d05e)

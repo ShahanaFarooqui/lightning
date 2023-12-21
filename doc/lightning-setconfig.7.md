@@ -15,7 +15,6 @@ This new value will *also* be written at the end of the config file, for persist
 
 You can see what options are dynamically adjustable using lightning-listconfigs(7).  Note that you can also adjust existing options for stopped plugins; they will have an effect when the plugin is restarted.
 
-
 RETURN VALUE
 ------------
 

@@ -49,7 +49,7 @@ def output_type(properties, is_optional):
             typename += " of {}s".format(esc_underscores(properties["items"]["type"]))
     if is_optional:
         typename += ", optional"
-    output(" ({}):".format(typename) if "description" in properties and properties["description"] != "" else " ({})".format(typename))
+    output(" ({}):".format(typename))
 
 
 def output_range(properties, brackets=True):
@@ -102,6 +102,11 @@ def output_range(properties, brackets=True):
 def fmt_propname(propname):
     """Pretty-print format a property name"""
     return "**{}**".format(esc_underscores(propname))
+
+
+def fmt_paramname(paramname, is_optional=True):
+    """Pretty-print format a parameter name"""
+    return " [*{}*]".format(esc_underscores(paramname)) if is_optional else " *{}*".format(esc_underscores(paramname))
 
 
 def deprecated_to_deleted(vername):
@@ -272,7 +277,7 @@ def output_members(sub, indent=""):
             # Prefix with blank line.
             outputs(["\n", sentence])
             output_members(ifclause["then"], indent + "  ")
-            output("\n")
+            # output("\n")
 
 
 def output_params(schema):
@@ -281,10 +286,7 @@ def output_params(schema):
 
     output("{}".format(fmt_propname(schema["rpc"])))
     for p in toplevels:
-        if "required" in request and p in request["required"]:
-            output(" *" + p + "*")
-        else:
-            output(" [*" + p + "*]")
+        output("{}".format(fmt_paramname(p, False if "required" in request and p in request["required"] else True)))
     output("\n")
 
 

@@ -14,7 +14,7 @@
         "paidinvoices",
         "expiredinvoices"
       ],
-      "description": "What subsystem to ask about"
+      "description": "What subsystem to ask about. Currently supported subsystems are:\n\t* `failedforwards`: routed payments which did not succeed (`failed` or `local_failed` in listforwards `status`).\n\t* `succeededforwards`: routed payments which succeeded (`settled` in listforwards `status`).\n\t* `failedpays`: payment attempts which did not succeed (`failed` in listpays `status`).\n\t* `succeededpays`: payment attempts which succeeded (`complete` in listpays `status`).\n\t* `expiredinvoices`: invoices which were not paid (and cannot be) (`expired` in listinvoices `status`).\n\t* `paidinvoices`: invoices which were paid (`paid` in listinvoices `status)."
     }
   }
 }

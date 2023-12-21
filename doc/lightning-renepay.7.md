@@ -7,7 +7,6 @@ SYNOPSIS
 **renepay** *invstring* [*amount\_msat*] [*maxfee*] [*maxdelay*]
 [*retry\_for*] [*description*] [*label*]
 
-
 DESCRIPTION
 -----------
 
@@ -15,16 +14,9 @@ DESCRIPTION
 method for Multi-Path-Payments. This implementation has not been thoroughly
 tested and it should be used with caution.
 
-The **renepay** RPC command attempts to pay the invoice specified
-as *invstring*. Currently, **renepay** supports bolt11 invoices only.
-
 The response will occur when the payment fails or succeeds. Once a
 payment has succeeded, calls to **renepay** with the same *invstring*
 will not lead to a new payment attempt, but instead it will succeed immediately.
-
-If the *invstring* does not contain an amount,
-*amount\_msat* is required, otherwise if it is specified
-it must be *null*. 
 
 When using *lightning-cli*, you may skip optional parameters by using
 *null*. Alternatively, use **-k** option to provide parameters by name.
@@ -91,6 +83,9 @@ On success, an object is returned, containing:
 You can monitor the progress and retries of a payment using the
 lightning-renepaystatus(7) command.
 
+ERRORS
+------
+
 The following error codes may occur:
 
 - -1: Catchall nonspecific error.
@@ -117,6 +112,7 @@ RESOURCES
 ---------
 
 - Main web site: <https://github.com/ElementsProject/lightning>
-- Pickhardt R. and Richter S., *Optimally Reliable & Cheap Payment Flows on the Lightning Network*
-<https://arxiv.org/abs/2107.05322>
+
+- Pickhardt R. and Richter S., *Optimally Reliable & Cheap Payment Flows on the Lightning Network* <https://arxiv.org/abs/2107.05322>
+
 [comment]: # ( SHA256STAMP:505a2ea336078020826b5897f2db02d4c4e0e03a9561170458afae008e47e06e)

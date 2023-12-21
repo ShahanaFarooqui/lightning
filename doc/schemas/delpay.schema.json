@@ -73,7 +73,7 @@
           },
           "groupid": {
             "type": "u64",
-            "description": "Grouping key to disambiguate multiple attempts to pay an invoice or the same payment_hash"
+            "description": "grouping key to disambiguate multiple attempts to pay an invoice or the same payment_hash"
           },
           "payment_preimage": {
             "type": "secret",

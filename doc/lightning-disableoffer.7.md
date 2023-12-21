@@ -61,7 +61,6 @@ EXAMPLE JSON RESPONSE
 
 ```
 
-
 AUTHOR
 ------
 

@@ -79,7 +79,7 @@
           },
           "delay": {
             "type": "u32",
-            "description": "The number of blocks delay required by *source* to use this channel"
+            "description": "the number of blocks delay required by *source* to use this channel"
           },
           "htlc_minimum_msat": {
             "type": "msat",

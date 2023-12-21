@@ -14,8 +14,6 @@ The **signmessage** RPC command creates a digital signature of
 node's *id* and the *message* can be sure that the resulting signature could
 only be created by something with access to this node's secret key.
 
-*message* must be less that 65536 characters.
-
 RETURN VALUE
 ------------
 
@@ -42,5 +40,7 @@ RESOURCES
 ---------
 
 Main web site: <https://github.com/ElementsProject/lightning>
+
+[SignMessageRequest](https://api.lightning.community/#grpc-request-signmessagerequest)
 
 [comment]: # ( SHA256STAMP:04bac6c24dea9dbf1f0d42015b1452875154d4f270e264fbad5145ed4b747448)

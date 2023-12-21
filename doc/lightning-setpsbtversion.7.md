@@ -11,9 +11,6 @@ DESCRIPTION
 
 The **setpsbtversion** RPC command converts the provided PSBT to the given version, and returns the base64 result of the conversion. Returns an error if version is invalid.
 
-- *psbt*: The PSBT to change versions.
-- *version*: The version to set. 
-
 EXAMPLE JSON REQUEST
 ------------
 
@@ -36,11 +33,9 @@ If successful the command returns a converted PSBT of the requested version.
 ERRORS
 ------
 
-On failure, an error is returned.
-
 The following error codes may occur:
 
-- -32602: Parameter missed or malformed;
+- 32602: Parameter missed or malformed.
 
 EXAMPLE JSON RESPONSE
 -----
@@ -50,7 +45,6 @@ EXAMPLE JSON RESPONSE
     "psbt": "cHNidP8BAgQCAAAAAQQBAAEFAQABBgEDAfsEAgAAAAA="
 }
 ```
-
 
 AUTHOR
 ------

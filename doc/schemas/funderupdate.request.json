@@ -11,7 +11,7 @@
         "available",
         "fixed"
       ],
-      "description": "funder plugin will use to decide how much captial to commit to a v2 open channel request. Default is fixed"
+      "description": "funder plugin will use to decide how much captial to commit to a v2 open channel request.\n\tThere are three policy options, detailed below:\n\t* `match` -- Contribute *policy_mod* percent of their requested funds.\n\tValid *policy_mod* values are 0 to 200. If this is a channel lease\n\trequest, we match based on their requested funds. If it is not a\n\tchannel lease request (and *lease_only* is false), then we match\n\ttheir funding amount. Note: any lease match less than 100 will\n\tlikely fail, as clients will not accept a lease less than their request.\n\t* `available` -- Contribute *policy_mod* percent of our available\n\tnode wallet funds. Valid *policy_mod* values are 0 to 100.\n\t* `fixed` -- Contributes a fixed  *policy_mod* sats to v2 channel open requests.\n\tDefault is fixed."
     },
     "policy_mod": {
       "type": "u32",

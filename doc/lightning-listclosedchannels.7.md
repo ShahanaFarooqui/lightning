@@ -13,10 +13,6 @@ The **listclosedchannels** RPC command returns data on channels which
 are otherwise forgotten (more than 100 blocks after they're completely
 resolved onchain).
 
-If no *id* is supplied, then channel data on all historical channels are given.
-
-Supplying *id* will filter the results to only match channels to that peer.  Note that prior to v23.05, old peers were forgotten.
-
 RETURN VALUE
 ------------
 

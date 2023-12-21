@@ -14,11 +14,6 @@ DESCRIPTION
 `splice_update` is a low level RPC command which updates the active channel
 splice associated with `channel_id`.
 
-*channel\_id* is the channel id of the channel being spliced.
-
-*psbt* is the base 64 encoded PSBT returned from `splice_init` with any changes
-added by the user.
-
 `splice_update` must be called repeatidly until the result `commitments_secured`
 is `true`. Each time `splice_update` is called, it will return a new PSBT that
 may have changes. In the simplest case, you take the returned `psbt` and pass
@@ -96,10 +91,12 @@ On success, an object is returned, containing:
 SEE ALSO
 --------
 
+lightning-splice_init(7), lightning-splice_signed(7)
+
 AUTHOR
 ------
 
-@dusty\_daemon
+Dusty <<@dusty_daemon>> is mainly responsible.
 
 RESOURCES
 ---------

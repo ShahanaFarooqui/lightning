@@ -13,6 +13,10 @@ The **createonion** RPC command allows the caller to create a custom onion
 with custom payloads at each hop in the route. A custom onion can be used to
 implement protocol extensions that are not supported by Core Lightning directly.
 
+
+EXAMPLE USAGE
+-------------
+
 The *hops* parameter is a JSON list of dicts, each specifying a node and the
 payload destined for that node. The following is an example of a 3 hop onion:
 
@@ -97,8 +101,8 @@ On success, an object is returned, containing:
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
-EXAMPLE
--------
+EXAMPLE JSON RESPONSE
+---------------------
 
 The following example is the result of calling *createonion* with the
 above hops parameter:

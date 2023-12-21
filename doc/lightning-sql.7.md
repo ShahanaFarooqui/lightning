@@ -413,8 +413,8 @@ ERRORS
 
 On failure, an error is returned.
 
-EXAMPLES
---------
+EXAMPLE USAGE
+-------------
 
 Here are some example using lightning-cli.  Note that you may need to
 use `-o` if you use queries which contain `=` (which make

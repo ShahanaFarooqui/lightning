@@ -8,18 +8,37 @@
   "properties": {
     "outputs": {
       "type": "array",
+      "description": "format is like: [{destination1: amount1}, {destination2: amount2}] or [{destination: *all*}]. It supports any number of **confirmed** outputs",
       "items": {
-        "type": "outputdesc"
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "destination",
+          "amount"
+        ],
+        "properties": {
+          "destination": {
+            "type": "string",
+            "description": "the address which can be of any Bitcoin accepted type, including bech32"
+          },
+          "amount": {
+            "type": "msat",
+            "description": "the amount to be sent from the internal wallet (expressed, as name suggests, in amount). The string *all* can be used to specify all available funds. Otherwise, it is in amount precision; it can be a whole number, a whole number ending in *sat*, a whole number ending in *000msat*, or a number with 1 to 8 decimal places ending in *btc*"
+          }
+        }
       }
     },
     "feerate": {
-      "type": "feerate"
+      "type": "feerate",
+      "description": "used for the transaction as initial feerate. The default is *normal*"
     },
     "minconf": {
-      "type": "u32"
+      "type": "u32",
+      "description": "the minimum number of confirmations that used outputs should have. Default is 1"
     },
     "utxos": {
       "type": "array",
+      "description": "to be used to fund the transaction, as an array of `txid:vout`. These must be drawn from the node's available UTXO set",
       "items": {
         "type": "outpoint"
       }

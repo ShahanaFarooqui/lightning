@@ -4,126 +4,25 @@ import json
 # Input folder containing JSON files
 input_folder = "/home/shahana/workspace/lightning/doc/"
 
-# raw_request_date = {
-#     "$schema": "http://json-schema.org/draft-07/schema#",
-#     "type": "object",
-#     "additionalProperties": False,
-#     "required": [],
-#     "properties": {}
-# }
+raw_request_date = {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "additionalProperties": False,
+    "required": [],
+    "properties": {}
+}
 
-# # Process all files in the input folder
-# for root, _, files in os.walk(os.path.join(input_folder, "schemas")):
-#     # Group request and schema files with the same name
-#     grouped_files = []
-#     for file in files:
-#         if file.endswith(".schema.json"):
-#             base_name = file[:-12]
-#             if base_name not in grouped_files:
-#                 grouped_files.append(base_name)
+# Process all files in the input folder
+for root, _, files in os.walk(os.path.join(input_folder, "schemas")):
+    # Group request and schema files with the same name
+    grouped_files = []
+    for file in files:
+        if file.endswith(".schema.json"):
+            base_name = file[:-12]
+            if base_name not in grouped_files:
+                grouped_files.append(base_name)
 
-grouped_files = [
-	"close",
-	"commando",
-	"datastore",
-	"datastoreusage",
-	"decodepay",
-	"decode",
-	"deldatastore",
-	"delexpiredinvoice",
-	"delforward",
-	"delinvoice",
-	"delpay",
-	"disableinvoicerequest",
-	"disableoffer",
-	"disconnect",
-	"emergencyrecover",
-	# "feerates",
-	# "fetchinvoice",
-	# "fundchannel",
-	# "fundchannel_start",
-	# "fundchannel_complete",
-	# "fundchannel_cancel",
-	# "funderupdate",
-	# "addpsbtoutput",
-	# "fundpsbt",
-	# "getroute",
-	# "hsmtool.8",
-	# "invoice",
-	# "invoicerequest",
-	# "keysend",
-	# "listchannels",
-	# "listclosedchannels",
-	# "listdatastore",
-	# "listforwards",
-	# "listfunds",
-	# "listhtlcs",
-	# "listinvoices",
-	# "listinvoicerequests",
-	# "listoffers",
-	# "listpays",
-	# "listpeers",
-	# "listpeerchannels",
-	# "showrunes",
-	# "listsendpays",
-	# "makesecret",
-	# "multifundchannel",
-	# "multiwithdraw",
-	# "newaddr",
-	# "notifications",
-	# "offer",
-	# "openchannel_abort",
-	# "openchannel_bump",
-	# "openchannel_init",
-	# "openchannel_signed",
-	# "openchannel_update",
-	# "pay",
-	# "parsefeerate",
-	# "plugin",
-	# "preapproveinvoice",
-	# "preapprovekeysend",
-	# "recover",
-	# "recoverchannel",
-	# "renepay",
-	# "renepaystatus",
-	# "reserveinputs",
-	# "sendinvoice",
-	# "sendonion",
-	# "sendonionmessage",
-	# "sendpay",
-	# "setchannel",
-	# "setconfig",
-	# "setpsbtversion",
-	# "sendcustommsg",
-	# "signinvoice",
-	# "signmessage",
-	# "splice_init",
-	# "splice_update",
-	# "splice_signed",
-	# "staticbackup",
-	# "txprepare",
-	# "txdiscard",
-	# "txsend",
-	# "unreserveinputs",
-	# "utxopsbt",
-	# "wait",
-	# "waitinvoice",
-	# "waitanyinvoice",
-	# "waitblockheight",
-	# "waitsendpay",
-	# "withdraw",
-	# "ping",
-	# "stop",
-	# "signpsbt",
-	# "sendpsbt",
-	# "getinfo",
-	# "listtransactions",
-	# "listnodes",
-	# "listconfigs",
-	# "help",
-	# "getlog",
-	# "reckless.7"
-]
+# grouped_files = ["commando-listrunes"]
 
 # Merge and create new JSON files
 for base_name in grouped_files:
@@ -142,6 +41,7 @@ for base_name in grouped_files:
     with open(input_folder + "schemas/" + base_name + ".request.json", "r") as request_file, \
             open(input_folder + "schemas/" + base_name + ".schema.json", "r") as response_file, \
             open(input_folder + "lightning-" + base_name + ".7.md", "r") as md_file:
+        print(f"Merging base file: {base_name}")
         request_json = json.load(request_file)
         response_json = json.load(response_file)
         merged_json = {}

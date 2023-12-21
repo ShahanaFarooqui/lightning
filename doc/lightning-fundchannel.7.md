@@ -39,8 +39,8 @@ On success, an object is returned, containing:
 - **close_to** (hex, optional): The raw scriptPubkey which mutual close will go to; only present if *close_to* parameter was specified and peer supports `option_upfront_shutdown_script`
 - **mindepth** (u32, optional): Number of confirmations before we consider the channel active.
 
-ERROR
-------
+ERRORS
+-------
 
 The following error codes may occur:
 

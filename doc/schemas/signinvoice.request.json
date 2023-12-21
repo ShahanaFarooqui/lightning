@@ -8,8 +8,8 @@
   ],
   "properties": {
     "invstring": {
-      "type": "string",
-      "description": ""
+      "type": "bolt11",
+      "description": "bolt11 form, but the final signature is ignored.  Minimal sanity checks are done"
     }
   }
 }

@@ -14,41 +14,29 @@ single sweep to delete old entries.  This is a manual alternative (or
 addition) to the various `autoclean-...-age` parameters which
 cause autoclean to run once per hour: see lightningd-config(5).
 
-The *subsystem*s currently supported are:
-
-* `failedforwards`: routed payments which did not succeed (`failed` or `local_failed` in listforwards `status`).
-* `succeededforwards`: routed payments which succeeded (`settled` in listforwards `status`).
-* `failedpays`: payment attempts which did not succeed (`failed` in listpays `status`).
-* `succededpays`: payment attempts which succeeded (`complete` in listpays `status`).
-* `expiredinvoices`: invoices which were not paid (and cannot be) (`expired` in listinvoices `status`).
-* `paidinvoices`: invoices which were paid (`paid` in listinvoices `status).
-
 RETURN VALUE
 ------------
 
-[comment]: # (GENERATE-FROM-SCHEMA-START)
 On success, an object containing **autoclean** is returned.  It is an object containing:
 
-- **succeededforwards** (object, optional):
+- **succeededforwards** (object, optional)
   - **cleaned** (u64): total number of deletions done this run
   - **uncleaned** (u64): the total number of entries *not* deleted this run
-- **failedforwards** (object, optional):
+- **failedforwards** (object, optional)
   - **cleaned** (u64): total number of deletions done this run
   - **uncleaned** (u64): the total number of entries *not* deleted this run
-- **succeededpays** (object, optional):
+- **succeededpays** (object, optional)
   - **cleaned** (u64): total number of deletions done this run
   - **uncleaned** (u64): the total number of entries *not* deleted this run
-- **failedpays** (object, optional):
+- **failedpays** (object, optional)
   - **cleaned** (u64): total number of deletions done this run
   - **uncleaned** (u64): the total number of entries *not* deleted this run
-- **paidinvoices** (object, optional):
+- **paidinvoices** (object, optional)
   - **cleaned** (u64): total number of deletions done this run
   - **uncleaned** (u64): the total number of entries *not* deleted this run
-- **expiredinvoices** (object, optional):
+- **expiredinvoices** (object, optional)
   - **cleaned** (u64): total number of deletions done this run
   - **uncleaned** (u64): the total number of entries *not* deleted this run
-
-[comment]: # (GENERATE-FROM-SCHEMA-END)
 
 AUTHOR
 ------
@@ -65,4 +53,4 @@ RESOURCES
 
 Main web site: <https://github.com/ElementsProject/lightning>
 
-[comment]: # ( SHA256STAMP:1f2819ff0d1a246efbe6dbd027083cb9c6dc0eedb4c7e44ead5d399c5fda07d4)
+[comment]: # ( SHA256STAMP:f5582a2b845e7255253e518346201b3a2e86aae44f8e56d482e3f3802ab0c20a)

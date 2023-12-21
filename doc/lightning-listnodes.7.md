@@ -89,7 +89,6 @@ EXAMPLE JSON RESPONSE
 }
 ```
 
-
 AUTHOR
 ------
 
@@ -98,7 +97,7 @@ Vincenzo Palazzo <<vincenzo.palazzo@protonmail.com>> wrote the initial version o
 SEE ALSO
 --------
 
-FIXME:
+lightning-listchannels(7)
 
 RESOURCES
 ---------

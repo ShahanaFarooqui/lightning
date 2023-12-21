@@ -6,15 +6,15 @@
   "properties": {
     "invstring": {
       "type": "string",
-      "description": "bolt11 invoice to pay"
+      "description": "bolt11 invoice which the RPC command attempts to pay. Currently, **renepay** supports bolt11 invoices only"
     },
     "amount_msat": {
       "type": "msat",
-      "description": "in millisatoshi precision; it can be a whole number, or a whole number with suffix *msat* or *sat*, or a three decimal point number with suffix  *sat*, or an 1 to 11 decimal point number suffixed by *btc*"
+      "description": "if the *invstring* does not contain an amount, *amount_msat* is required, otherwise if it is specified it must be *null*. in millisatoshi precision; it can be a whole number, or a whole number with suffix *msat* or *sat*, or a three decimal point number with suffix  *sat*, or an 1 to 11 decimal point number suffixed by *btc*"
     },
     "maxfee": {
       "type": "msat",
-      "description": "limits how much is paid fees and it is measured in millisatoshi by default, but also in this case the unit can be specified with a suffix: *msat*, *sat* or *btc*. The default value is 5 sats or 0.5% whichever is higher"
+      "description": "*maxfee* is a hard bound, in the sense that the command will never attempt a payment when the fees exceed that value"
     },
     "maxdelay": {
       "type": "number",
@@ -22,7 +22,7 @@
     },
     "retry_for": {
       "type": "number",
-      "description": "measured in seconds (default: 60) specifies how much time it is allowed for the command to keep retrying the payment"
+      "description": "measured in seconds specifies how much time it is allowed for the command to keep retrying the payment. Defaults to 60 seconds"
     },
     "description": {
       "type": "string",

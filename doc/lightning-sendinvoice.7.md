@@ -43,6 +43,9 @@ If **status** is "paid":
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
+ERRORS
+------
+
 The following error codes may occur:
 
 - -1: Catchall nonspecific error.

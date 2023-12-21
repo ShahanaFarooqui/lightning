@@ -31,15 +31,6 @@ On success, an object containing **reservations** is returned.  It is an array o
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)
 
-On success, a *reservations* array is returned, with an entry for each input
-which was reserved:
-
-- *txid* is the input transaction id.
-- *vout* is the input index.
-- *was\_reserved* indicates whether the input was already reserved.
-- *reserved* indicates that the input is now reserved (i.e. true).
-- *reserved\_to\_block* indicates what blockheight the reservation will expire.
-
 ERRORS
 ------
 

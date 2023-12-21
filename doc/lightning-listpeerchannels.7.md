@@ -15,9 +15,6 @@ If no *id* is supplied, then channel data on all lightning nodes that are
 connected, or not connected but have open channels with this node, are
 returned.
 
-Supplying *id* will filter the results to only return channel data that match *id*,
-if one exists.
-
 RETURN VALUE
 ------------
 

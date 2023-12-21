@@ -130,6 +130,8 @@ MANPAGES := doc/lightning-cli.1 \
 	doc/lightning-getlog.7 \
 	doc/reckless.7
 
+# MANPAGES := doc/lightning-bkpr-inspect.7
+
 ifeq ($(HAVE_SQLITE3),1)
 MANPAGES += doc/lightning-listsqlschemas.7 \
 	    doc/lightning-sql.7
@@ -137,7 +139,7 @@ endif
 
 doc-all: $(MANPAGES) doc/index.rst
 
-SCHEMAS := $(wildcard doc/schemas/*.new.json)
+SCHEMAS := $(wildcard doc/schemas/lightning-*.json)
 check-fmt-schemas: $(SCHEMAS:%=check-fmt-schema/%)
 fmt-schemas: $(SCHEMAS:%=fmt-schema/%)
 
@@ -156,8 +158,8 @@ MARKDOWN_WITH_SCHEMA := $(shell grep -l GENERATE-FROM-SCHEMA $(MANPAGES:=.md))
 LBRACKET=(
 RBRACKET=)
 
-$(MARKDOWN_WITH_SCHEMA): doc/lightning-%.7.md: doc/schemas/%.new.json tools/fromschema.py
-	@if $(call SHA256STAMP_CHANGED); then $(call VERBOSE, "fromschema $@", tools/fromschema.py --markdownfile=$@ doc/schemas/$*.new.json > $@.tmp && grep -v SHA256STAMP: $@.tmp > $@ && rm -f $@.tmp && $(call SHA256STAMP,[comment]: # $(LBRACKET),$(RBRACKET))); else touch $@; fi
+$(MARKDOWN_WITH_SCHEMA): doc/lightning-%.7.md: doc/schemas/lightning-%.json tools/fromschema.py
+	@if $(call SHA256STAMP_CHANGED); then $(call VERBOSE, "fromschema $@", tools/fromschema.py --markdownfile=$@ doc/schemas/lightning-$*.json > $@.tmp && grep -v SHA256STAMP: $@.tmp > $@ && rm -f $@.tmp && $(call SHA256STAMP,[comment]: # $(LBRACKET),$(RBRACKET))); else touch $@; fi
 
 # If we need to build lowdown, make tools/md2man.sh depend on it.
 # That way it's not used in SHA256STAMP (which only uses direct
