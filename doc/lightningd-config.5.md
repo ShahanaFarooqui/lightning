@@ -11,7 +11,7 @@ DESCRIPTION
 
 When lightningd(8) starts up it usually reads a general configuration
 file (default: **$HOME/.lightning/config**) then a network-specific
-configuration file (default: **$HOME/.lightning/testnet/config**).  This can
+configuration file (default: **$HOME/.lightning/testnet/config**). This can
 be changed: see *--conf* and *--lightning-dir*.
 
 Note that some configuration options, marked *dynamic*m can be changed at runtime: see lightning-setconfig(7).
@@ -47,7 +47,7 @@ OPTIONS
 
 * **developer**
 
-  This enables developer mode, allowing developer options and commands to be used.  It also disabled deprecated APIs; use `allow-deprecated-apis=true` to re-enable them.
+  This enables developer mode, allowing developer options and commands to be used. It also disabled deprecated APIs; use `allow-deprecated-apis=true` to re-enable them.
 
 * **allow-deprecated-apis**=*BOOL*
 
@@ -69,9 +69,9 @@ page.
 * **database-upgrade**=*BOOL*
 
   Upgrades to Core Lightning often change the database: once this is done,
-downgrades are not generally possible.  By default, Core Lightning will
+downgrades are not generally possible. By default, Core Lightning will
 exit with an error rather than upgrade, unless this is an official released
-version.  If you really want to upgrade to a non-release version, you can
+version. If you really want to upgrade to a non-release version, you can
 set this to *true* (or *false* to never allow a non-reversible upgrade!).
 
 ### Bitcoin control options:
@@ -139,7 +139,7 @@ wrong.
 * **lightning-dir**=*DIR*
 
   Sets the working directory. All files (except *--conf* and
-*--lightning-dir* on the command line) are relative to this.  This
+*--lightning-dir* on the command line) are relative to this. This
 is only valid on the command-line, or in a configuration file specified
 by *--conf*.
 
@@ -162,8 +162,8 @@ binary.
 * **log-level**=*LEVEL*\[:*SUBSYSTEM*\]\[:*PATH*\]
 
   What log level to print out: options are io, debug, info, unusual,
-broken.  If *SUBSYSTEM* is supplied, this sets the logging level
-for any subsystem (or *nodeid*) containing that string. If *PATH* is supplied, it means this log-level filter is only applied to that `log-file`, which is useful for creating logs to capture a specific subsystem.  This option may be specified multiple times.
+broken. If *SUBSYSTEM* is supplied, this sets the logging level
+for any subsystem (or *nodeid*) containing that string. If *PATH* is supplied, it means this log-level filter is only applied to that `log-file`, which is useful for creating logs to capture a specific subsystem. This option may be specified multiple times.
 Subsystems include:
 
   * *lightningd*: The main lightning daemon
@@ -197,20 +197,20 @@ Subsystems include:
 
 
   So, **log-level=debug:plugin** would set debug level logging on all
-plugins and the plugin manager.  **log-level=io:chan#55** would set
+plugins and the plugin manager. **log-level=io:chan#55** would set
 IO logging on channel number 55 (or 550, for that matter).
 **log-level=debug:024b9a1fa8:/tmp/024b9a1fa8.debug.log** would set debug logging for that channel only on the **log-file=/tmp/024b9a1fa8.debug.log** (or any node id containing that string).
 
 * **log-prefix**=*PREFIX*
 
   Prefix for all log lines: this can be customized if you want to merge logs
-with multiple daemons.  Usually you want to include a space at the end of *PREFIX*,
+with multiple daemons. Usually you want to include a space at the end of *PREFIX*,
 as the timestamp follows immediately.
 
 * **log-file**=*PATH*
 
-  Log to this file (instead of stdout).  If you specify this more than once
-you'll get more than one log file: **-** is used to mean stdout.  Sending
+  Log to this file (instead of stdout). If you specify this more than once
+you'll get more than one log file: **-** is used to mean stdout. Sending
 lightningd(8) SIGHUP will cause it to reopen each file (useful for log
 rotation).
 
@@ -233,7 +233,7 @@ as well.
 
 * **daemon**
 
-  Run in the background, suppress stdout and stderr.  Note that you need
+  Run in the background, suppress stdout and stderr. Note that you need
 to specify **log-file** for this case.
 
 * **conf**=*PATH*
@@ -296,7 +296,7 @@ connections; default is not to activate the plugin at all.
 
 * **recover**=*hsmsecret*
 
-  Restore the node from a 32-byte secret encoded as either a codex32 secret string or a 64-character hex string: this will fail if the `hsm_secret` file exists.  Your node will start the node in offline mode, for manual recovery.  The secret can be extracted from the `hsm_secret` using hsmtool(8).
+  Restore the node from a 32-byte secret encoded as either a codex32 secret string or a 64-character hex string: this will fail if the `hsm_secret` file exists. Your node will start the node in offline mode, for manual recovery. The secret can be extracted from the `hsm_secret` using hsmtool(8).
 
 * **alias**=*NAME*
 
@@ -330,7 +330,7 @@ for existing channels, use the RPC call lightning-setchannel(7).
   Default: 10000. This value defines the minimal effective channel
 capacity in satoshi to accept for channel opening requests. This will
 reject any opening of a channel which can't pass an HTLC of least this
-value.  Usually this prevents a peer opening a tiny channel, but it
+value. Usually this prevents a peer opening a tiny channel, but it
 can also prevent a channel you open with a reasonable amount and the peer
 requesting such a large reserve that the capacity of the channel
 falls below this.
@@ -340,7 +340,7 @@ falls below this.
   Allow nodes which establish channels to us to set any fee they want.
 This may result in a channel which cannot be closed, should fees
 increase, but make channels far more reliable since we never close it
-due to unreasonable fees.  Note that this can be set on a per-channel
+due to unreasonable fees. Note that this can be set on a per-channel
 basis with lightning-setchannel(7).
 
 * **commit-time**=*MILLISECONDS*
@@ -354,9 +354,9 @@ extremely busy node for you to even notice.
   Networks like regtest and testnet have unreliable fee estimates: we
 usually treat them as the minimum (253 sats/kw) if we can't get them.
 This allows override of one or more of our standard feerates (see
-lightning-feerates(7)).  Up to 5 values, separated by '/' can be
+lightning-feerates(7)). Up to 5 values, separated by '/' can be
 provided: if fewer are provided, then the final value is used for the
-remainder.  The values are in per-kw (roughly 1/4 of bitcoind's per-kb
+remainder. The values are in per-kw (roughly 1/4 of bitcoind's per-kb
 values), and the order is "opening", "mutual\_close", "unilateral\_close",
 "delayed\_to\_us", "htlc\_resolution", and "penalty".
 
@@ -391,7 +391,7 @@ use the RPC call lightning-setchannel(7).
 
 * **large-channels** (deprecated in v23.11)
 
-  As of v23.11, this is the default (and thus, the option is ignored).  Previously if you didn't specify this, channel sizes were limited to 16777215 satoshi.  Note: this option is spelled **large-channels** but it's pronounced **wumbo**.
+  As of v23.11, this is the default (and thus, the option is ignored). Previously if you didn't specify this, channel sizes were limited to 16777215 satoshi. Note: this option is spelled **large-channels** but it's pronounced **wumbo**.
 
 * **watchtime-blocks**=*BLOCKS*
 
@@ -446,12 +446,12 @@ have to do that.
 * **accept-htlc-tlv-type**=*types*
 
   Normally HTLC onions which contain unknown even fields are rejected.
-This option specifies that this type is to be accepted, and ignored.  Can be
+This option specifies that this type is to be accepted, and ignored. Can be
 specified multuple times. (Added in v23.08).
 
 * **min-emergency-msat**=*msat*
 
-  This is the amount of funds to keep in the wallet to close anchor channels (which don't carry their own transaction fees).  It defaults to 25000sat, and is only maintained if there are any anchor channels (or, when opening an anchor channel).  This amount may be insufficient for multiple closes at once, however.
+  This is the amount of funds to keep in the wallet to close anchor channels (which don't carry their own transaction fees). It defaults to 25000sat, and is only maintained if there are any anchor channels (or, when opening an anchor channel). This amount may be insufficient for multiple closes at once, however.
   
 
 ### Cleanup control options:
@@ -486,7 +486,7 @@ specified multuple times. (Added in v23.08).
   How old invoices which were not paid (and cannot be) (`expired` in listinvoices `status`) before deletion (default 0, meaning never).
 
 Note: prior to v22.11, forwards for channels which were closed were
-not easily distinguishable.  As a result, autoclean may delete more
+not easily distinguishable. As a result, autoclean may delete more
 than one of these at once, and then suffer failures when it fails to
 delete the others.
 
@@ -558,7 +558,7 @@ tor binding. The result is that over tor your node is accessible by a port
 defined by you and possibly different from your local node port assignment.
 
   This option can be used multiple times to add more addresses, and
-its use disables autolisten.  If necessary, and 'always-use-proxy'
+its use disables autolisten. If necessary, and 'always-use-proxy'
 is not specified, a DNS lookup may be done to resolve `HOSTNAME` or `TORIPADDRESS'`.
 
   If `HOSTNAME` was given that resolves to a local interface, the daemon
@@ -572,11 +572,11 @@ beginning with a */*.
 
   An empty 'IPADDRESS' is a special value meaning bind to IPv4 and/or
 IPv6 on all interfaces, '0.0.0.0' means bind to all IPv4
-interfaces, '::' means 'bind to all IPv6 interfaces'.  'PORT' is
+interfaces, '::' means 'bind to all IPv6 interfaces'. 'PORT' is
 not specified, 9735 is used.
 
   This option can be used multiple times to add more addresses, and
-its use disables autolisten.  If necessary, and 'always-use-proxy'
+its use disables autolisten. If necessary, and 'always-use-proxy'
 is not specified, a DNS lookup may be done to resolve 'IPADDRESS'.
 
   If a HOSTNAME was given and `always-use-proxy` is not specified,
@@ -594,7 +594,7 @@ announced addresses are public (e.g. not localhost).
   This option can be used multiple times to add more addresses, and
 its use disables autolisten.
 
-  Since v23.058, the `dns:` prefix can be used to indicate that this hostname and port should be announced as a DNS hostname entry.  Please note that most mainnet nodes do not yet use, read or propagate this information correctly.
+  Since v23.058, the `dns:` prefix can be used to indicate that this hostname and port should be announced as a DNS hostname entry. Please note that most mainnet nodes do not yet use, read or propagate this information correctly.
 
 * **announce-addr-dns**=*BOOL* (deprecated in v23.08)
 
@@ -615,7 +615,7 @@ this to *false* disables that.
 * **proxy**=*IPADDRESS\[:PORT\]*
 
   Set a socks proxy to use to connect to Tor nodes (or for all connections
-if **always-use-proxy** is set).  The port defaults to 9050 if not specified.
+if **always-use-proxy** is set). The port defaults to 9050 if not specified.
 
 * **always-use-proxy**=*BOOL*
 
@@ -634,7 +634,7 @@ authenticate to the Tor control port.
 
 * **clnrest-port**=*PORT* [plugin `clnrest.py`]
 
-  Sets the REST server port to listen to (3010 is common).  If this is not specified, the clnrest.py plugin will be disabled.
+  Sets the REST server port to listen to (3010 is common). If this is not specified, the clnrest.py plugin will be disabled.
 
 * **clnrest-protocol**=*PROTOCOL* [plugin `clnrest.py`]
 
@@ -668,7 +668,7 @@ additional paths too:
 * **plugin**=*PATH*
 
   Specify a plugin to run as part of Core Lightning. This can be specified
-multiple times to add multiple plugins.  Note that unless plugins themselves
+multiple times to add multiple plugins. Note that unless plugins themselves
 specify ordering requirements for being called on various hooks, plugins will
 be ordered by commandline, then config file.
 
@@ -677,7 +677,7 @@ be ordered by commandline, then config file.
   Specify a directory to look for plugins; all executable files not
 containing punctuation (other than *.*, *-* or *\_) in 'DIRECTORY* are
 loaded. *DIRECTORY* must exist; this can be specified multiple times to
-add multiple directories.  The ordering of plugins within a directory
+add multiple directories. The ordering of plugins within a directory
 is currently unspecified.
 
 * **clear-plugins**
@@ -692,8 +692,8 @@ and they will have the normal effect.
 
   If *PLUGIN* contains a /, plugins with the same path as *PLUGIN* will
 not be loaded at startup. Otherwise, no plugin with that base name will
-be loaded at startup, whatever directory it is in.  This option is useful for
-disabling a single plugin inside a directory.  You can still explicitly
+be loaded at startup, whatever directory it is in. This option is useful for
+disabling a single plugin inside a directory. You can still explicitly
 load plugins which have been disabled, using lightning-plugin(7) `start`.
 
 * **important-plugin**=*PLUGIN*
@@ -759,7 +759,7 @@ of the prior channel balance and the new one.
 
   Specifying this enables support for accepting incoming WebSocket
 connections on that port, on any IPv4 and IPv6 addresses you listen
-to ([bolt][bolt] #891).  The normal protocol is expected to be sent over WebSocket binary
+to ([bolt][bolt] #891). The normal protocol is expected to be sent over WebSocket binary
 frames once the connection is upgraded.
 
   You should use `bind=ws::<portnum>` instead to create a WebSocket listening port.
@@ -772,25 +772,25 @@ store as well, based on a protocol similar to [bolt][bolt] #881.
 
 * **experimental-quiesce**
 
-  Specifying this option advertizes `option_quiesce`.  Not very useful
+  Specifying this option advertizes `option_quiesce`. Not very useful
 by itself, except for testing.
 
 * **experimental-upgrade-protocol**
 
   Specifying this option means we send (and allow receipt of) a simple
-protocol to update channel types.  At the moment, we only support setting
-`option_static_remotekey` to ancient channels.  The peer must also support
+protocol to update channel types. At the moment, we only support setting
+`option_static_remotekey` to ancient channels. The peer must also support
 this option.
 
 
 * **experimental-anchors**
 
   Specifying this option turns on the `option_anchors_zero_fee_htlc_tx`
-feature, meaning we can open anchor-based channels.  This will become
-the default for new channels in future, after more testing.  Anchor-based
+feature, meaning we can open anchor-based channels. This will become
+the default for new channels in future, after more testing. Anchor-based
 channels use larger commitment transactions, with the trade-off that they
 don't have to use a worst-case fee, but can bump the commitment transaction
-if it's needed.  Note that this means that we need to keep
+if it's needed. Note that this means that we need to keep
 some funds aside: see `min-emergency-msat`.
 
 BUGS

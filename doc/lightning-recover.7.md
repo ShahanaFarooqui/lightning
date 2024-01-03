@@ -10,7 +10,7 @@ DESCRIPTION
 -----------
 
 The **recover** RPC command wipes your node and restarts it with
-the `--recover` option.  This is only permitted if the node is unused:
+the `--recover` option. This is only permitted if the node is unused:
 no channels, no bitcoin addresses issued (you can use `check` to see
 if recovery is possible).
 

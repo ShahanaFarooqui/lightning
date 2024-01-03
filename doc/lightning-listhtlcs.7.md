@@ -17,7 +17,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **htlcs** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **htlcs** is returned. It is an array of objects, where each object contains:
 
 - **short\_channel\_id** (short\_channel\_id): the channel that contains/contained the HTLC
 - **id** (u64): the unique, incrementing HTLC id the creator gave this

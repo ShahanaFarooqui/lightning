@@ -31,7 +31,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **offers** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **offers** is returned. It is an array of objects, where each object contains:
 
 - **offer\_id** (hash): the id of this offer (merkle hash of non-signature fields)
 - **active** (boolean): whether this can still be used

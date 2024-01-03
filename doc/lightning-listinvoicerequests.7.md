@@ -16,7 +16,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **invoicerequests** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **invoicerequests** is returned. It is an array of objects, where each object contains:
 
 - **invreq\_id** (hash): the SHA256 hash of all invoice\_request fields less than 160
 - **active** (boolean): whether the invoice\_request is currently active

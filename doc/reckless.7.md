@@ -23,7 +23,7 @@ reckless will exit early in the event that:
 - the plugin fails to execute
 
 Reckless-installed plugins reside in the 'reckless' subdirectory
-of the user's `.lightning` folder.  By default, plugins are activated
+of the user's `.lightning` folder. By default, plugins are activated
 on the `bitcoin` network (and use lightningd's bitcoin network
 config), but regtest may also be used.
 
@@ -92,7 +92,7 @@ Plugins must be executable. For python plugins, the shebang is
 invoked, so **python3** should be available in your environment. This
 can be verified with **which Python3**. The default reckless directory
 is $USER/.lightning/reckless and it should be possible for the
-lightningd user to execute files located here.  If this is a problem,
+lightningd user to execute files located here. If this is a problem,
 the option flag **reckless -d=<my\_alternate\_dir>** may be used to
 relocate the reckless directory from its default. Consider creating a
 permanent alias in this case.
@@ -102,7 +102,7 @@ For Plugin Developers:
 To make your plugin compatible with reckless install:
 
 - Choose a unique plugin name.
-- The plugin entrypoint is inferred.  Naming your plugin executable
+- The plugin entrypoint is inferred. Naming your plugin executable
     the same as your plugin name will allow reckless to identify it
     correctly (file extensions are okay.)
 - For python plugins, a requirements.txt is the preferred medium for

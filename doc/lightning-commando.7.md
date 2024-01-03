@@ -9,7 +9,7 @@ SYNOPSIS
 DESCRIPTION
 -----------
 
-The **commando** RPC command is a homage to bad 80s movies.  It also
+The **commando** RPC command is a homage to bad 80s movies. It also
 sends a directly-connected *peer\_id* a custom message, containing a
 request to run *method* (with an optional dictionary of *params*);
 generally the peer will only allow you to run a command if it has

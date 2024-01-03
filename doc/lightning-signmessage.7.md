@@ -10,7 +10,7 @@ DESCRIPTION
 -----------
 
 The **signmessage** RPC command creates a digital signature of
-*message* using this node's secret key.  A receiver who knows your
+*message* using this node's secret key. A receiver who knows your
 node's *id* and the *message* can be sure that the resulting signature could
 only be created by something with access to this node's secret key.
 

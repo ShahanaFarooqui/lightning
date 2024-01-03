@@ -55,11 +55,11 @@
     },
     "payment_secret": {
       "type": "secret",
-      "description": "value that the final recipient requires to accept the payment, as defined by the `payment_data` field in BOLT 4 and the `s` field in the BOLT 11 invoice format.  It is required if *partid* is non-zero"
+      "description": "value that the final recipient requires to accept the payment, as defined by the `payment_data` field in BOLT 4 and the `s` field in the BOLT 11 invoice format. It is required if *partid* is non-zero"
     },
     "partid": {
       "type": "u64",
-      "description": "must not be provided for self-payments. If provided and non-zero, allows for multiple parallel partial payments with the same *payment_hash*.  The *amount_msat* amount (which must be provided) for each **sendpay** with matching *payment_hash* must be equal, and **sendpay** will fail if there are differing values given"
+      "description": "must not be provided for self-payments. If provided and non-zero, allows for multiple parallel partial payments with the same *payment_hash*. The *amount_msat* amount (which must be provided) for each **sendpay** with matching *payment_hash* must be equal, and **sendpay** will fail if there are differing values given"
     },
     "localinvreqid": {
       "type": "hex",
@@ -67,7 +67,7 @@
     },
     "groupid": {
       "type": "u64",
-      "description": "allows you to attach a number which appears in **listsendpays** so payments can be identified as part of a logical group.  The *pay* plugin uses this to identify one attempt at a MPP payment, for example"
+      "description": "allows you to attach a number which appears in **listsendpays** so payments can be identified as part of a logical group. The *pay* plugin uses this to identify one attempt at a MPP payment, for example"
     },
     "payment_metadata": {
       "type": "hex",

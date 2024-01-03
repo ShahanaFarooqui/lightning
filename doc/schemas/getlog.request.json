@@ -13,7 +13,7 @@
         "debug",
         "io"
       ],
-      "description": "a string that represents the log level.  The default is *info*"
+      "description": "a string that represents the log level. The default is *info*"
     }
   }
 }

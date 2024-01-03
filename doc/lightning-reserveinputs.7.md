@@ -10,7 +10,7 @@ DESCRIPTION
 -----------
 
 The **reserveinputs** RPC command places (or increases) reservations on any
-inputs specified in *psbt* which are known to lightningd.  It will fail
+inputs specified in *psbt* which are known to lightningd. It will fail
 with an error if any of the inputs are known to be spent, and ignore inputs
 which are unknown.
 
@@ -21,7 +21,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **reservations** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **reservations** is returned. It is an array of objects, where each object contains:
 
 - **txid** (txid): the transaction id
 - **vout** (u32): the output number which was reserved

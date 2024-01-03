@@ -10,14 +10,14 @@ DESCRIPTION
 -----------
 
 The **autoclean-once** RPC command tell the `autoclean` plugin to do a
-single sweep to delete old entries.  This is a manual alternative (or
+single sweep to delete old entries. This is a manual alternative (or
 addition) to the various `autoclean-...-age` parameters which
 cause autoclean to run once per hour: see lightningd-config(5).
 
 RETURN VALUE
 ------------
 
-On success, an object containing **autoclean** is returned.  It is an object containing:
+On success, an object containing **autoclean** is returned. It is an object containing:
 
 - **succeededforwards** (object, optional)
   - **cleaned** (u64): total number of deletions done this run

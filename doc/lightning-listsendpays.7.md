@@ -23,7 +23,7 @@ RETURN VALUE
 Note that the returned array is ordered by increasing *id*.
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **payments** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **payments** is returned. It is an array of objects, where each object contains:
 
 - **created\_index** (u64): 1-based index indicating order this payment was created in *(added v23.11)*
 - **id** (u64): old synonym for created\_index

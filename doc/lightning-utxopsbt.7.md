@@ -26,7 +26,7 @@ On success, an object is returned, containing:
 - **psbt** (string): Unsigned PSBT which fulfills the parameters given
 - **feerate\_per\_kw** (u32): The feerate used to create the PSBT, in satoshis-per-kiloweight
 - **estimated\_final\_weight** (u32): The estimated weight of the transaction once fully signed
-- **excess\_msat** (msat): The amount above *satoshi* which is available.  This could be zero, or dust; it will be zero if *change\_outnum* is also returned
+- **excess\_msat** (msat): The amount above *satoshi* which is available. This could be zero, or dust; it will be zero if *change\_outnum* is also returned
 - **change\_outnum** (u32, optional): The 0-based output number where change was placed (only if parameter *excess\_as\_change* was true and there was sufficient funds)
 - **reservations** (array of objects, optional): If *reserve* was true or a non-zero number, just as per lightning-reserveinputs(7):
   - **txid** (txid): The txid of the transaction
@@ -42,7 +42,7 @@ On success, returns the *psbt* it created, containing the inputs,
 *feerate\_per\_kw* showing the exact numeric feerate it used, 
 *estimated\_final\_weight* for the estimated weight of the transaction
 once fully signed, and *excess\_msat* containing the amount above *satoshi*
-which is available.  This could be zero, or dust.  If *satoshi* was "all",
+which is available. This could be zero, or dust. If *satoshi* was "all",
 then *excess\_msat* is the entire amount once fees are subtracted
 for the weights of the inputs and *startweight*.
 

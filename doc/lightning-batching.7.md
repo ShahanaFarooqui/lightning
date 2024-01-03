@@ -11,7 +11,7 @@ DESCRIPTION
 
 The **batching** RPC command allows (but does not guarantee!) database
 commitments to be deferred when multiple commands are issued on this RPC
-connection.  This is only useful if many commands are being given at once, in
+connection. This is only useful if many commands are being given at once, in
 which case it can offer a performance improvement (the cost being that if
 there is a crash, it's unclear how many of the commands will have been
 persisted).

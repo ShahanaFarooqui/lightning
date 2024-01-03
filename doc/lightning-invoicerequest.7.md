@@ -13,7 +13,7 @@ DESCRIPTION
 
 The **invoicerequest** RPC command creates an `invoice_request` to
 send payments: it automatically enables the processing of an incoming
-invoice, and payment of it.  The reader of the resulting
+invoice, and payment of it. The reader of the resulting
 `invoice_request` can use lightning-sendinvoice(7) to collect their
 payment.
 

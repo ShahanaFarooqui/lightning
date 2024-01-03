@@ -32,7 +32,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **peers** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **peers** is returned. It is an array of objects, where each object contains:
 
 - **id** (pubkey): the public key of the peer
 - **connected** (boolean): True if the peer is currently connected

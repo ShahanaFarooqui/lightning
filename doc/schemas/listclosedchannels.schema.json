@@ -155,15 +155,15 @@
           },
           "min_to_us_msat": {
             "type": "msat",
-            "description": "Least amount owed to us ever.  If the peer were to succesfully steal from us, this is the amount we would still retain."
+            "description": "Least amount owed to us ever. If the peer were to succesfully steal from us, this is the amount we would still retain."
           },
           "max_to_us_msat": {
             "type": "msat",
-            "description": "Most amount owed to us ever.  If we were to successfully steal from the peer, this is the amount we could potentially get."
+            "description": "Most amount owed to us ever. If we were to successfully steal from the peer, this is the amount we could potentially get."
           },
           "last_commitment_txid": {
             "type": "hash",
-            "description": "The final commitment tx's txid (or mutual close, if we accepted it).  Not present for some very old, small channels pre-0.7.0."
+            "description": "The final commitment tx's txid (or mutual close, if we accepted it). Not present for some very old, small channels pre-0.7.0."
           },
           "last_commitment_fee_msat": {
             "type": "msat",

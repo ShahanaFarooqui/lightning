@@ -67,18 +67,18 @@ field without parsing JSON.
 
 * **--notifications**/**-N**=*LEVEL*
 
-  If *LEVEL* is 'none', then never print out notifications.  Otherwise,
+  If *LEVEL* is 'none', then never print out notifications. Otherwise,
 print out notifications of *LEVEL* or above (one of `io`, `debug`,
 `info` (the default), `unusual` or `broken`: they are prefixed with `#
-`.  (Note: currently not supported with `--commando`).
+`. (Note: currently not supported with `--commando`).
 
 * **--filter**/**-l**=*JSON*
 
-  This hands lightningd *JSON* as a filter, which controls what will be output, e.g. `'--filter={"help":[{"command":true}]}'`.  See lightningd-rpc(7) for more details on how to specify filters.
+  This hands lightningd *JSON* as a filter, which controls what will be output, e.g. `'--filter={"help":[{"command":true}]}'`. See lightningd-rpc(7) for more details on how to specify filters.
 
 * **--help**/**-h**
 
-  Pretty-print summary of options to standard output and exit.  The format can
+  Pretty-print summary of options to standard output and exit. The format can
 be changed using `-F`, `-R`, `-J`, `-H` etc.
 
 * **--version**/**-V**
@@ -89,10 +89,10 @@ be changed using `-F`, `-R`, `-J`, `-H` etc.
 
   Convenience option to indicate that this command should be wrapped
 in a `commando` command to be sent to the connected peer with id
-`peerid`, using rune `rune`.  This also means that any `--filter` is
+`peerid`, using rune `rune`. This also means that any `--filter` is
 handed via commando to the remote peer to reduce its output (which it
 will do it it is v23.02 or newer), rather than trying to do so
-locally.  Note that currently `-N` is not supported by commando.
+locally. Note that currently `-N` is not supported by commando.
 
 COMMANDS
 --------
@@ -112,7 +112,7 @@ this is to avoid having lightningd intrepret the position of an arguement.
 Arguments may be integer numbers (composed entirely of digits), floating-point 
 numbers (has a radix point but otherwise composed of digits), *true*, *false*,
 or *null*. Arguments which begin with *{*, *[* or *"* are also considered
-raw JSON and are passed through.  Other arguments are treated as strings.
+raw JSON and are passed through. Other arguments are treated as strings.
 
 Some commands have optional arguments. You may use *null* to skip
 optional arguments to provide later arguments, although this is not encouraged.
@@ -137,7 +137,7 @@ pretty printing of results isn't pretty.
 EXIT STATUS
 -----------
 
-If the command succeeds, the exit status is 0.  Otherwise:
+If the command succeeds, the exit status is 0. Otherwise:
 
 * `1`: lightningd(7) returned an error reply (which is printed).
 * `2`: we could not talk to lightningd.

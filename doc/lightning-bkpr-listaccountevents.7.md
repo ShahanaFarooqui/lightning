@@ -22,7 +22,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **events** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **events** is returned. It is an array of objects, where each object contains:
 
 - **account** (string): The account name. If the account is a channel, the channel\_id
 - **type** (string): Coin movement type (one of "onchain\_fee", "chain", "channel")

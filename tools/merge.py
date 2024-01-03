@@ -22,8 +22,6 @@ for root, _, files in os.walk(os.path.join(input_folder, "schemas")):
             if base_name not in grouped_files:
                 grouped_files.append(base_name)
 
-# grouped_files = ["commando-listrunes"]
-
 # Merge and create new JSON files
 for base_name in grouped_files:
     if not os.path.exists(input_folder + "lightning-" + base_name + ".7.md"):

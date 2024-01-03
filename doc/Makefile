@@ -130,8 +130,6 @@ MANPAGES := doc/lightning-cli.1 \
 	doc/lightning-getlog.7 \
 	doc/reckless.7
 
-# MANPAGES := doc/lightning-bkpr-inspect.7
-
 ifeq ($(HAVE_SQLITE3),1)
 MANPAGES += doc/lightning-listsqlschemas.7 \
 	    doc/lightning-sql.7

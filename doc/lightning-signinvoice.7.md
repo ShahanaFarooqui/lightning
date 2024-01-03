@@ -9,7 +9,7 @@ SYNOPSIS
 DESCRIPTION
 -----------
 
-The **signinvoice** RPC command signs an invoice.  Unlike
+The **signinvoice** RPC command signs an invoice. Unlike
 **createinvoice** it does not save the invoice into the database and
 thus does not require the preimage.
 

@@ -19,7 +19,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **blacklist** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **blacklist** is returned. It is an array of objects, where each object contains:
 
 - **start** (u64): Unique id of first rune in this blacklist range
 - **end** (u64): Unique id of last rune in this blacklist range

@@ -10,15 +10,15 @@ DESCRIPTION
 -----------
 
 The **commando-rune** RPC command creates a base64 string called a
-*rune* which can be used to access commands on this node.  Each *rune*
+*rune* which can be used to access commands on this node. Each *rune*
 contains a unique id (a number starting at 0), and can have
-restrictions inside it.  Nobody can remove restrictions from a rune: if
-you try, the rune will be rejected.  There is no limit on how many
+restrictions inside it. Nobody can remove restrictions from a rune: if
+you try, the rune will be rejected. There is no limit on how many
 runes you can issue; the node simply decodes
 and checks them as they are received (we do store them for lightning-commando-listrunes(7) however).
 
 If *rune* is supplied, the restrictions are simple appended to that
-*rune* (it doesn't need to be a rune belonging to this node).  If no
+*rune* (it doesn't need to be a rune belonging to this node). If no
 *rune* is supplied, a new one is constructed, with a new unique id.
 
 *restrictions* can be the string "readonly" (creates a rune which
@@ -26,7 +26,7 @@ allows most *get* and *list* commands, and the *summary* command), or
 an array of restrictions.
 
 Each restriction is an array of one or more alternatives, such as "method
-is listpeers", or "method is listpeers OR time is before 2023".  Alternatives use a simple language to examine the command which is
+is listpeers", or "method is listpeers OR time is before 2023". Alternatives use a simple language to examine the command which is
 being run:
 
 * time: the current UNIX time, e.g. "time<1656759180".
@@ -40,9 +40,9 @@ being run:
 RESTRICTION FORMAT
 ------------------
 
-Restrictions are one or more alternatives.  Each
-alternative is *name* *operator* *value*.  The valid names are shown
-above.  Note that if a value contains `\\`, it must be preceeded by another `\\`
+Restrictions are one or more alternatives. Each
+alternative is *name* *operator* *value*. The valid names are shown
+above. Note that if a value contains `\\`, it must be preceeded by another `\\`
 to form valid JSON:
 
 * `=`: passes if equal ie. identical. e.g. `method=withdraw`
@@ -100,7 +100,7 @@ run "listpeers" on themselves:
        "unique_id": "2"
     }
 
-This allows `listpeers` with 1 argument (`pnum=1`), which is either by name (`pnameid`), or position (`parr0`).  We could shorten this in several ways: either allowing only positional or named parameters, or by testing the start of the parameters only.  Here's an example which only checks the first 9 bytes of the `listpeers` parameter:
+This allows `listpeers` with 1 argument (`pnum=1`), which is either by name (`pnameid`), or position (`parr0`). We could shorten this in several ways: either allowing only positional or named parameters, or by testing the start of the parameters only. Here's an example which only checks the first 9 bytes of the `listpeers` parameter:
 
     $ lightning-cli commando-rune restrictions='[["id=024b9a1fa8e006f1e3937f65f66c408e6da8e1ca728ea43222a7381df1cc449605"],["method=listpeers"],["pnum=1"],["pnameid^024b9a1fa8e006f1e393", "parr0^024b9a1fa8e006f1e393"]'
      {
@@ -110,7 +110,7 @@ This allows `listpeers` with 1 argument (`pnum=1`), which is either by name (`pn
 
 Before we give this to our peer, let's add two more restrictions: that
 it only be usable for 24 hours from now (`time<`), and that it can only
-be used twice a minute (`rate=2`).  `date +%s` can give us the current
+be used twice a minute (`rate=2`). `date +%s` can give us the current
 time in seconds:
 
     $ lightning-cli commando-rune rune=fTQnfL05coEbiBO8SS0cvQwCcPLxE9c02pZCC6HRVEY9MyZpZD0wMjRiOWExZmE4ZTAwNmYxZTM5MzdmNjVmNjZjNDA4ZTZkYThlMWNhNzI4ZWE0MzIyMmE3MzgxZGYxY2M0NDk2MDUmbWV0aG9kPWxpc3RwZWVycyZwbnVtPTEmcG5hbWVpZF4wMjRiOWExZmE4ZTAwNmYxZTM5M3xwYXJyMF4wMjRiOWExZmE4ZTAwNmYxZTM5Mw== restrictions='[["time<'$(($(date +%s) + 24*60*60))'","rate=2"]]'
@@ -174,13 +174,13 @@ SHARING RUNES
 
 Because anyone can add a restriction to a rune, you can always turn a
 normal rune into a read-only rune, or restrict access for 30 minutes
-from the time you give it to someone.  Adding restrictions before
+from the time you give it to someone. Adding restrictions before
 sharing runes is best practice.
 
 If a rune has a ratelimit, any derived rune will have the same id, and
-thus will compete for that ratelimit.  You might want to consider
+thus will compete for that ratelimit. You might want to consider
 adding a tighter ratelimit to a rune before sharing it, so you will
-keep the remainder.  For example, if you rune has a limit of 60 times
+keep the remainder. For example, if you rune has a limit of 60 times
 per minute, adding a limit of 5 times per minute and handing that rune
 out means you can still use your original rune 55 times per minute.
 

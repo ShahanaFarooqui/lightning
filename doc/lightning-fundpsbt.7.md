@@ -18,7 +18,7 @@ EXAMPLE USAGE
 Let's assume the caller is trying to produce a 100,000 satoshi output.
 
 First, the caller estimates the weight of the core (typically 42) and
-known outputs of the transaction (typically (9 + scriptlen) * 4).  For
+known outputs of the transaction (typically (9 + scriptlen) * 4). For
 a simple P2WPKH it's a 22 byte scriptpubkey, so that's 124 weight.
 
 It calls "*fundpsbt* 100000sat slow 166", which succeeds, and returns
@@ -27,8 +27,8 @@ and any *excess\_msat*.
 
 If *excess\_msat* is greater than the cost of adding a change output,
 the caller adds a change output randomly to position 0 or 1 in the
-PSBT.  Say *feerate\_per\_kw* is 253, and the change output is a P2WPKH
-(weight 124), the cost is around 31 sats.  With the dust limit disallowing
+PSBT. Say *feerate\_per\_kw* is 253, and the change output is a P2WPKH
+(weight 124), the cost is around 31 sats. With the dust limit disallowing
 payments below 546 satoshis, we would only create a change output
 if *excess\_msat* was greater or equal to 31 + 546.
 
@@ -41,7 +41,7 @@ On success, an object is returned, containing:
 - **psbt** (string): Unsigned PSBT which fulfills the parameters given
 - **feerate\_per\_kw** (u32): The feerate used to create the PSBT, in satoshis-per-kiloweight
 - **estimated\_final\_weight** (u32): The estimated weight of the transaction once fully signed
-- **excess\_msat** (msat): The amount above *satoshi* which is available.  This could be zero, or dust; it will be zero if *change\_outnum* is also returned
+- **excess\_msat** (msat): The amount above *satoshi* which is available. This could be zero, or dust; it will be zero if *change\_outnum* is also returned
 - **change\_outnum** (u32, optional): The 0-based output number where change was placed (only if parameter *excess\_as\_change* was true and there was sufficient funds)
 - **reservations** (array of objects, optional): If *reserve* was true or a non-zero number, just as per lightning-reserveinputs(7):
   - **txid** (txid): The txid of the transaction

@@ -28,7 +28,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **nodes** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **nodes** is returned. It is an array of objects, where each object contains:
 
 - **nodeid** (pubkey): the public key of the node
 - **last\_timestamp** (u32, optional): A node\_announcement has been received for this node (UNIX timestamp)

@@ -19,7 +19,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **channels** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **channels** is returned. It is an array of objects, where each object contains:
 
 - **peer\_id** (pubkey): Node Public key
 - **peer\_connected** (boolean): A boolean flag that is set to true if the peer is online
@@ -64,14 +64,14 @@ On success, an object containing **channels** is returned.  It is an array of ob
   - **fee\_paid\_msat** (msat, optional): Amount we paid peer at open
   - **fee\_rcvd\_msat** (msat, optional): Amount we were paid by peer at open
 - **to\_us\_msat** (msat, optional): How much of channel is owed to us
-- **min\_to\_us\_msat** (msat, optional): Least amount owed to us ever.  If the peer were to succesfully steal from us, this is the amount we would still retain.
-- **max\_to\_us\_msat** (msat, optional): Most amount owed to us ever.  If we were to successfully steal from the peer, this is the amount we could potentially get.
+- **min\_to\_us\_msat** (msat, optional): Least amount owed to us ever. If the peer were to succesfully steal from us, this is the amount we would still retain.
+- **max\_to\_us\_msat** (msat, optional): Most amount owed to us ever. If we were to successfully steal from the peer, this is the amount we could potentially get.
 - **total\_msat** (msat, optional): total amount in the channel
 - **fee\_base\_msat** (msat, optional): amount we charge to use the channel
 - **fee\_proportional\_millionths** (u32, optional): amount we charge to use the channel in parts-per-million
 - **dust\_limit\_msat** (msat, optional): Minimum amount for an output on the channel transactions
 - **max\_total\_htlc\_in\_msat** (msat, optional): Max amount accept in a single payment
-- **their\_reserve\_msat** (msat, optional): Minimum we insist they keep in channel (default is 1% of the total channel capacity).  If they have less than this in the channel, they cannot send to us on that channel
+- **their\_reserve\_msat** (msat, optional): Minimum we insist they keep in channel (default is 1% of the total channel capacity). If they have less than this in the channel, they cannot send to us on that channel
 - **our\_reserve\_msat** (msat, optional): Minimum they insist we keep in channel. If you have less than this in the channel, you cannot send out via this channel.
 - **spendable\_msat** (msat, optional): An estimate of the total we could send through channel (can be wrong because adding HTLCs requires an increase in fees paid to onchain miners, and onchain fees change dynamically according to onchain activity)
 - **receivable\_msat** (msat, optional): An estimate of the total peer could send through channel
@@ -104,9 +104,9 @@ On success, an object containing **channels** is returned.  It is an array of ob
   - **direction** (string): Whether it came from peer, or is going to peer (one of "in", "out")
   - **id** (u64): Unique ID for this htlc on this channel in this direction
   - **amount\_msat** (msat): Amount send/received for this HTLC
-  - **expiry** (u32): Block this HTLC expires at (after which an `in` direction HTLC will be returned to the peer, an `out` returned to us).  If this expiry is too close, lightningd(8) will automatically unilaterally close the channel in order to enforce the timeout onchain.
+  - **expiry** (u32): Block this HTLC expires at (after which an `in` direction HTLC will be returned to the peer, an `out` returned to us). If this expiry is too close, lightningd(8) will automatically unilaterally close the channel in order to enforce the timeout onchain.
   - **payment\_hash** (hash): the hash of the payment\_preimage which will prove payment
-  - **local\_trimmed** (boolean, optional): If this is too small to enforce onchain; it doesn't appear in the commitment transaction and will not be enforced in a unilateral close.  Generally true if the HTLC (after subtracting onchain fees) is below the `dust_limit_msat` for the channel. (always *true*)
+  - **local\_trimmed** (boolean, optional): If this is too small to enforce onchain; it doesn't appear in the commitment transaction and will not be enforced in a unilateral close. Generally true if the HTLC (after subtracting onchain fees) is below the `dust_limit_msat` for the channel. (always *true*)
   - **status** (string, optional): set if this HTLC is currently waiting on a hook (and shows what plugin)
 
   If **direction** is "out":

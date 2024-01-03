@@ -23,7 +23,7 @@ receiving a response containing that ID.
 
 Every response given by lightningd(8) is followed by two '\n'
 characters, which should not appear in normal JSON (though plugins may
-produce them).  This means efficient code can simply read until it
+produce them). This means efficient code can simply read until it
 sees two '\n' characters, and then attempt to parse the JSON (if the
 JSON is incomplete, it should continue reading and file a bug).
 
@@ -31,7 +31,7 @@ JSON COMMANDS
 -------------
 
 We support "params" as an array (ordered parameters) or a dictionary
-(named parameters).  In the array case, JSON "null" is treated as if
+(named parameters). In the array case, JSON "null" is treated as if
 the parameter was not specified (if that is allowed).
 
 You should probably prefer named parameters if possible, as they have
@@ -56,16 +56,16 @@ IDPART := PREFIX ':' METHOD '#' NUMBER
 ```
 
 `PREFIX` is cln for the main daemon, cli for lightning-cli, and should
-be the plugin name for plugins.  `METHOD` is an internal identifier,
+be the plugin name for plugins. `METHOD` is an internal identifier,
 indicating what caused the request: for `cli` it's simply the method
 it's invoking, but for plugins it may be the routine which created the
-request.  And `NUMBER` ensures uniqueness (it's usually a simple
+request. And `NUMBER` ensures uniqueness (it's usually a simple
 increment).
 
 Importantly for plugins, incoming requests often trigger outgoing
 requests, and for these, the outgoing request id is created by
-appending a `/` and another id part into the incoming.  This makes the
-chain of responsibility much clearer.  e.g, this shows the JSON `id`
+appending a `/` and another id part into the incoming. This makes the
+chain of responsibility much clearer. e.g, this shows the JSON `id`
 of a `sendrawtransaction` RPC call, and we can tell that lightning-cli
 has invoked the `withdraw` command, which lightningd passes through
 to the `txprepare` plugin, which called `sendrawtransaction`.
@@ -78,10 +78,10 @@ JSON REPLIES
 ------------
 
 All JSON replies are wrapped in an object; this allows fields to
-be added in future.  You should safely ignore any unknown fields.
+be added in future. You should safely ignore any unknown fields.
 
 Any field name which starts with "warning" is a specific warning, and
-should be documented in the commands' manual page.  Each warning field
+should be documented in the commands' manual page. Each warning field
 has an associated human-readable string, but it's redudant, as each
 separate warning should have a distinct field name
 (e.g. **warning\_offer\_unknown\_currency** and
@@ -91,7 +91,7 @@ JSON TYPES
 ----------
 
 The exact specification for (most!) commands is specified in
-`doc/schemas/` in the source directory.  This is also used to generate
+`doc/schemas/` in the source directory. This is also used to generate
 part of the documentation for each command; the following types are
 referred to in addition to simple JSON types:
 
@@ -103,7 +103,7 @@ referred to in addition to simple JSON types:
 * `u16`: a JSON number without decimal point in the range 0 to 65535 inclusive.
 * `u16`: a JSON number without decimal point in the range 0 to 255 inclusive.
 * `pubkey`: a 66-character `hex` which is an SEC-1 encoded secp256k1 point (usually used as a public key).
-* `msat`: a `u64` which indicates an amount of millisatoshis.  Deprecated: may also be a string of the number, with "msat" appended.  As an input parameter, lightningd(8) will accept strings with suffixes (see below).
+* `msat`: a `u64` which indicates an amount of millisatoshis. Deprecated: may also be a string of the number, with "msat" appended. As an input parameter, lightningd(8) will accept strings with suffixes (see below).
 * `txid`: a 64-character `hex` Bitcoin transaction identifier.
 * `signature`: a `hex` (144 bytes or less), which is a DER-encoded Bitcoin signature (without any sighash flags appended), 
 * `bip340sig`: a 128-character `hex` which is a BIP-340 (Schnorr) signature.
@@ -128,8 +128,8 @@ JSON NOTIFICATIONS
 ------------------
 
 Notifications are (per JSONRPC spec) JSON commands without an "id"
-field.  They give information about ongoing commands, but you
-need to enable them.  See lightning-notifications(7).
+field. They give information about ongoing commands, but you
+need to enable them. See lightning-notifications(7).
 
 FIELD FILTERING
 ---------------
@@ -139,8 +139,8 @@ including a `"filter"` member in your request, alongside the standard
 `"method"` and `"params"` fields.
 
 `filter` is a template, with keys indicating what fields are to be
-output (values must be `true`).  Only fields which appear in the
-template will be output.  For example, here is a normal `result` of
+output (values must be `true`). Only fields which appear in the
+template will be output. For example, here is a normal `result` of
 `listtransactions`:
 
 ```
@@ -247,7 +247,7 @@ The result would be:
 ```
 
 Note: `"filter"` doesn't change the order, just which fields are
-printed.  Any fields not explictly mentioned are omitted from the
+printed. Any fields not explictly mentioned are omitted from the
 output, but plugins which don't support filter (and some routines
 doing simple JSON transfers) may ignore `"filter"`, so you should treat
 it as an optimazation only).
@@ -262,11 +262,11 @@ DEALING WITH FORMAT CHANGES
 
 Fields can be added to the JSON output at any time, but to remove (or,
 very rarely) change a field requires a minimum deprecation period of 6
-months and two releases.  Usually a new field will be added if one is
+months and two releases. Usually a new field will be added if one is
 deprecated, so both will be present in transition.
 
 To test that you're not using deprecated fields, you can use the
-lightningd-config(5) option `allow-deprecated-apis=false`.  You should
+lightningd-config(5) option `allow-deprecated-apis=false`. You should
 only use this in internal tests: it is not recommended that users use
 this directly.
 
@@ -278,7 +278,7 @@ DEBUGGING
 ---------
 
 You can use `log-level=io` to see much of the JSON conversation (in
-hex) that occurs.  It's extremely noisy though!
+hex) that occurs. It's extremely noisy though!
 
 AUTHOR
 ------

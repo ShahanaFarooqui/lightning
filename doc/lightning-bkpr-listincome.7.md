@@ -15,7 +15,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **income\_events** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **income\_events** is returned. It is an array of objects, where each object contains:
 
 - **account** (string): The account name. If the account is a channel, the channel\_id
 - **tag** (string): Type of income event

@@ -12,7 +12,7 @@ DESCRIPTION
 **(WARNING: experimental-onion-messages only)**
 
 The **sendonionmessage** RPC command can be used to send a message via
-the lightning network.  These are currently used by *offers* to request
+the lightning network. These are currently used by *offers* to request
 and receive invoices.
 
 RETURN VALUE

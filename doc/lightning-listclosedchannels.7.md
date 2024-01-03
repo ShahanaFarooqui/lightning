@@ -17,7 +17,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **closedchannels** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **closedchannels** is returned. It is an array of objects, where each object contains:
 
 - **channel\_id** (hash): The full channel\_id (funding txid Xored with output number)
 - **opener** (string): Who initiated the channel (one of "local", "remote")
@@ -30,8 +30,8 @@ On success, an object containing **closedchannels** is returned.  It is an array
 - **leased** (boolean): Whether this channel was leased from `opener`
 - **total\_msat** (msat): total amount in the channel
 - **final\_to\_us\_msat** (msat): Our balance in final commitment transaction
-- **min\_to\_us\_msat** (msat): Least amount owed to us ever.  If the peer were to succesfully steal from us, this is the amount we would still retain.
-- **max\_to\_us\_msat** (msat): Most amount owed to us ever.  If we were to successfully steal from the peer, this is the amount we could potentially get.
+- **min\_to\_us\_msat** (msat): Least amount owed to us ever. If the peer were to succesfully steal from us, this is the amount we would still retain.
+- **max\_to\_us\_msat** (msat): Most amount owed to us ever. If we were to successfully steal from the peer, this is the amount we could potentially get.
 - **close\_cause** (string): What caused the channel to close (one of "unknown", "local", "user", "remote", "protocol", "onchain")
 - **peer\_id** (pubkey, optional): Peer public key (can be missing with pre-v23.05 closes!)
 - **short\_channel\_id** (short\_channel\_id, optional): The short\_channel\_id
@@ -47,7 +47,7 @@ On success, an object containing **closedchannels** is returned.  It is an array
 - **funding\_fee\_paid\_msat** (msat, optional): How much we paid to lease the channel (iff `leased` is true and `opener` is local)
 - **funding\_fee\_rcvd\_msat** (msat, optional): How much they paid to lease the channel (iff `leased` is true and `opener` is remote)
 - **funding\_pushed\_msat** (msat, optional): How much `opener` pushed immediate (if non-zero)
-- **last\_commitment\_txid** (hash, optional): The final commitment tx's txid (or mutual close, if we accepted it).  Not present for some very old, small channels pre-0.7.0.
+- **last\_commitment\_txid** (hash, optional): The final commitment tx's txid (or mutual close, if we accepted it). Not present for some very old, small channels pre-0.7.0.
 - **last\_commitment\_fee\_msat** (msat, optional): The fee on `last_commitment_txid`
 
 [comment]: # (GENERATE-FROM-SCHEMA-END)

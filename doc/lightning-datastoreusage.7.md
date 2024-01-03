@@ -19,7 +19,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **datastoreusage** is returned.  It is an object containing:
+On success, an object containing **datastoreusage** is returned. It is an object containing:
 
 - **key** (string): The key from which the database was traversed.
 - **total\_bytes** (u64): The total bytes that are stored under the *key*, including the all descendants data and the size of the keys themselves.

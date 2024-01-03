@@ -11,7 +11,7 @@ DESCRIPTION
 
 The **setchannel** RPC command sets channel specific routing fees, and
 `htlc_minimum_msat` or `htlc_maximum_msat` as defined in BOLT \#7. The channel has to be in
-normal or awaiting state.  This can be checked by **listpeers**
+normal or awaiting state. This can be checked by **listpeers**
 reporting a *state* of CHANNELD\_NORMAL or CHANNELD\_AWAITING\_LOCKIN
 for the channel.
 
@@ -23,7 +23,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **channels** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **channels** is returned. It is an array of objects, where each object contains:
 
 - **peer\_id** (pubkey): The node\_id of the peer
 - **channel\_id** (hex): The channel\_id of the channel (always 64 characters)

@@ -16,7 +16,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **datastore** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **datastore** is returned. It is an array of objects, where each object contains:
 
 - **key** (array of strings):
   - Part of the key added to the datastore

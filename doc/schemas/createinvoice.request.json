@@ -10,15 +10,15 @@
   "properties": {
     "invstring": {
       "type": "string",
-      "description": ""
+      "description": "the bolt11 form, but the final signature is ignored. Minimal sanity checks are done. (Note: if **experimental-offers** is enabled, *invstring* can actually be an unsigned bolt12 invoice)"
     },
     "label": {
       "type": "string",
-      "description": ""
+      "description": "a unique string or number (which is treated as a string, so `01` is different from `1`); it is never revealed to other nodes on the lightning network, but it can be used to query the status of this invoice"
     },
     "preimage": {
       "type": "hex",
-      "description": ""
+      "description": "the preimage to supply upon successful payment of the invoice"
     }
   }
 }

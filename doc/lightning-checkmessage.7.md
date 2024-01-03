@@ -17,7 +17,7 @@ secret).
 
 As a special case, if *pubkey* is not specified, we will try every
 known node key (as per *listnodes*), and verification succeeds if it
-matches for any one of them.  Note: this is implemented far more
+matches for any one of them. Note: this is implemented far more
 efficiently than trying each one, so performance is not a concern.
 
 RETURN VALUE

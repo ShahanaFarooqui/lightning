@@ -82,7 +82,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **schemas** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **schemas** is returned. It is an array of objects, where each object contains:
 
 - **tablename** (string): the name of the table
 - **columns** (array of objects): the columns, in database order:

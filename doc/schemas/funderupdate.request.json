@@ -27,7 +27,7 @@
     },
     "max_their_funding_msat": {
       "type": "msat",
-      "description": "maximum funding sats that we will consider to activate our contribution policy to the v2 open. Any channel open above this will not be funded.  Defaults to no max (`UINT_MAX`)"
+      "description": "maximum funding sats that we will consider to activate our contribution policy to the v2 open. Any channel open above this will not be funded. Defaults to no max (`UINT_MAX`)"
     },
     "per_channel_min_msat": {
       "type": "msat",

@@ -18,7 +18,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **invoices** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **invoices** is returned. It is an array of objects, where each object contains:
 
 - **label** (string): unique label supplied at invoice creation
 - **payment\_hash** (hash): the hash of the *payment\_preimage* which will prove payment

@@ -10,7 +10,7 @@ DESCRIPTION
 -----------
 
 The **addgossip** RPC command injects a hex-encoded gossip message into
-the gossip daemon.  It may return an error if it is malformed, or may
+the gossip daemon. It may return an error if it is malformed, or may
 update its internal state using the gossip message.
 
 Note that currently some paths will still silently reject the gossip: it

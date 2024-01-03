@@ -10,7 +10,7 @@ DESCRIPTION
 -----------
 
 The **wait** RPC command returns once the index given by *indexname*
-in *subsystem* reaches or exceeds *nextvalue*.  All indexes start at 0, when no
+in *subsystem* reaches or exceeds *nextvalue*. All indexes start at 0, when no
 events have happened (**wait** with a *nextvalue* of 0 is a way of getting
 the current index, though naturally this is racy!).
 
@@ -40,12 +40,12 @@ Indices only monotoncally increase.
 USAGE
 -----
 
-The **wait** RPC is used to track changes in the system.  Consider
-tracking invoices being paid or expiring.  The simplest (and
+The **wait** RPC is used to track changes in the system. Consider
+tracking invoices being paid or expiring. The simplest (and
 inefficient method) would be:
 
 1. Call `listinvoices` to get the current state of all invoices, and
-   remember the highest `updated_index`.  Say it was 5.
+   remember the highest `updated_index`. Say it was 5.
 2. Call `wait invoices updated 6`.
 3. When it returns, call `listinvoices` again to see what changed.
 

@@ -23,7 +23,7 @@
     },
     "excess_msat": {
       "type": "msat",
-      "description": "The amount above *satoshi* which is available.  This could be zero, or dust; it will be zero if *change_outnum* is also returned"
+      "description": "The amount above *satoshi* which is available. This could be zero, or dust; it will be zero if *change_outnum* is also returned"
     },
     "change_outnum": {
       "type": "u32",

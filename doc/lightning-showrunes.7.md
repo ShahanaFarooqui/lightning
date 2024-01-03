@@ -15,7 +15,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **runes** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **runes** is returned. It is an array of objects, where each object contains:
 
 - **rune** (string): Base64 encoded rune
 - **unique\_id** (string): Unique id assigned when the rune was generated; this is always a u64 for commando runes

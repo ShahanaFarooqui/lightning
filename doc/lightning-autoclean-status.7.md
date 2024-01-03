@@ -18,7 +18,7 @@ RETURN VALUE
 Note that the ages parameters are set by various `autoclean-...-age`
 parameters in your configuration: see lightningd-config(5).
 
-On success, an object containing **autoclean** is returned.  It is an object containing:
+On success, an object containing **autoclean** is returned. It is an object containing:
 
 - **succeededforwards** (object, optional)
   - **enabled** (boolean): whether autocleaning is enabled for successful listforwards

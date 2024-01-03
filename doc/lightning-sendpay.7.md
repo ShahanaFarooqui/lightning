@@ -17,7 +17,7 @@ route.
 
 Generally, a client would call lightning-getroute(7) to resolve a route,
 then use **sendpay** to send it. If it fails, it would call
-lightning-getroute(7) again to retry.  If the route is empty, a payment-to-self is attempted.
+lightning-getroute(7) again to retry. If the route is empty, a payment-to-self is attempted.
 
 The response will occur when the payment is on its way to the
 destination. The **sendpay** RPC command does not wait for definite

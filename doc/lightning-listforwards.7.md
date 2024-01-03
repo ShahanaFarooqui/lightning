@@ -16,7 +16,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **forwards** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **forwards** is returned. It is an array of objects, where each object contains:
 
 - **created\_index** (u64): 1-based index indicating order this forward was created in *(added v23.11)*
 - **in\_channel** (short\_channel\_id): the channel that received the HTLC

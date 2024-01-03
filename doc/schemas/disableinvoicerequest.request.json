@@ -8,7 +8,7 @@
   "properties": {
     "invreq_id": {
       "type": "string",
-      "description": ""
+      "description": "a specific invoice can be disabled by providing the `invreq_id`, which is presented by lightning-invoicerequest(7)"
     }
   }
 }

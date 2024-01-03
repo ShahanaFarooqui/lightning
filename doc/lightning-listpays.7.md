@@ -16,7 +16,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **pays** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **pays** is returned. It is an array of objects, where each object contains:
 
 - **payment\_hash** (hash): the hash of the *payment\_preimage* which will prove payment
 - **status** (string): status of the payment (one of "pending", "failed", "complete")

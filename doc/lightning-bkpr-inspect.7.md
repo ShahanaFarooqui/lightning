@@ -17,7 +17,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **txs** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **txs** is returned. It is an array of objects, where each object contains:
 
 - **txid** (txid): transaction id
 - **fees\_paid\_msat** (msat): Amount paid in sats for this tx

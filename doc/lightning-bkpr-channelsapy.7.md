@@ -16,7 +16,7 @@ RETURN VALUE
 ------------
 
 [comment]: # (GENERATE-FROM-SCHEMA-START)
-On success, an object containing **channels\_apy** is returned.  It is an array of objects, where each object contains:
+On success, an object containing **channels\_apy** is returned. It is an array of objects, where each object contains:
 
 - **account** (string): The account name. If the account is a channel, the channel\_id. The 'net' entry is the rollup of all channel accounts
 - **routed\_out\_msat** (msat): Sats routed (outbound)

@@ -10,7 +10,7 @@ DESCRIPTION
 -----------
 
 The **notifications** the RPC command enabled notifications for this JSON-RPC
-connection.  By default (and for backwards-compatibility) notifications are disabled.
+connection. By default (and for backwards-compatibility) notifications are disabled.
 
 Various commands, especially complex and slow ones, offer notifications which indicate 
 their progress.
@@ -31,7 +31,7 @@ EXAMPLE JSON REQUEST
 NOTIFICATIONS
 -------------
 
-Notifications are JSON-RPC objects without an *id* field.  *lightningd* sends
+Notifications are JSON-RPC objects without an *id* field. *lightningd* sends
 notifications (once enabled with this *notifications* command) with a *params*
 *id* field indicating which command the notification refers to.
 

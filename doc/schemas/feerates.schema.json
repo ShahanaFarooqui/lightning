@@ -25,7 +25,7 @@
         },
         "max_acceptable": {
           "type": "u32",
-          "description": "The largest feerate we will accept from remote negotiations.  If a peer attempts to set the feerate higher than this we will unilaterally close the channel (or simply forget it if it's not open yet)."
+          "description": "The largest feerate we will accept from remote negotiations. If a peer attempts to set the feerate higher than this we will unilaterally close the channel (or simply forget it if it's not open yet)."
         },
         "floor": {
           "type": "u32",
@@ -69,7 +69,7 @@
         },
         "mutual_close": {
           "type": "u32",
-          "description": "Feerate to aim for in cooperative shutdown.  Note that since mutual close is a **negotiation**, the actual feerate used in mutual close will be somewhere between this and the corresponding mutual close feerate of the peer."
+          "description": "Feerate to aim for in cooperative shutdown. Note that since mutual close is a **negotiation**, the actual feerate used in mutual close will be somewhere between this and the corresponding mutual close feerate of the peer."
         },
         "unilateral_close": {
           "type": "u32",
@@ -113,7 +113,7 @@
         },
         "max_acceptable": {
           "type": "u32",
-          "description": "The largest feerate we will accept from remote negotiations.  If a peer attempts to set the feerate higher than this we will unilaterally close the channel (or simply forget it if it's not open yet)."
+          "description": "The largest feerate we will accept from remote negotiations. If a peer attempts to set the feerate higher than this we will unilaterally close the channel (or simply forget it if it's not open yet)."
         },
         "floor": {
           "type": "u32",
@@ -157,7 +157,7 @@
         },
         "mutual_close": {
           "type": "u32",
-          "description": "Feerate to aim for in cooperative shutdown.  Note that since mutual close is a **negotiation**, the actual feerate used in mutual close will be somewhere between this and the corresponding mutual close feerate of the peer."
+          "description": "Feerate to aim for in cooperative shutdown. Note that since mutual close is a **negotiation**, the actual feerate used in mutual close will be somewhere between this and the corresponding mutual close feerate of the peer."
         },
         "unilateral_close": {
           "type": "u32",
@@ -205,7 +205,7 @@
         },
         "unilateral_close_satoshis": {
           "type": "u64",
-          "description": "Estimated cost of typical unilateral close (without HTLCs).  If anchors are supported, this assumes a channel with anchors."
+          "description": "Estimated cost of typical unilateral close (without HTLCs). If anchors are supported, this assumes a channel with anchors."
         },
         "unilateral_close_nonanchor_satoshis": {
           "added": "v23.08",
