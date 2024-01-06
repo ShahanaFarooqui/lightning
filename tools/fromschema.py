@@ -6,6 +6,10 @@ from argparse import ArgumentParser
 import json
 import re
 
+BODY_KEY_SEQUENCE = ["reliability", "usage", "restriction_format", "example_usage", "example_json_request", "notes", "notifications", "riskfactor_effect_on_routing", "recommended_riskfactor_values", "optimality", "randomization"]
+FOOTER_KEY_SEQUENCE = ["example_json_response", "errors", "example_json_notifications", "trivia", "author", "see_also", "resources"]
+
+
 def output_title(title, underline="-", num_leading_newlines=1, num_trailing_newlines=2):
     """Add a title to the output"""
     print("\n" * num_leading_newlines + title, end="\n")
@@ -37,10 +41,11 @@ def outputs(lines, separator=""):
 
 def output(line):
     """Add this line to the final output"""
-    print(line, end='')
+    print(line, end="")
 
 
 def output_type(properties, is_optional):
+    """Add types for request and reponse parameters"""
     if "oneOf" in properties:
         properties["type"] = "one of"
     typename = esc_underscores(properties["type"])
@@ -49,7 +54,7 @@ def output_type(properties, is_optional):
             typename += " of {}s".format(esc_underscores(properties["items"]["type"]))
     if is_optional:
         typename += ", optional"
-    output(" ({}):".format(typename))
+    output(" ({})".format(typename))
 
 
 def output_range(properties, brackets=True):
@@ -126,7 +131,6 @@ def deprecated_to_deleted(vername):
 
 def output_member(propname, properties, is_optional, indent, print_type=True, prefix=None):
     """Generate description line(s) for this member"""
-
     if prefix is None:
         prefix = "- " + fmt_propname(propname) if propname is not None else "- "
     output(indent + prefix)
@@ -138,26 +142,36 @@ def output_member(propname, properties, is_optional, indent, print_type=True, pr
         output_type(properties, is_optional)
 
     if "description" in properties:
-        output(" {}".format(esc_underscores(properties["description"])))
+        if type(properties["description"]) is list:
+            for i in range(0, len(properties["description"])):
+                output("{} {}{}".format(':' if i == 0 else '', esc_underscores(properties["description"][i]), '' if i+1 == len(properties["description"]) else '\n'))
+        else:
+            output(": {}".format(esc_underscores(properties["description"])))
 
     output_range(properties)
 
     if "deprecated" in properties:
+        # Information on when the field was deprecated
         output(" **deprecated, removal in {}**".format(deprecated_to_deleted(properties["deprecated"])))
     if "added" in properties:
+        # Version when the field was added
         output(" *(added {})*".format(properties["added"]))
 
-    output("\n")
     if "oneOf" in properties and isinstance(properties["oneOf"], list):
+        output(":\n")
         output_members(properties, indent + "  ")
     elif not is_untyped and properties["type"] == "object":
+        output(":\n")
         output_members(properties, indent + "  ")
     elif not is_untyped and properties["type"] == "array":
+        output(":\n")
         output_array(properties["items"], indent + "  ")
+    else:
+        output("\n")
 
 
 def output_array(items, indent):
-    """We"ve already said it"s an array of {type}"""
+    """We've already said it"s an array of {type}"""
     if "oneOf" in items and isinstance(items["oneOf"], list):
         output_members(items, indent + "  ")
     elif list(items.keys()) == ["type"]:
@@ -280,17 +294,61 @@ def output_members(sub, indent=""):
             # output("\n")
 
 
-def output_params(schema):
+def generate_header(schema):
+    """Generate lines for rpc title and synopsis with request parameters"""
+    output_title("".join(["lightning-", schema["rpc"], " -- ", schema["title"]]), "=", 0, 1)
+    output_title("SYNOPSIS")
+    # generate the rpc command details with request parameters
     request = schema["request"]
     toplevels = list(request["properties"].keys())
-
     output("{}".format(fmt_propname(schema["rpc"])))
     for p in toplevels:
         output("{}".format(fmt_paramname(p, False if "required" in request and p in request["required"] else True)))
     output("\n")
 
 
-def generate_from_response(schema):
+def generate_description(schema):
+    """Generate rpc description with request parameter descriptions"""
+    request = schema["request"]
+    props = request["properties"]
+    toplevels = list(props.keys())
+    indent=""
+    output_title("DESCRIPTION")
+    # Add deprecated and removal information for the command
+    if "deprecated" in schema:
+        output("Command **deprecated, removal in {}**.\n\n".format(deprecated_to_deleted(schema["deprecated"])))
+    # Version when the command was added
+    if "added" in schema:
+        output("Command *added* in {}.\n\n".format(schema["added"]))
+    # Command's detailed description
+    outputs(request["description"], "\n")
+    # Request parameter's detailed description
+    if len(props) > 0:
+        output("\n\n")
+        if toplevels == []:
+            sub = schema["request"]
+        elif len(toplevels) == 1 and "oneOf" in props[toplevels[0]] and isinstance(props[toplevels[0]]["oneOf"], list):
+            output("{}".format(fmt_propname(toplevels[0])))
+            output_type(props[toplevels[0]], False if toplevels[0] in request["required"] else True)
+            output("\n")
+            indent = indent + "  "
+            sub = props[toplevels[0]]
+        elif len(toplevels) == 1 and props[toplevels[0]]["type"] == "object":
+            output("{}\n".format(fmt_propname(toplevels[0])))
+            assert "description" not in toplevels[0]
+            sub = props[toplevels[0]]
+        elif len(toplevels) == 1 and props[toplevels[0]]["type"] == "array" and props[toplevels[0]]["items"]["type"] == "object":
+            output("{}\n".format(fmt_propname(toplevels[0])))
+            assert "description" not in toplevels[0]
+            sub = props[toplevels[0]]["items"]
+        else:
+            sub = schema["request"]
+        output_members(sub, indent)
+    else:
+        output("\n")
+
+
+def generate_return_value(schema):
     """This is not general, but works for us"""
     output_title("RETURN VALUE")
     
@@ -326,12 +384,12 @@ def generate_from_response(schema):
         output("On success, an empty object is returned.\n")
         sub = schema
     elif len(toplevels) == 1 and props[toplevels[0]]["type"] == "object":
-        output("On success, an object containing {} is returned.  It is an object containing:\n\n".format(fmt_propname(toplevels[0])))
+        output("On success, an object containing {} is returned. It is an object containing:\n\n".format(fmt_propname(toplevels[0])))
         # Don"t have a description field here, it"s not used.
         assert "description" not in toplevels[0]
         sub = props[toplevels[0]]
     elif len(toplevels) == 1 and props[toplevels[0]]["type"] == "array" and props[toplevels[0]]["items"]["type"] == "object":
-        output("On success, an object containing {} is returned.  It is an array of objects, where each object contains:\n\n".format(fmt_propname(toplevels[0])))
+        output("On success, an object containing {} is returned. \nIt is an array of objects, where each object contains:\n\n".format(fmt_propname(toplevels[0])))
         # Don"t have a description field here, it"s not used.
         assert "description" not in toplevels[0]
         sub = props[toplevels[0]]["items"]
@@ -353,69 +411,38 @@ def generate_from_response(schema):
         output("\n")
 
 
-def generate_header(schema):
-    output_title("".join(["lightning-", schema["rpc"], " -- ", schema["title"]]), "=", 0, 1)
-    output_title("SYNOPSIS")
-    output_params(schema)
-
-
-def generate_from_request(schema):
+def generate_body(schema):
+    """Output sections which should be printed after description and before return value"""
     request = schema["request"]
-    request_key_list = [key for key in list(request.keys()) if key not in ['required', 'properties']]
-    props = request["properties"]
-    toplevels = list(props.keys())
-    indent=""
-
-    for key in request_key_list:
+    for key in BODY_KEY_SEQUENCE:
+        if key not in request:
+            continue
         output_title(key.replace("_", " ").upper())
-        if key == "description":
-            if "deprecated" in schema:
-                output("Command **deprecated, removal in {}**.\n\n".format(deprecated_to_deleted(schema["deprecated"])))
-            if "added" in schema:
-                output("Command *added* in {}.\n\n".format(schema["added"]))
-            outputs(request[key], "\n")
-            if len(props) > 0:
-                output("\n\n")
-                if toplevels == []:
-                    sub = schema["request"]
-                elif len(toplevels) == 1 and "oneOf" in props[toplevels[0]] and isinstance(props[toplevels[0]]["oneOf"], list):
-                    output("{}".format(fmt_propname(toplevels[0])))
-                    output_type(props[toplevels[0]], False if toplevels[0] in schema["request"]["required"] else True)
-                    output("\n")
-                    indent = indent + "  "
-                    sub = props[toplevels[0]]
-                elif len(toplevels) == 1 and props[toplevels[0]]["type"] == "object":
-                    output("{}\n".format(fmt_propname(toplevels[0])))
-                    assert "description" not in toplevels[0]
-                    sub = props[toplevels[0]]
-                elif len(toplevels) == 1 and props[toplevels[0]]["type"] == "array" and props[toplevels[0]]["items"]["type"] == "object":
-                    output("{}\n".format(fmt_propname(toplevels[0])))
-                    assert "description" not in toplevels[0]
-                    sub = props[toplevels[0]]["items"]
-                else:
-                    sub = schema["request"]
-                output_members(sub, indent)
-            else:
-                output("\n")
-        else:
-            outputs(request[key], "\n")
+        outputs(request[key], "\n")
 
 
 def generate_footer(schema):
-    keys = list(schema.keys())
-    footer_key_list = [key for key in keys if key not in ['$schema', 'type', 'additionalProperties', 'rpc', 'title', 'request', 'response', 'added', 'deprecated']]
-    for i, key in enumerate(footer_key_list):
-        output_title(key.replace("_", " ").upper(), "-", 1 if i == 0 else 2)
-        outputs(schema[key], ", " if key in ['categories', 'see_also'] else "\n")
+    """Output sections which should be printed after return value"""
+    for i, key in enumerate(FOOTER_KEY_SEQUENCE):
+        if key not in schema:
+            continue
+        output_title(key.replace("_", " ").upper(), "-", 2)
+        outputs(schema[key], ", " if key in ['see_also'] else "\n")
     output("\n\n")
 
 
 def main(schemafile, markdownfile):
     with open(schemafile, "r") as f:
         schema = json.load(f)
+    # Outputs rpc title and synopsis with request parameters
     generate_header(schema)
-    generate_from_request(schema)
-    generate_from_response(schema)
+    # Outputs command description with request parameter descriptions
+    generate_description(schema)
+    # Outputs other remaining sections before return value section
+    generate_body(schema)
+    # Outputs command response with response parameter descriptions
+    generate_return_value(schema)
+    # Outputs other remaining sections after return value section
     generate_footer(schema)
 
     if markdownfile is None:

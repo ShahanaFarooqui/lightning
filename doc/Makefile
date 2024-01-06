@@ -128,7 +128,10 @@ MANPAGES := doc/lightning-cli.1 \
 	doc/lightning-listconfigs.7 \
 	doc/lightning-help.7 \
 	doc/lightning-getlog.7 \
+	doc/lightning-upgradewallet.7 \
 	doc/reckless.7
+
+# MANPAGES := doc/lightning-autoclean-once.7
 
 ifeq ($(HAVE_SQLITE3),1)
 MANPAGES += doc/lightning-listsqlschemas.7 \
@@ -150,7 +153,132 @@ fmt-schema/%: %
 check-doc: check-config-docs check-manpages check-fmt-schemas
 
 # Some manpages use a schema, so need that added.
-MARKDOWN_WITH_SCHEMA := $(shell grep -l GENERATE-FROM-SCHEMA $(MANPAGES:=.md))
+# MARKDOWN_WITH_SCHEMA := $(shell grep -l GENERATE-FROM-SCHEMA $(MANPAGES:=.md))
+MARKDOWN_WITH_SCHEMA := doc/lightning-addgossip.7.md \
+	doc/lightning-autoclean-once.7.md \
+	doc/lightning-autoclean-status.7.md \
+	doc/lightning-batching.7.md \
+	doc/lightning-bkpr-channelsapy.7.md \
+	doc/lightning-bkpr-dumpincomecsv.7.md \
+	doc/lightning-bkpr-inspect.7.md \
+	doc/lightning-bkpr-listaccountevents.7.md \
+	doc/lightning-bkpr-listbalances.7.md \
+	doc/lightning-bkpr-listincome.7.md \
+	doc/lightning-blacklistrune.7.md \
+	doc/lightning-check.7.md \
+	doc/lightning-checkmessage.7.md \
+	doc/lightning-checkrune.7.md \
+	doc/lightning-close.7.md \
+	doc/lightning-connect.7.md \
+	doc/lightning-commando.7.md \
+	doc/lightning-commando-blacklist.7.md \
+	doc/lightning-commando-listrunes.7.md \
+	doc/lightning-commando-rune.7.md \
+	doc/lightning-createonion.7.md \
+	doc/lightning-createinvoice.7.md \
+	doc/lightning-createrune.7.md \
+	doc/lightning-datastore.7.md \
+	doc/lightning-datastoreusage.7.md \
+	doc/lightning-decodepay.7.md \
+	doc/lightning-decode.7.md \
+	doc/lightning-deldatastore.7.md \
+	doc/lightning-delexpiredinvoice.7.md \
+	doc/lightning-delforward.7.md \
+	doc/lightning-delinvoice.7.md \
+	doc/lightning-delpay.7.md \
+	doc/lightning-disableinvoicerequest.7.md \
+	doc/lightning-disableoffer.7.md \
+	doc/lightning-disconnect.7.md \
+	doc/lightning-emergencyrecover.7.md \
+	doc/lightning-feerates.7.md \
+	doc/lightning-fetchinvoice.7.md \
+	doc/lightning-fundchannel.7.md \
+	doc/lightning-fundchannel_start.7.md \
+	doc/lightning-fundchannel_complete.7.md \
+	doc/lightning-fundchannel_cancel.7.md \
+	doc/lightning-funderupdate.7.md \
+	doc/lightning-addpsbtoutput.7.md \
+	doc/lightning-fundpsbt.7.md \
+	doc/lightning-getroute.7.md \
+	doc/lightning-invoice.7.md \
+	doc/lightning-invoicerequest.7.md \
+	doc/lightning-keysend.7.md \
+	doc/lightning-listchannels.7.md \
+	doc/lightning-listclosedchannels.7.md \
+	doc/lightning-listdatastore.7.md \
+	doc/lightning-listforwards.7.md \
+	doc/lightning-listfunds.7.md \
+	doc/lightning-listhtlcs.7.md \
+	doc/lightning-listinvoices.7.md \
+	doc/lightning-listinvoicerequests.7.md \
+	doc/lightning-listoffers.7.md \
+	doc/lightning-listpays.7.md \
+	doc/lightning-listpeers.7.md \
+	doc/lightning-listpeerchannels.7.md \
+	doc/lightning-showrunes.7.md \
+	doc/lightning-listsendpays.7.md \
+	doc/lightning-makesecret.7.md \
+	doc/lightning-multifundchannel.7.md \
+	doc/lightning-multiwithdraw.7.md \
+	doc/lightning-newaddr.7.md \
+	doc/lightning-notifications.7.md \
+	doc/lightning-offer.7.md \
+	doc/lightning-openchannel_abort.7.md \
+	doc/lightning-openchannel_bump.7.md \
+	doc/lightning-openchannel_init.7.md \
+	doc/lightning-openchannel_signed.7.md \
+	doc/lightning-openchannel_update.7.md \
+	doc/lightning-pay.7.md \
+	doc/lightning-parsefeerate.7.md \
+	doc/lightning-plugin.7.md \
+	doc/lightning-preapproveinvoice.7.md \
+	doc/lightning-preapprovekeysend.7.md \
+	doc/lightning-recover.7.md \
+	doc/lightning-recoverchannel.7.md \
+	doc/lightning-renepay.7.md \
+	doc/lightning-renepaystatus.7.md \
+	doc/lightning-reserveinputs.7.md \
+	doc/lightning-sendinvoice.7.md \
+	doc/lightning-sendonion.7.md \
+	doc/lightning-sendonionmessage.7.md \
+	doc/lightning-sendpay.7.md \
+	doc/lightning-setchannel.7.md \
+	doc/lightning-setconfig.7.md \
+	doc/lightning-setpsbtversion.7.md \
+	doc/lightning-sendcustommsg.7.md \
+	doc/lightning-signinvoice.7.md \
+	doc/lightning-signmessage.7.md \
+	doc/lightning-splice_init.7.md \
+	doc/lightning-splice_update.7.md \
+	doc/lightning-splice_signed.7.md \
+	doc/lightning-staticbackup.7.md \
+	doc/lightning-txprepare.7.md \
+	doc/lightning-txdiscard.7.md \
+	doc/lightning-txsend.7.md \
+	doc/lightning-unreserveinputs.7.md \
+	doc/lightning-utxopsbt.7.md \
+	doc/lightning-wait.7.md \
+	doc/lightning-waitinvoice.7.md \
+	doc/lightning-waitanyinvoice.7.md \
+	doc/lightning-waitblockheight.7.md \
+	doc/lightning-waitsendpay.7.md \
+	doc/lightning-withdraw.7.md \
+	doc/lightning-ping.7.md \
+	doc/lightning-stop.7.md \
+	doc/lightning-signpsbt.7.md \
+	doc/lightning-sendpsbt.7.md \
+	doc/lightning-getinfo.7.md \
+	doc/lightning-listtransactions.7.md \
+	doc/lightning-listnodes.7.md \
+	doc/lightning-listconfigs.7.md \
+	doc/lightning-help.7.md \
+	doc/lightning-getlog.7.md \
+	doc/lightning-upgradewallet.7.md
+
+ifeq ($(HAVE_SQLITE3),1)
+MARKDOWN_WITH_SCHEMA += doc/lightning-listsqlschemas.7.md \
+			 doc/lightning-sql.7.md
+endif
 
 # These are hard to use in $(call) functions.
 LBRACKET=(

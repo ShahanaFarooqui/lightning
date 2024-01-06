@@ -1,5 +1,11 @@
 import os
 import json
+import textwrap
+
+LINE_WIDTH = 100
+
+def wrap_text(text, max_width=LINE_WIDTH):
+    return textwrap.fill(text, max_width)
 
 # Input folder containing JSON files
 input_folder = "/home/shahana/workspace/lightning/doc/"
@@ -21,6 +27,8 @@ for root, _, files in os.walk(os.path.join(input_folder, "schemas")):
             base_name = file[:-12]
             if base_name not in grouped_files:
                 grouped_files.append(base_name)
+
+# grouped_files = ["autoclean-once"]
 
 # Merge and create new JSON files
 for base_name in grouped_files:
@@ -74,11 +82,14 @@ for base_name in grouped_files:
                             break
                     if title_line.startswith("RETURN VALUE"):
                         for j in range(i+2, len(md_file_contents)):
+                            pre_notes_end = j
                             if md_file_contents[j].startswith("[comment]: # (GENERATE-FROM-SCHEMA-START)"):
                                 pre_notes_end = j - 1
                                 break
                         pre_return_value_notes = md_file_contents[i+2:pre_notes_end]
                         for k in range(j, len(md_file_contents)):
+                            post_notes_start = k
+                            post_notes_end = k
                             if md_file_contents[k].startswith("[comment]: # (GENERATE-FROM-SCHEMA-END)"):
                                 post_notes_start = k + 2
                             if md_file_contents[k].startswith("----"):
@@ -89,8 +100,18 @@ for base_name in grouped_files:
                             response_json["pre_return_value_notes"] = pre_return_value_notes
                         if len(post_return_value_notes) > 0:
                             response_json["post_return_value_notes"] = post_return_value_notes
-                    elif title_line.startswith("DESCRIPTION") or title_line.startswith("EXAMPLE JSON REQUEST"):
-                        request_json[title_line.lower().replace(" ", "_")] = md_file_contents[i+2:title_line_end]
+                    elif title_line.startswith("DESCRIPTION"):
+                        desc_arr = []
+                        for j in range(i+2, title_line_end):
+                            if md_file_contents[j] != "" and len(md_file_contents[j]) > LINE_WIDTH:
+                                desc_arr.extend(wrap_text(md_file_contents[j]).split("\n"))
+                            else:
+                                desc_arr.append(md_file_contents[j])
+                        request_json["description"] = desc_arr
+                        merged_json["request"] = request_json
+                        merged_json["response"] = response_json
+                    elif title_line.startswith("EXAMPLE JSON REQUEST"):
+                        request_json["example_json_request"] = md_file_contents[i+2:title_line_end]
                         merged_json["request"] = request_json
                         merged_json["response"] = response_json
                     elif title_line.startswith("SEE ALSO"):
@@ -104,6 +125,39 @@ for base_name in grouped_files:
                     else:
                         merged_json[title_line.lower().replace(" ", "_")] = md_file_contents[i+2:title_line_end]
                     i = j
+
+    properties_req = merged_json["request"].get("properties", {})
+    for key in properties_req:
+        if "description" in properties_req[key] and properties_req[key]["description"] != "":
+            description_req = properties_req[key]["description"][0].upper() + properties_req[key]["description"][1:]
+            if not (description_req.endswith(".") or description_req.endswith("!")):
+                description_req = description_req + "."
+            desc_arr = []
+            if description_req and description_req != "" and (len(description_req) > LINE_WIDTH or "\n" in description_req):
+                if("\n" in description_req):
+                    desc_arr.extend(description_req.split("\n"))
+                else:
+                    desc_arr.extend(wrap_text(description_req).split("\n"))
+            else:
+                desc_arr.append(description_req)
+            properties_req[key]["description"] = desc_arr
+
+    properties_res = merged_json["response"].get("properties", {})
+    for key in properties_res:
+        if "description" in properties_res[key]:
+            description_res = properties_res[key]["description"][0].upper() + properties_res[key]["description"][1:]
+            if not (description_res.endswith(".") or description_res.endswith("!")):
+                description_res = description_res + "."
+            desc_arr = []
+            if description_res and description_res != "" and (len(description_res) > LINE_WIDTH or "\n" in description_res):
+                if("\n" in description_res):
+                    desc_arr.extend(description_res.split("\n"))
+                else:
+                    desc_arr.extend(wrap_text(description_res).split("\n"))
+            else:
+                desc_arr.append(description_res)
+            properties_res[key]["description"] = desc_arr
+
     # Write merged JSON to the new file
     output_file = os.path.join(input_folder, "schemas", f"lightning-{base_name}.json")
     with open(output_file, "w") as outfile:
