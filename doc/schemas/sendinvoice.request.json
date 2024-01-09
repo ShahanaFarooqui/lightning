@@ -22,7 +22,7 @@
     },
     "quantity": {
       "type": "u64",
-      "description": "quantity is is required if the offer specifies quantity_max, otherwise it is not allowed."
+      "description": "quantity is is required if the offer specifies quantity_max, otherwise it is not allowed"
     }
   }
 }

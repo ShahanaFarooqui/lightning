@@ -13,7 +13,7 @@
     },
     "status": {
       "type": "string",
-      "description": "the status of the forward to delete. You cannot delete forwards which have status *offered* (i.e. are currently active).",
+      "description": "the status of the forward to delete. You cannot delete forwards which have status *offered* (i.e. are currently active)",
       "enum": [
         "settled",
         "local_failed",

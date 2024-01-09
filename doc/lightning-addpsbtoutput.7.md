@@ -40,7 +40,7 @@ On success, an object is returned, containing:
 AUTHOR
 ------
 
-@dusty\_daemon
+Dusty <<@dusty_daemon>> is mainly responsible.
 
 SEE ALSO
 --------

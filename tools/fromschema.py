@@ -6,118 +6,118 @@ from argparse import ArgumentParser
 import json
 import re
 
-BODY_KEY_SEQUENCE = ["reliability", "usage", "restriction_format", "example_usage", "example_json_request", "notes", "notifications", "riskfactor_effect_on_routing", "recommended_riskfactor_values", "optimality", "randomization"]
-FOOTER_KEY_SEQUENCE = ["example_json_response", "errors", "example_json_notifications", "trivia", "author", "see_also", "resources"]
+BODY_KEY_SEQUENCE = ['reliability', 'usage', 'restriction_format', 'example_usage', 'example_json_request', 'notes', 'notifications', 'riskfactor_effect_on_routing', 'recommended_riskfactor_values', 'optimality', 'randomization']
+FOOTER_KEY_SEQUENCE = ['example_json_response', 'errors', 'example_json_notifications', 'notes', 'trivia', 'author', 'see_also', 'resources']
 
 
-def output_title(title, underline="-", num_leading_newlines=1, num_trailing_newlines=2):
+def output_title(title, underline='-', num_leading_newlines=1, num_trailing_newlines=2):
     """Add a title to the output"""
-    print("\n" * num_leading_newlines + title, end="\n")
-    print(underline * len(title) + "\n" * num_trailing_newlines, end="")
+    print('\n' * num_leading_newlines + title, end='\n')
+    print(underline * len(title) + '\n' * num_trailing_newlines, end='')
 
 
 def esc_underscores(s):
     """Backslash-escape underscores outside of backtick-enclosed spans"""
-    return "".join(["\\_" if x == "_" else x for x in re.findall(r"[^`_\\]+|`(?:[^`\\]|\\.)*`|\\.|_", s)])
+    return ''.join(['\\_' if x == '_' else x for x in re.findall(r'[^`_\\]+|`(?:[^`\\]|\\.)*`|\\.|_', s)])
 
 
 def json_value(obj):
     """Format obj in the JSON style for a value"""
     if type(obj) is bool:
         if obj:
-            return "*true*"
-        return "*false*"
+            return '*true*'
+        return '*false*'
     if type(obj) is str:
         return '"' + esc_underscores(obj) + '"'
     if obj is None:
-        return "*null*"
+        return '*null*'
     assert False
 
 
-def outputs(lines, separator=""):
+def outputs(lines, separator=''):
     """Add these lines to the final output"""
-    print(separator.join(lines), end="")
+    print(separator.join(lines), end='')
 
 
 def output(line):
     """Add this line to the final output"""
-    print(line, end="")
+    print(line, end='')
 
 
 def output_type(properties, is_optional):
     """Add types for request and reponse parameters"""
-    if "oneOf" in properties:
-        properties["type"] = "one of"
-    typename = esc_underscores(properties["type"])
-    if typename == "array":
-        if "items" in properties and "type" in properties["items"]:
-            typename += " of {}s".format(esc_underscores(properties["items"]["type"]))
+    if 'oneOf' in properties:
+        properties['type'] = 'one of'
+    typename = esc_underscores(properties['type'])
+    if typename == 'array':
+        if 'items' in properties and 'type' in properties['items']:
+            typename += ' of {}s'.format(esc_underscores(properties['items']['type']))
     if is_optional:
-        typename += ", optional"
-    output(" ({})".format(typename))
+        typename += ', optional'
+    output(' ({})'.format(typename))
 
 
 def output_range(properties, brackets=True):
-    if "maximum" and "minimum" in properties:
-        output(" ({} to {} inclusive)".format(properties["minimum"],
-                                              properties["maximum"]))
-    elif "maximum" in properties:
-        output(" (max {})".format(properties["maximum"]))
-    elif "minimum" in properties:
-        output(" (min {})".format(properties["minimum"]))
+    if 'maximum' and 'minimum' in properties:
+        output(' ({} to {} inclusive)'.format(properties['minimum'],
+                                              properties['maximum']))
+    elif 'maximum' in properties:
+        output(' (max {})'.format(properties['maximum']))
+    elif 'minimum' in properties:
+        output(' (min {})'.format(properties['minimum']))
 
-    if "maxLength" and "minLength" in properties:
-        if properties["minLength"] == properties["maxLength"]:
+    if 'maxLength' and 'minLength' in properties:
+        if properties['minLength'] == properties['maxLength']:
             if brackets is True:
-                output(" (always {} characters)".format(properties["minLength"]))
+                output(' (always {} characters)'.format(properties['minLength']))
             else:
-                output("always {} characters".format(properties["minLength"]))
+                output('always {} characters'.format(properties['minLength']))
         else:
             if brackets is True:
-                output(" ({} to {} characters)".format(properties["minLength"], properties["maxLength"]))
+                output(' ({} to {} characters)'.format(properties['minLength'], properties['maxLength']))
             else:
-                output("{} to {} characters".format(properties["minLength"], properties["maxLength"]))
-    elif "maxLength" in properties:
+                output('{} to {} characters'.format(properties['minLength'], properties['maxLength']))
+    elif 'maxLength' in properties:
         if brackets is True:
-            output(" (up to {} characters)".format(properties["maxLength"]))
+            output(' (up to {} characters)'.format(properties['maxLength']))
         else:
-            output("up to {} characters".format(properties["maxLength"]))
-    elif "minLength" in properties:
+            output('up to {} characters'.format(properties['maxLength']))
+    elif 'minLength' in properties:
         if brackets is True:
-            output(" (at least {} characters)".format(properties["minLength"]))
+            output(' (at least {} characters)'.format(properties['minLength']))
         else:
-            output("at least {} characters".format(properties["minLength"]))
+            output('at least {} characters'.format(properties['minLength']))
 
-    if "enum" in properties:
-        if len(properties["enum"]) == 1:
+    if 'enum' in properties:
+        if len(properties['enum']) == 1:
             if brackets is True:
-                output(" (always {})".format(json_value(properties["enum"][0])))
+                output(' (always {})'.format(json_value(properties['enum'][0])))
             else:
-                output("always {}".format(json_value(properties["enum"][0])))
+                output('always {}'.format(json_value(properties['enum'][0])))
         else:
             if brackets is True:
-                output(" (one of {})".format(", ".join([json_value(p) for p in properties["enum"]])))
+                output(' (one of {})'.format(', '.join([json_value(p) for p in properties['enum']])))
             else:
-                output("one of {}".format(", ".join([json_value(p) for p in properties["enum"]])))
+                output('one of {}'.format(', '.join([json_value(p) for p in properties['enum']])))
 
-    if list(properties.keys()) == ["type"] and properties["type"] == "string":
-        output("(" + properties["type"] + ")")
+    if list(properties.keys()) == ['type'] and properties['type'] == 'string':
+        output('(' + properties['type'] + ')')
 
 
 def fmt_propname(propname):
     """Pretty-print format a property name"""
-    return "**{}**".format(esc_underscores(propname))
+    return '**{}**'.format(esc_underscores(propname))
 
 
 def fmt_paramname(paramname, is_optional=True):
     """Pretty-print format a parameter name"""
-    return " [*{}*]".format(esc_underscores(paramname)) if is_optional else " *{}*".format(esc_underscores(paramname))
+    return ' [*{}*]'.format(esc_underscores(paramname)) if is_optional else ' *{}*'.format(esc_underscores(paramname))
 
 
 def deprecated_to_deleted(vername):
     """We promise a 6 month minumum deprecation period, and versions are every 3 months"""
-    assert vername.startswith("v")
-    base = [int(s) for s in vername[1:].split(".")[0:2]]
+    assert vername.startswith('v')
+    base = [int(s) for s in vername[1:].split('.')[0:2]]
     if base == [0, 12]:
         base = [22, 8]
     base[1] += 9
@@ -126,84 +126,84 @@ def deprecated_to_deleted(vername):
         base[1] -= 12
     # Christian points out versions should sort well lexographically,
     # so we zero-pad single-digits.
-    return "v{}.{:0>2}".format(base[0], base[1])
+    return 'v{}.{:0>2}'.format(base[0], base[1])
 
 
 def output_member(propname, properties, is_optional, indent, print_type=True, prefix=None):
     """Generate description line(s) for this member"""
     if prefix is None:
-        prefix = "- " + fmt_propname(propname) if propname is not None else "- "
+        prefix = '- ' + fmt_propname(propname) if propname is not None else '- '
     output(indent + prefix)
 
-    # We make them explicitly note if they don"t want a type!
-    is_untyped = "untyped" in properties
+    # We make them explicitly note if they don't want a type!
+    is_untyped = 'untyped' in properties
 
     if not is_untyped and print_type:
         output_type(properties, is_optional)
 
-    if "description" in properties:
-        if type(properties["description"]) is list:
-            for i in range(0, len(properties["description"])):
-                output("{} {}{}".format(':' if i == 0 else '', esc_underscores(properties["description"][i]), '' if i+1 == len(properties["description"]) else '\n'))
-        else:
-            output(": {}".format(esc_underscores(properties["description"])))
-
     output_range(properties)
 
-    if "deprecated" in properties:
-        # Information on when the field was deprecated
-        output(" **deprecated, removal in {}**".format(deprecated_to_deleted(properties["deprecated"])))
-    if "added" in properties:
-        # Version when the field was added
-        output(" *(added {})*".format(properties["added"]))
+    if 'description' in properties:
+        if type(properties['description']) is list:
+            for i in range(0, len(properties['description'])):
+                output('{} {}{}'.format(':' if i == 0 else '', esc_underscores(properties['description'][i]), '' if i+1 == len(properties['description']) else '\n'))
+        else:
+            output(': {}'.format(esc_underscores(properties['description'])))
 
-    if "oneOf" in properties and isinstance(properties["oneOf"], list):
-        output(":\n")
-        output_members(properties, indent + "  ")
-    elif not is_untyped and properties["type"] == "object":
-        output(":\n")
-        output_members(properties, indent + "  ")
-    elif not is_untyped and properties["type"] == "array":
-        output(":\n")
-        output_array(properties["items"], indent + "  ")
+    if 'deprecated' in properties:
+        # Information on when the field was deprecated
+        output(' **deprecated, removal in {}**'.format(deprecated_to_deleted(properties['deprecated'])))
+    if 'added' in properties:
+        # Version when the field was added
+        output(' *(added {})*'.format(properties['added']))
+
+    if 'oneOf' in properties and isinstance(properties['oneOf'], list):
+        output(':\n')
+        output_members(properties, indent + '  ')
+    elif not is_untyped and properties['type'] == 'object':
+        output(':\n')
+        output_members(properties, indent + '  ')
+    elif not is_untyped and properties['type'] == 'array':
+        output(':\n')
+        output_array(properties['items'], indent + '  ')
     else:
-        output("\n")
+        output('\n')
 
 
 def output_array(items, indent):
-    """We've already said it"s an array of {type}"""
-    if "oneOf" in items and isinstance(items["oneOf"], list):
-        output_members(items, indent + "  ")
-    elif list(items.keys()) == ["type"]:
-        output(indent + "- " + items["type"] + "\n")
-    elif items["type"] == "object":
+    """We've already said it's an array of {type}"""
+    if 'oneOf' in items and isinstance(items['oneOf'], list):
+        output_members(items, indent + '  ')
+    elif list(items.keys()) == ['type']:
+        output(indent + '- ' + items['type'] + '\n')
+    elif items['type'] == 'object':
         output_members(items, indent)
-    elif items["type"] == "array":
-        output(indent + "-")
+    elif items['type'] == 'array':
+        output(indent + '-')
         output_type(items, False)
-        output(" {}\n".format(esc_underscores(items["description"])) if "description" in items and items["description"] != "" else "\n")
-        if "items" in items: 
-            output_array(items["items"], indent + "  ")
+        output(' {}\n'.format(esc_underscores(items['description'])) if 'description' in items and items['description'] != '' else '\n')
+        if 'items' in items: 
+            output_array(items['items'], indent + '  ')
     else:
-        if "description" in items and items["description"] != "": 
-            output(indent + "-")
-            output(" {}".format(esc_underscores(items["description"])))
+        if 'description' in items and items['description'] != '': 
+            output(indent + '-')
+            output(' {}'.format(esc_underscores(items['description'])))
         output_range(items)
-        output("\n")
+        output('\n')
 
 
 def has_members(sub):
     """Does this sub have any properties to print?"""
-    for p in list(sub["properties"].keys()):
-        if len(sub["properties"][p]) == 0:
+    for p in list(sub['properties'].keys()):
+        if len(sub['properties'][p]) == 0:
             continue
-        if sub["properties"][p].get("deprecated") is True:
+        if sub['properties'][p].get('deprecated') is True:
             continue
         return True
     return False
 
 
-def output_members(sub, indent=""):
+def output_members(sub, indent=''):
     """Generate lines for these properties"""
     warnings = []
     # Remove deprecated: True and stub properties, collect warnings
@@ -219,46 +219,46 @@ def output_members(sub, indent=""):
     #   }
     # }
     # Checkout the schema of `staticbackup`.
-    if "properties" in sub:
-        for p in list(sub["properties"].keys()):
-            if len(sub["properties"][p]) == 0 or sub["properties"][p].get("deprecated") is True:
-                del sub["properties"][p]
-            elif p.startswith("warning"):
+    if 'properties' in sub:
+        for p in list(sub['properties'].keys()):
+            if len(sub['properties'][p]) == 0 or sub['properties'][p].get('deprecated') is True:
+                del sub['properties'][p]
+            elif p.startswith('warning'):
                 warnings.append(p)
 
         # First list always-present properties
-        for p in sub["properties"]:
-            if p.startswith("warning"):
+        for p in sub['properties']:
+            if p.startswith('warning'):
                 continue
-            if "required" in sub and p in sub["required"]:
-                output_member(p, sub["properties"][p], False, indent)
+            if 'required' in sub and p in sub['required']:
+                output_member(p, sub['properties'][p], False, indent)
 
-        for p in sub["properties"]:
-            if p.startswith("warning"):
+        for p in sub['properties']:
+            if p.startswith('warning'):
                 continue
-            if "required" not in sub or p not in sub["required"]:
-                output_member(p, sub["properties"][p], True, indent)
+            if 'required' not in sub or p not in sub['required']:
+                output_member(p, sub['properties'][p], True, indent)
 
     if warnings != []:
-        output(indent + "- the following warnings are possible:\n")
+        output(indent + '- the following warnings are possible:\n')
         for w in warnings:
-            output_member(w, sub["properties"][w], False, indent + "  ", print_type=False)
+            output_member(w, sub['properties'][w], False, indent + '  ', print_type=False)
 
-    if "oneOf" in sub:
-        for oneOfItem in sub["oneOf"]:
-            if "type" in oneOfItem and oneOfItem["type"] == "object":
-                output_member(None, oneOfItem, False, indent, "-")
-            elif "type" in oneOfItem and oneOfItem["type"] == "array":
+    if 'oneOf' in sub:
+        for oneOfItem in sub['oneOf']:
+            if 'type' in oneOfItem and oneOfItem['type'] == 'object':
+                output_member(None, oneOfItem, False, indent, '-')
+            elif 'type' in oneOfItem and oneOfItem['type'] == 'array':
                 output_array(oneOfItem, indent)
-            elif "type" in oneOfItem and oneOfItem["type"] == "string":
-                output(indent + "- ")
+            elif 'type' in oneOfItem and oneOfItem['type'] == 'string':
+                output(indent + '- ')
                 output_range(oneOfItem, False)
-                output("\n")
+                output('\n')
 
     # If we have multiple ifs, we have to wrap them in allOf.
-    if "allOf" in sub:
-        ifclauses = sub["allOf"]
-    elif "if" in sub:
+    if 'allOf' in sub:
+        ifclauses = sub['allOf']
+    elif 'if' in sub:
         ifclauses = [sub]
     else:
         ifclauses = []
@@ -267,158 +267,159 @@ def output_members(sub, indent=""):
     for ifclause in ifclauses:
         conditions = []
 
-        # "required" are fields that simply must be present
-        for r in ifclause["if"].get("required", []):
-            conditions.append(fmt_propname(r) + " is present")
+        # 'required' are fields that simply must be present
+        for r in ifclause['if'].get('required', []):
+            conditions.append(fmt_propname(r) + ' is present')
 
-        # "properties" are enums of field values
-        for tag, vals in ifclause["if"].get("properties", {}).items():
-            # Don"t have a description field here, it"s not used.
-            assert "description" not in vals
-            whichvalues = vals["enum"]
+        # 'properties' are enums of field values
+        for tag, vals in ifclause['if'].get('properties', {}).items():
+            # Don't have a description field here, it's not used.
+            assert 'description' not in vals
+            whichvalues = vals['enum']
 
-            cond = fmt_propname(tag) + " is"
+            cond = fmt_propname(tag) + ' is'
             if len(whichvalues) == 1:
-                cond += " {}".format(json_value(whichvalues[0]))
+                cond += ' {}'.format(json_value(whichvalues[0]))
             else:
-                cond += " {} or {}".format(", ".join([json_value(v) for v in whichvalues[:-1]]),
+                cond += ' {} or {}'.format(', '.join([json_value(v) for v in whichvalues[:-1]]),
                                         json_value(whichvalues[-1]))
             conditions.append(cond)
 
-        sentence = indent + "If " + ", and ".join(conditions) + ":\n"
+        sentence = indent + 'If ' + ', and '.join(conditions) + ':\n'
 
-        if has_members(ifclause["then"]):
+        if has_members(ifclause['then']):
             # Prefix with blank line.
-            outputs(["\n", sentence])
-            output_members(ifclause["then"], indent + "  ")
-            # output("\n")
+            outputs(['\n', sentence])
+            output_members(ifclause['then'], indent + '  ')
 
 
 def generate_header(schema):
     """Generate lines for rpc title and synopsis with request parameters"""
-    output_title("".join(["lightning-", schema["rpc"], " -- ", schema["title"]]), "=", 0, 1)
-    output_title("SYNOPSIS")
+    output_title(''.join(['lightning-', schema['rpc'], ' -- ', schema['title']]), '=', 0, 1)
+    output_title('SYNOPSIS')
     # generate the rpc command details with request parameters
-    request = schema["request"]
-    toplevels = list(request["properties"].keys())
-    output("{}".format(fmt_propname(schema["rpc"])))
+    request = schema['request']
+    toplevels = list(request['properties'].keys())
+    output('{}'.format(fmt_propname(schema['rpc'])))
     for p in toplevels:
-        output("{}".format(fmt_paramname(p, False if "required" in request and p in request["required"] else True)))
-    output("\n")
+        output('{}'.format(fmt_paramname(p, False if 'required' in request and p in request['required'] else True)))
+    output('\n')
 
 
 def generate_description(schema):
     """Generate rpc description with request parameter descriptions"""
-    request = schema["request"]
-    props = request["properties"]
+    request = schema['request']
+    props = request['properties']
     toplevels = list(props.keys())
-    indent=""
-    output_title("DESCRIPTION")
+    indent=''
+    output_title('DESCRIPTION')
+    # Add command level warning
+    if 'warning' in schema:
+        output('**(WARNING: {})**\n\n'.format(schema['warning']))
     # Add deprecated and removal information for the command
-    if "deprecated" in schema:
-        output("Command **deprecated, removal in {}**.\n\n".format(deprecated_to_deleted(schema["deprecated"])))
+    if 'deprecated' in schema:
+        output('Command **deprecated, removal in {}**.\n\n'.format(deprecated_to_deleted(schema['deprecated'])))
     # Version when the command was added
-    if "added" in schema:
-        output("Command *added* in {}.\n\n".format(schema["added"]))
+    if 'added' in schema:
+        output('Command *added* in {}.\n\n'.format(schema['added']))
     # Command's detailed description
-    outputs(request["description"], "\n")
+    outputs(request['description'], '\n')
     # Request parameter's detailed description
     if len(props) > 0:
-        output("\n\n")
+        output('\n\n')
         if toplevels == []:
-            sub = schema["request"]
-        elif len(toplevels) == 1 and "oneOf" in props[toplevels[0]] and isinstance(props[toplevels[0]]["oneOf"], list):
-            output("{}".format(fmt_propname(toplevels[0])))
-            output_type(props[toplevels[0]], False if toplevels[0] in request["required"] else True)
-            output("\n")
-            indent = indent + "  "
+            sub = schema['request']
+        elif len(toplevels) == 1 and 'oneOf' in props[toplevels[0]] and isinstance(props[toplevels[0]]['oneOf'], list):
+            output('{}'.format(fmt_propname(toplevels[0])))
+            output_type(props[toplevels[0]], False if toplevels[0] in request['required'] else True)
+            output('\n')
+            indent = indent + '  '
             sub = props[toplevels[0]]
-        elif len(toplevels) == 1 and props[toplevels[0]]["type"] == "object":
-            output("{}\n".format(fmt_propname(toplevels[0])))
-            assert "description" not in toplevels[0]
+        elif len(toplevels) == 1 and props[toplevels[0]]['type'] == 'object':
+            output('{}\n'.format(fmt_propname(toplevels[0])))
+            assert 'description' not in toplevels[0]
             sub = props[toplevels[0]]
-        elif len(toplevels) == 1 and props[toplevels[0]]["type"] == "array" and props[toplevels[0]]["items"]["type"] == "object":
-            output("{}\n".format(fmt_propname(toplevels[0])))
-            assert "description" not in toplevels[0]
-            sub = props[toplevels[0]]["items"]
+        elif len(toplevels) == 1 and props[toplevels[0]]['type'] == 'array' and props[toplevels[0]]['items']['type'] == 'object':
+            output('{}\n'.format(fmt_propname(toplevels[0])))
+            assert 'description' not in toplevels[0]
+            sub = props[toplevels[0]]['items']
         else:
-            sub = schema["request"]
+            sub = schema['request']
         output_members(sub, indent)
     else:
-        output("\n")
+        output('\n')
 
 
 def generate_return_value(schema):
     """This is not general, but works for us"""
-    output_title("RETURN VALUE")
+    output_title('RETURN VALUE')
     
-    response = schema["response"]
+    response = schema['response']
 
-    if "pre_return_value_notes" in response:
-        outputs(response["pre_return_value_notes"], "\n")
-        output("\n\n")
+    if 'pre_return_value_notes' in response:
+        outputs(response['pre_return_value_notes'], '\n')
+        output('\n\n')
 
-    if "properties" not in response and "enum" in response:
-        # "stop" returns a single enum string and post_return_value_notes!
-        output_member(None, response, False, "", prefix="On success, returns a single element")
-        output("\n")
-        if "post_return_value_notes" in response:
-            outputs(response["post_return_value_notes"], "\n")
+    if 'properties' not in response and 'enum' in response:
+        # 'stop' returns a single enum string and post_return_value_notes!
+        output_member(None, response, False, '', prefix='On success, returns a single element')
+        output('\n')
+        if 'post_return_value_notes' in response:
+            outputs(response['post_return_value_notes'], '\n')
         return
 
     toplevels = []
     warnings = []
-    props = response["properties"]
+    props = response['properties']
     
     # We handle warnings on top-level objects with a separate section,
     # so collect them now and remove them
     for toplevel in list(props.keys()):
-        if toplevel.startswith("warning"):
-            warnings.append((toplevel, props[toplevel]["description"]))
+        if toplevel.startswith('warning'):
+            warnings.append((toplevel, props[toplevel]['description']))
             del props[toplevel]
         else:
             toplevels.append(toplevel)
 
     # No properties -> empty object.
     if toplevels == []:
-        output("On success, an empty object is returned.\n")
+        output('On success, an empty object is returned.\n')
         sub = schema
-    elif len(toplevels) == 1 and props[toplevels[0]]["type"] == "object":
-        output("On success, an object containing {} is returned. It is an object containing:\n\n".format(fmt_propname(toplevels[0])))
-        # Don"t have a description field here, it"s not used.
-        assert "description" not in toplevels[0]
+    elif len(toplevels) == 1 and props[toplevels[0]]['type'] == 'object':
+        output('On success, an object containing {} is returned. It is an object containing:\n\n'.format(fmt_propname(toplevels[0])))
+        # Don't have a description field here, it's not used.
+        assert 'description' not in toplevels[0]
         sub = props[toplevels[0]]
-    elif len(toplevels) == 1 and props[toplevels[0]]["type"] == "array" and props[toplevels[0]]["items"]["type"] == "object":
-        output("On success, an object containing {} is returned. \nIt is an array of objects, where each object contains:\n\n".format(fmt_propname(toplevels[0])))
-        # Don"t have a description field here, it"s not used.
-        assert "description" not in toplevels[0]
-        sub = props[toplevels[0]]["items"]
+    elif len(toplevels) == 1 and props[toplevels[0]]['type'] == 'array' and props[toplevels[0]]['items']['type'] == 'object':
+        output('On success, an object containing {} is returned. \nIt is an array of objects, where each object contains:\n\n'.format(fmt_propname(toplevels[0])))
+        # Don't have a description field here, it's not used.
+        assert 'description' not in toplevels[0]
+        sub = props[toplevels[0]]['items']
     else:
-        output("On success, an object is returned, containing:\n\n")
+        output('On success, an object is returned, containing:\n\n')
         sub = response
 
     output_members(sub)
 
     if warnings:
-        outputs(["\n", "The following warnings may also be returned:\n\n"])
+        output('\nThe following warnings may also be returned:\n\n')
         for w, desc in warnings:
-            output("- {}: {}\n".format(fmt_propname(w), desc))
-        output("\n")
+            output('- {}: {}\n'.format(fmt_propname(w), ''.join(desc)))
 
-    if "post_return_value_notes" in response:
-        output("\n")
-        outputs(response["post_return_value_notes"], "\n")
-        output("\n")
+    if 'post_return_value_notes' in response:
+        output('\n')
+        outputs(response['post_return_value_notes'], '\n')
+        output('\n')
 
 
 def generate_body(schema):
     """Output sections which should be printed after description and before return value"""
-    request = schema["request"]
+    request = schema['request']
     for key in BODY_KEY_SEQUENCE:
         if key not in request:
             continue
-        output_title(key.replace("_", " ").upper())
-        outputs(request[key], "\n")
+        output_title(key.replace('_', ' ').upper())
+        outputs(request[key], '\n')
 
 
 def generate_footer(schema):
@@ -426,13 +427,13 @@ def generate_footer(schema):
     for i, key in enumerate(FOOTER_KEY_SEQUENCE):
         if key not in schema:
             continue
-        output_title(key.replace("_", " ").upper(), "-", 2)
-        outputs(schema[key], ", " if key in ['see_also'] else "\n")
-    output("\n\n")
+        output_title(key.replace('_', ' ').upper(), '-', 1 if i == 0 else 2)
+        outputs(schema[key], ', ' if key in ['see_also'] else '\n')
+    output('\n\n')
 
 
 def main(schemafile, markdownfile):
-    with open(schemafile, "r") as f:
+    with open(schemafile, 'r') as f:
         schema = json.load(f)
     # Outputs rpc title and synopsis with request parameters
     generate_header(schema)
@@ -449,9 +450,9 @@ def main(schemafile, markdownfile):
         return
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     parser = ArgumentParser()
-    parser.add_argument("schemafile", help="The schema file to use")
-    parser.add_argument("--markdownfile", help="The markdown file to read")
+    parser.add_argument('schemafile', help='The schema file to use')
+    parser.add_argument('--markdownfile', help='The markdown file to read')
     parsed_args = parser.parse_args()
     main(parsed_args.schemafile, parsed_args.markdownfile)

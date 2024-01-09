@@ -2,7 +2,7 @@ import os
 import json
 import textwrap
 
-LINE_WIDTH = 100
+LINE_WIDTH = 80
 
 def wrap_text(text, max_width=LINE_WIDTH):
     return textwrap.fill(text, max_width)
@@ -88,8 +88,8 @@ for base_name in grouped_files:
                                 break
                         pre_return_value_notes = md_file_contents[i+2:pre_notes_end]
                         for k in range(j, len(md_file_contents)):
-                            post_notes_start = k
-                            post_notes_end = k
+                            post_notes_start = k + 2
+                            post_notes_end = k - 2
                             if md_file_contents[k].startswith("[comment]: # (GENERATE-FROM-SCHEMA-END)"):
                                 post_notes_start = k + 2
                             if md_file_contents[k].startswith("----"):
@@ -130,8 +130,6 @@ for base_name in grouped_files:
     for key in properties_req:
         if "description" in properties_req[key] and properties_req[key]["description"] != "":
             description_req = properties_req[key]["description"][0].upper() + properties_req[key]["description"][1:]
-            if not (description_req.endswith(".") or description_req.endswith("!")):
-                description_req = description_req + "."
             desc_arr = []
             if description_req and description_req != "" and (len(description_req) > LINE_WIDTH or "\n" in description_req):
                 if("\n" in description_req):

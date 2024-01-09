@@ -6,11 +6,11 @@
   "properties": {
     "start_time": {
       "type": "integer",
-      "description": "UNIX timestamp (in seconds) to filter events after the provided timestamp. Defaults to zero."
+      "description": "UNIX timestamp (in seconds) to filter events after the provided timestamp. Defaults to zero"
     },
     "end_time": {
       "type": "integer",
-      "description": "UNIX timestamp (in seconds) to filter events up to and at the provided timestamp. Defaults to max-int."
+      "description": "UNIX timestamp (in seconds) to filter events up to and at the provided timestamp. Defaults to max-int"
     }
   }
 }

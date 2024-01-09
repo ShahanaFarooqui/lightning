@@ -9,7 +9,6 @@
     "bolt12",
     "used"
   ],
-  "added": "v22.11",
   "properties": {
     "invreq_id": {
       "type": "hash",
