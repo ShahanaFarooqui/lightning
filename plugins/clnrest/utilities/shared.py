@@ -3,7 +3,7 @@ import ipaddress
 import pyln.client
 
 
-CERTS_PATH, REST_PROTOCOL, REST_HOST, REST_PORT, REST_CSP, REST_CORS_ORIGINS = "", "", "", "", "", []
+CERTS_PATH, REST_PROTOCOL, REST_HOST, REST_PORT, REST_CSP, REST_CORS_ORIGINS, WSS_PORT = "", "", "", "", "", [], ""
 
 
 class RuneError(Exception):
@@ -41,7 +41,7 @@ def validate_port(port):
 def set_config(options):
     if 'clnrest-port' not in options:
         return "`clnrest-port` option is not configured"
-    global CERTS_PATH, REST_PROTOCOL, REST_HOST, REST_PORT, REST_CSP, REST_CORS_ORIGINS
+    global CERTS_PATH, REST_PROTOCOL, REST_HOST, REST_PORT, REST_CSP, REST_CORS_ORIGINS, WSS_PORT
 
     REST_PORT = int(options["clnrest-port"])
     if validate_port(REST_PORT) is False:
@@ -61,7 +61,8 @@ def set_config(options):
     REST_CORS_ORIGINS.clear()
     for origin in cors_origins:
         REST_CORS_ORIGINS.append(str(origin))
-
+    
+    WSS_PORT = int(options["clnrest-wss-port"])
     return None
 
 

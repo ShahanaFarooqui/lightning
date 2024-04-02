@@ -8,9 +8,8 @@ try:
     import re
     import ssl
     import time
+    import json
     import multiprocessing
-    from gunicorn import glogging  # noqa: F401
-    from gunicorn.workers import sync  # noqa: F401
 
     from pathlib import Path
     from flask import Flask, request, Blueprint
@@ -20,8 +19,8 @@ try:
     from multiprocessing import Process, Queue
     from flask_socketio import SocketIO, disconnect
     from utilities.generate_certs import generate_certs
-    from utilities.shared import set_config, verify_rune
-    from utilities.rpc_routes import rpcns
+    from utilities.shared import set_config, verify_rune, call_rpc_method
+    from utilities.rpc_routes import rpcns, RpcError, RuneError
     from utilities.rpc_plugin import plugin
 except ModuleNotFoundError as err:
     # OK, something is not installed?
@@ -51,10 +50,50 @@ def check_origin(origin):
     return is_whitelisted
 
 
-jobs = {}
+msgq = Queue()
 app = Flask(__name__)
 socketio = SocketIO(app, async_mode="gevent", cors_allowed_origins=check_origin)
-msgq = Queue()
+app_wss = Flask(__name__)
+socketio_wss = SocketIO(app_wss)
+
+
+@socketio_wss.on("request")
+def handle_message_wss(message):
+    data = json.loads(message)
+    plugin.log(f"Received message from wss client: {data}", "debug")
+    rpc_id = data.get("id", 'Unknown')
+    rpc_method = data.get("method", None)
+    rpc_params = data.get("params", {})
+    try:
+        response = call_rpc_method(plugin, rpc_method, rpc_params)
+        plugin.log(f"Sending response to wss client: {response}", "debug")
+        socketio_wss.emit('response', {'id': rpc_id, 'response': response})
+    except RpcError as rpc_err:
+        plugin.log(f"RPC Error: {str(rpc_err.error)}", "info")
+        socketio_wss.emit('error', rpc_err)
+    except RuneError as rune_err:
+        plugin.log(f"Rune Error: {rune_err}", "info")
+        socketio_wss.emit('error', rune_err)
+
+
+@socketio_wss.on("connect")
+def ws_connect_wss():
+    try:
+        plugin.log("WSS Client Connecting...", "debug")
+        rune = request.headers.get("rune", None)
+        is_valid_rune = verify_rune(plugin, rune, "listclnrest-notifications", None)
+        if "error" in is_valid_rune:
+            # Logging as error/warn emits the event for all clients
+            plugin.log(f"Error: {is_valid_rune}", "info")
+            raise Exception(is_valid_rune)
+
+        plugin.log("WSS Client Connected", "debug")
+        return True
+
+    except Exception as err:
+        # Logging as error/warn emits the event for all clients
+        plugin.log(f"{err}", "info")
+        disconnect()
 
 
 def broadcast_from_message_queue():
@@ -99,20 +138,6 @@ def ws_connect():
         disconnect()
 
 
-def create_app():
-    from utilities.shared import REST_CORS_ORIGINS
-    global app
-    app.config["SECRET_KEY"] = os.urandom(24).hex()
-    authorizations = {
-        "rune": {"type": "apiKey", "in": "header", "name": "Rune"}
-    }
-    CORS(app, resources={r"/*": {"origins": REST_CORS_ORIGINS}})
-    blueprint = Blueprint("api", __name__)
-    api = Api(blueprint, version="1.0", title="Core Lightning Rest", description="Core Lightning REST API Swagger", authorizations=authorizations, security=["rune"])
-    app.register_blueprint(blueprint)
-    api.add_namespace(rpcns, path="/v1")
-
-
 @app.after_request
 def add_csp_headers(response):
     try:
@@ -121,45 +146,6 @@ def add_csp_headers(response):
         return response
     except Exception as err:
         plugin.log(f"Error from clnrest-csp config: {err}", "info")
-
-
-def set_application_options(plugin):
-    from utilities.shared import CERTS_PATH, REST_PROTOCOL, REST_HOST, REST_PORT
-    plugin.log(f"REST Server is starting at {REST_PROTOCOL}://{REST_HOST}:{REST_PORT}", "debug")
-    if REST_PROTOCOL == "http":
-        # Assigning only one worker due to added complexity between gunicorn's multiple worker process forks
-        # and websocket connection's persistance with a single worker.
-        options = {
-            "bind": f"{REST_HOST}:{REST_PORT}",
-            "workers": 1,
-            "worker_class": "geventwebsocket.gunicorn.workers.GeventWebSocketWorker",
-            "timeout": 60,
-            "loglevel": "warning",
-        }
-    else:
-        cert_file = Path(f"{CERTS_PATH}/client.pem")
-        key_file = Path(f"{CERTS_PATH}/client-key.pem")
-        try:
-            if not cert_file.is_file() or not key_file.is_file():
-                plugin.log(f"Certificate not found at {CERTS_PATH}. Generating a new certificate!", "debug")
-                generate_certs(plugin, REST_HOST, CERTS_PATH)
-            plugin.log(f"Certs Path: {CERTS_PATH}", "debug")
-        except Exception as err:
-            raise Exception(f"{err}: Certificates do not exist at {CERTS_PATH}")
-
-        # Assigning only one worker due to added complexity between gunicorn's multiple worker process forks
-        # and websocket connection's persistance with a single worker.
-        options = {
-            "bind": f"{REST_HOST}:{REST_PORT}",
-            "workers": 1,
-            "worker_class": "geventwebsocket.gunicorn.workers.GeventWebSocketWorker",
-            "timeout": 60,
-            "loglevel": "warning",
-            "certfile": f"{CERTS_PATH}/client.pem",
-            "keyfile": f"{CERTS_PATH}/client-key.pem",
-            "ssl_version": ssl.PROTOCOL_TLSv1_2
-        }
-    return options
 
 
 class CLNRestApplication(BaseApplication):
@@ -180,28 +166,80 @@ class CLNRestApplication(BaseApplication):
         return self.application
 
 
-def worker():
-    global app
-    options = set_application_options(plugin)
-    create_app()
-    CLNRestApplication(app, options).run()
+class CLNWSSProxyApplication(BaseApplication):
+    def __init__(self, app, options=None):
+        self.application = app
+        self.options = options or {}
+        super().__init__()
+        plugin.log(f"WSS proxy server running at wss://{options['bind']}", "info")
+
+    def load_config(self):
+        config = {key: value for key, value in self.options.items()
+                  if key in self.cfg.settings and value is not None}
+        for key, value in config.items():
+            self.cfg.set(key.lower(), value)
+
+    def load(self):
+        return self.application
+
+
+def load_certificates(options, host, certs_path):
+    try:
+        cert_file = Path(f"{certs_path}/client.pem")
+        key_file = Path(f"{certs_path}/client-key.pem")
+        try:
+            if not cert_file.is_file() or not key_file.is_file():
+                plugin.log(f"Certificate not found at {certs_path}. Generating a new certificate!", "debug")
+                generate_certs(plugin, host, certs_path)
+            plugin.log(f"Certs Path: {certs_path}", "debug")
+        except Exception as err:
+            raise Exception(f"{err}: Certificates do not exist at {certs_path}")
+
+        options["certfile"] = f"{certs_path}/client.pem"
+        options["keyfile"] = f"{certs_path}/client-key.pem"
+        options["ssl_version"] = ssl.PROTOCOL_TLSv1_2
+        return options
+    except Exception as err:
+        plugin.log(f"Error from load cert: {err}", "info")
 
 
 def start_server():
-    global jobs
-    from utilities.shared import REST_PORT
-    if REST_PORT in jobs:
-        return False, "server already running"
-    p = Process(
-        target=worker,
-        args=[],
-        name="server on port {}".format(REST_PORT),
-    )
-    p.daemon = True
-    jobs[REST_PORT] = p
-    p.start()
-    return True
+    global app
+    from utilities.shared import CERTS_PATH, REST_PROTOCOL, REST_HOST, REST_PORT, REST_CORS_ORIGINS
+    plugin.log(f"REST Server is starting at {REST_PROTOCOL}://{REST_HOST}:{REST_PORT}", "debug")
+    # Assigning only one worker due to added complexity between gunicorn's multiple worker process forks
+    # and websocket connection's persistance with a single worker.
+    options = {
+        "bind": f"{REST_HOST}:{REST_PORT}",
+        "workers": 1,
+        "worker_class": "geventwebsocket.gunicorn.workers.GeventWebSocketWorker",
+        "timeout": 60,
+        "loglevel": "warning",
+    }
+    if REST_PROTOCOL == "https":
+        options = load_certificates(options, REST_HOST, CERTS_PATH)
+    app.config["SECRET_KEY"] = os.urandom(24).hex()
+    authorizations = {"rune": {"type": "apiKey", "in": "header", "name": "Rune"}}
+    CORS(app, resources={r"/*": {"origins": REST_CORS_ORIGINS}})
+    blueprint = Blueprint("api", __name__)
+    api = Api(blueprint, version="1.0", title="Core Lightning Rest", description="Core Lightning REST API Swagger", authorizations=authorizations, security=["rune"])
+    app.register_blueprint(blueprint)
+    api.add_namespace(rpcns, path="/v1")
+    CLNRestApplication(app, options).run()
 
+
+def start_wss_proxy():
+    global app_wss, socketio_wss
+    from utilities.shared import REST_HOST, WSS_PORT, CERTS_PATH
+    options_wss = {
+        "bind": f"{REST_HOST}:{WSS_PORT}",
+        "workers": 1,
+        "worker_class": "geventwebsocket.gunicorn.workers.GeventWebSocketWorker",
+        "timeout": 60,
+        "loglevel": "warning",
+    }
+    options_wss = load_certificates(options_wss, REST_HOST, CERTS_PATH)
+    CLNWSSProxyApplication(app_wss, options_wss).run()
 
 @plugin.init()
 def init(options, configuration, plugin):
@@ -209,7 +247,17 @@ def init(options, configuration, plugin):
     err = set_config(options)
     if err:
         return {'disable': err}
-    start_server()
+    from utilities.shared import REST_PORT, WSS_PORT
+    rest_process = Process(
+        target=start_server,
+        args=[],
+        daemon=True,
+        name="REST server on port {}".format(REST_PORT),
+    )
+    rest_process.start()
+    wss_proxy_process = Process(target=start_wss_proxy, args=[], daemon=True, name="WSS proxy on port {}".format(WSS_PORT))
+    wss_proxy_process.start()
+    return True
 
 
 @plugin.subscribe("*")
