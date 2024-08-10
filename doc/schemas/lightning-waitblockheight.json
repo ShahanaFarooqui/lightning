@@ -60,7 +60,7 @@
         "id": "example:waitblockheight#1",
         "method": "waitblockheight",
         "params": {
-          "blockheight": 129,
+          "blockheight": 130,
           "timeout": 600
         }
       },
