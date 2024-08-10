@@ -36,11 +36,59 @@ FUND_WALLET_AMOUNT_SAT = 200000000
 FUND_CHANNEL_AMOUNT_SAT = 10**6
 LOG_FILE = 'autogenerate-examples-status.log'
 
+REPLACE_RESPONSE_VALUES = [
+    { 'key': 'any', 'original_value': re.compile(re.escape(CWD)), 'new_value': '/root/lightning' },
+    { 'key': 'any', 'original_value': re.compile(r'/tmp/ltests-[^/]+/test_generate_examples_[^/]+/lightning-[^/]+'), 'new_value': '/tmp/.lightning' },
+    { 'key': 'any', 'original_value': re.compile(r'/tmp/reckless-[\w]+/'), 'new_value': '/tmp/reckless-0123456789abcdefg/' },
+    { 'key': 'any', 'original_value': re.compile(r'checked out HEAD: [\da-f]+'), 'new_value': 'checked out HEAD: 012abc345def678ghi901jkl234mno567pqr89st' },
+]
+
+REPLACE_VALUE_RULES = [
+    {'key': 'timestamp', 'search': int(str(time.time())[0:4]) + 1000, 'init': 1728, 'append': '00', 'change': 1, 'multiple': 3},
+    {'key': 'created_at', 'search': int(str(time.time())[0:4]) + 1000, 'init': 1738, 'append': '00', 'change': 1, 'multiple': 3},
+    {'key': 'expires_at', 'search': int(str(time.time())[0:4]) + 1000, 'init': 1738, 'append': '00', 'change': 1, 'multiple': 3},
+    {'key': 'last_used', 'search': int(str(time.time())[0:4]) + 1000, 'init': 1718, 'append': '00', 'change': 1, 'multiple': 3},
+    {'key': 'last_stable_connection', 'search': int(str(time.time())[0:4]) + 1000, 'init': 1700, 'append': '00', 'change': 1, 'multiple': 3},
+    {'key': 'last_timestamp', 'search': int(str(time.time())[0:4]) + 1000, 'init': 1700, 'append': '00', 'change': 1, 'multiple': 3},
+    {'key': 'received_time', 'search': int(str(time.time())[0:4]) + 1000, 'init': 1737, 'append': '00', 'change': 1, 'multiple': 3},
+    {'key': 'resolved_time', 'search': int(str(time.time())[0:4]) + 1000, 'init': 1738, 'append': '00', 'change': 1, 'multiple': 3},
+    {'key': 'last_update', 'search': int(str(time.time())[0:4]) + 1000, 'init': 1725, 'append': '00', 'change': 1, 'multiple': 3},
+    {'key': 'cutoff', 'search': int(str(time.time())[0:4]) + 1000, 'init': 1728, 'append': '00', 'change': 1, 'multiple': 3},
+    {'key': 'paid_at', 'search': int(str(time.time())[0:6]) + 100000, 'init': 172810, 'append': '00', 'change': 1, 'multiple': 2},
+    {'key': 'completed_at', 'search': int(str(time.time())[0:6]) + 100000, 'init': 172810, 'append': '00', 'change': 1, 'multiple': 2},
+
+    {'key': 'payload', 'search': 'payload', 'init': 'payload', 'append': '00', 'change': 1, 'multiple': 40},
+    {'key': 'assocdata', 'search': 'assocdata0', 'init': 'assocdata0', 'append': '00', 'change': 1, 'multiple': 27},
+    {'key': 'onion', 'search': 'onion0', 'init': 'onion0', 'append': '00', 'change': 1, 'multiple': 1363},
+    {'key': 'invreq_id', 'search': 'invreqid', 'init': 'invreqid', 'append': '00', 'change': 1, 'multiple': 28},
+    {'key': 'invoice', 'search': 'lni1qqg0qe', 'init': 'lni1qqg0qe', 'append': '00', 'change': 1, 'multiple': 415, 'except': [r'^lni']},  # for getinfo.our_features
+    {'key': 'bolt12', 'search': 'lnr1qqgzvzr2g67cp0qsc6dr', 'init': 'lnr1qqgzvzr2g67cp0qsc6dr', 'append': '00', 'change': 1, 'multiple': 150},
+    {'key': 'bolt11', 'search': 'lnbcrt100n1pnt2000000bolt110', 'init': 'lnbcrt100n1pnt2000000bolt110', 'append': '00', 'change': 1, 'multiple': 103},
+    {'key': 'psbt', 'search': 'cHNidP8BAgQCAAAAAQMEbwAAAAEEAQpsbt', 'init': 'cHNidP8BAgQCAAAAAQMEbwAAAAEEAQpsbt', 'append': '00', 'change': 1, 'multiple': 43},
+    {'key': 'tx', 'search': '02000000000101txtxtx', 'init': '02000000000101txtxtx', 'append': '00000', 'change': 1, 'multiple': 100},
+    {'key': 'payment_preimage', 'search': 'paymentpreimage0', 'init': 'paymentpreimage0', 'append': '00', 'change': 1, 'multiple': 24},
+    {'key': 'payment_hash', 'search': 'paymenthash0', 'init': 'paymenthash0', 'append': '00', 'change': 1, 'multiple': 27},
+    {'key': 'signature', 'search': 'signature0', 'init': 'signature0', 'append': '00', 'change': 1, 'multiple': 66},
+    {'key': 'payment_id', 'search': 'paymentid0', 'init': 'paymentid0', 'append': '00', 'change': 1, 'multiple': 27},
+    {'key': 'outpoint', 'search': 'outpoint', 'init': 'outpoint', 'append': '00', 'change': 1, 'multiple': 28, 'last': ':0'},
+    {'key': 'txid', 'search': 'txid', 'init': 'txid', 'append': '00', 'change': 1, 'multiple': 30},
+    {'key': 'spending_txid', 'search': 'spendingtxid', 'init': 'spendingtxid', 'append': '00', 'change': 1, 'multiple': 27},
+    {'key': 'origin', 'search': 'origin', 'init': 'origin', 'append': '00', 'change': 1, 'multiple': 29},
+    {'key': 'account', 'search': 'account0', 'init': 'account0', 'append': '00', 'change': 1, 'multiple': 28, 'except': ['wallet']},
+    {'key': 'payment_secret', 'search': 'paymentsecret0', 'init': 'paymentsecret0', 'append': '00', 'change': 1, 'multiple': 25},
+
+    {'key': 'blockheight', 'search': 2, 'init': 2, 'append': '06', 'change': 1, 'multiple': 1},
+    {'key': 'credit_msat', 'search': 51, 'init': 51, 'append': '00', 'change': 1, 'multiple': 2, 'except': [0, 1], 'last': '000'},
+    {'key': 'debit_msat', 'search': 48, 'init': 48, 'append': '00', 'change': 1, 'multiple': 2, 'except': [0, 1], 'last': '000'},
+    {'key': 'balance_msat', 'search': 202, 'init': 202, 'append': '00', 'change': 1, 'multiple': 2, 'except': [0, 1], 'last': '000'},
+]
+
 if os.path.exists(LOG_FILE):
     open(LOG_FILE, 'w').close()
 
 logging.basicConfig(level=logging.INFO,
-                    format='%(levelname)s - %(message)s',
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    datefmt='%H:%M:%S',
                     handlers=[
                         logging.FileHandler(LOG_FILE),
                         logging.StreamHandler()
@@ -64,7 +112,6 @@ def canned_github_server(directory):
     FILE_PATH = Path(os.path.dirname(os.path.realpath(__file__)))
     if os.environ.get('LIGHTNING_CLI') is None:
         os.environ['LIGHTNING_CLI'] = str(FILE_PATH.parent / 'cli/lightning-cli')
-        print('LIGHTNING_CALL: ', os.environ.get('LIGHTNING_CLI'))
     # Use socket to provision a random free port
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind(('localhost', 0))
@@ -101,9 +148,6 @@ def canned_github_server(directory):
                     "\t[init]\n"
                     "\tdefaultBranch = master"))
 
-    with open(os.path.join(directory, '.gitconfig'), 'r') as conf:
-        print(conf.readlines())
-
     # Bare repository must be initialized prior to setting other git env vars
     subprocess.check_output(['git', 'init', '--bare', 'plugins'], cwd=repo_dir,
                             env=my_env)
@@ -136,96 +180,71 @@ def canned_github_server(directory):
     server.terminate()
 
 
-def reckless(cmds: list, dir: PosixPath = None,
-             autoconfirm=True, timeout: int = 15):
+def reckless(cmds: list, dir: PosixPath = None, autoconfirm=True, timeout: int = 15):
     '''Call the reckless executable, optionally with a directory.'''
     if dir is not None:
         cmds.insert(0, "-l")
         cmds.insert(1, str(dir))
     cmds.insert(0, "tools/reckless")
-    r = subprocess.run(cmds, capture_output=True, encoding='utf-8', env=my_env,
-                       input='Y\n')
-    print(" ".join(r.args), "\n")
-    print("***RECKLESS STDOUT***")
-    for l in r.stdout.splitlines():
-        print(l)
-    print('\n')
-    print("***RECKLESS STDERR***")
-    for l in r.stderr.splitlines():
-        print(l)
-    print('\n')
+    r = subprocess.run(cmds, capture_output=True, encoding='utf-8', env=my_env, input='Y\n')
     return r
 
 
-def update_example(node, method, params, res=None, description=None, execute=True, filename=None):
+def update_example(node, method, params, res=None, description=None, execute=True, filename=None, sortby=None):
     """Update examples in JSON files with rpc calls and responses"""
     try:
-        def replace_local_paths(data, replacements):
-            """Replace local paths in JSON objects"""
-            try:
-                # For dictionary or list, recursively replace paths
-                if isinstance(data, dict):
-                    return {k: replace_local_paths(v, replacements) for k, v in data.items()}
-                elif isinstance(data, list):
-                    return [replace_local_paths(v, replacements) for v in data]
-                # Replace when it is string
-                elif isinstance(data, str):
-                    for old_path, new_path in replacements:
-                        data = re.sub(old_path, new_path, data)
-                    return data
-                # For other data types, return as is
-                else:
-                    return data
-            except Exception as e:
-                logger.error(f'Error in replacing local paths: {e}')
-
-        def replace_with_example_values(schema, res, idx):
-            """Replace the response values with the 'example_values' from the schema"""
-            def update_value(schema, res, idx):
-                if isinstance(res, dict):
-                    for key, value in res.items():
-                        if key in schema.get('properties', {}):
-                            prop_schema = schema['properties'][key]
-                            if 'example_values' in prop_schema:
-                                if prop_schema['example_values'][idx]:
-                                    res[key] = prop_schema['example_values'][idx]
-                            else:
-                                update_value(prop_schema, value, idx)
-                elif isinstance(res, list):
-                    for index, item in enumerate(res):
-                        if 'items' in schema:
-                            update_value(schema['items'], item, idx)
-
-            update_value(schema['response'], res, idx)
-            return res
-
-        def format_json_with_jq(json_data):
-            """Formats the JSON data with jq to avoid check-fmt-schemas errors.
-                It is because check-fmt-schemas uses jq to format the JSON data and compare the difference.
-                For example, jq will convert 18446744073709551685 to 18446744073709552000 before comparing.
-                JQ behaves this way because it uses C doubles to represent numbers, and on pretty much all
-                modern systems that's an IEEE 754 double, which can only represent integers without loss
-                between -2^53..2^53. 125276004817190914 is about 14 times larger than the largest integer
-                that jq can represent losslessly, therefore jq can only approximate it.
-                Reference: https://github.com/jqlang/jq/issues/369
-            """
-            jq_command = 'jq .'
-            if not isinstance(json_data, str):
-                json_data = json.dumps(json_data)
-
-            # Run the jq command and capture the output
-            result = subprocess.run(
-                jq_command,
-                input=json_data,
-                text=True,
-                capture_output=True,
-                shell=True
-            )
-            if result.returncode != 0:
-                logger.error(f"Error running jq: {result.stderr}")
-            return json.loads(result.stdout)
+        def is_not_exception(data, exceptions):
+            regex_special_chars = ['^', '$', '.', '*', '+', '?', '(', ')', '[', ']', '{', '}', '|', '\\']
+            for exception in exceptions:
+                if isinstance(exception, str):
+                    if any(char in exception for char in regex_special_chars):
+                        return bool(re.match(exception, data))
+                    return data == exception
+                return data == exception
+            return True
+        
+        def replace_values_in_json(data, data_key):
+            if isinstance(data, dict):
+                return {key: replace_values_in_json(value, key) for key, value in data.items()}
+            elif isinstance(data, list):
+                return [replace_values_in_json(item, 'listitem') for item in data]
+            elif isinstance(data, str):
+                for replace_rule in REPLACE_VALUE_RULES:
+                    if data_key == replace_rule['key'] and isinstance(replace_rule['search'], str) and not data.startswith(replace_rule['search']):
+                        if is_not_exception(data, replace_rule.get('except', [])):
+                            new_value = f"{replace_rule['init']}{replace_rule['append'] * replace_rule['multiple']}{replace_rule.get('last', '')}"
+                            replace_rule['append'] = f"{(int(replace_rule['append']) + replace_rule['change']):02}"
+                            found_key = next((item for item in REPLACE_RESPONSE_VALUES if item['key'] == data_key), None)
+                            if found_key:
+                                found_key['new_value'] = new_value
+                                logger.warning(f'Updated {data_key} value to {new_value}')
+                                logger.warning(f'{REPLACE_RESPONSE_VALUES}')
+                            break
+                for replace_value in REPLACE_RESPONSE_VALUES:
+                    if replace_value['key'] == 'any' or replace_value['key'] == data_key:
+                        if isinstance(replace_value['original_value'], re.Pattern):
+                            data = replace_value['original_value'].sub(replace_value['new_value'], data)
+                        elif isinstance(replace_value['original_value'], str):
+                            data = data.replace(replace_value['original_value'], str(replace_value['new_value']))
+                return data
+            elif isinstance(data, (int, float)):
+                for replace_rule in REPLACE_VALUE_RULES:
+                    if (data_key == replace_rule['key']) and not (str(data).startswith(str(replace_rule['search']))):
+                        data = int(f"{replace_rule['init']}{replace_rule['append'] * replace_rule['multiple']}{replace_rule.get('last', '')}")
+                        replace_rule['append'] = f"{(int(replace_rule['append']) + replace_rule['change']):02}"
+                        found_key = next((item for item in REPLACE_RESPONSE_VALUES if item['key'] == data_key), None)
+                        if found_key:
+                            found_key['new_value'] = new_value
+                        break
+                logger.warning(f'Updated {REPLACE_RESPONSE_VALUES}')
+                result = next((item for item in REPLACE_RESPONSE_VALUES if item['key'] == data_key), data)
+                logger.warning(f'Updated {data_key} value to {result}')
+                return result
+            else:
+                return data
 
         global CWD, ALL_RPC_EXAMPLES, REGENERATING_RPCS, RPCS_STATUS
+        # time.sleep(2)
         # Usually file name is same as method name, but `sql` is an exception;
         # For sql, the `sql-template` file should be updated with examples then this template with finally generate the sql file with tables
         # See doc/Makefile `doc/schemas/lightning-sql.json` for more details
@@ -245,23 +264,17 @@ def update_example(node, method, params, res=None, description=None, execute=Tru
             # Return response without updating the file because user doesn't want to update the example
             # Executing the method and returning the response is useful for further example updates
             if method not in REGENERATING_RPCS:
-                return res
+                return original_res
             else:
-                # Replace local path in the request with default path
-                if method == 'plugin' and 'plugin' in req['params']:
-                    req['params']['plugin'] = req['params']['plugin'].replace(CWD, '/root/lightning')
-                methods_to_replace_path = ['commando', 'listconfigs', 'plugin']
-                # Replace local paths in responses to ensure the example's consistency for different users
-                if method in methods_to_replace_path:
-                    replacements = [
-                        (CWD, '/root/lightning'),
-                        (r'/tmp/ltests-[^/]+/test_generate_examples_[^/]+/lightning-[^/]+', '/tmp/.lightning')
-                    ]
-                    res = replace_local_paths(res, replacements)
-                # Format the JSON data with jq to avoid check-fmt-schemas errors
-                res = format_json_with_jq(res)
-                res = replace_with_example_values(schema, res, method_id - 1)
-                # Create the example key with description, request & response
+                req = replace_values_in_json(req, 'request')
+                logger.debug(f'Updated {method} request: {req}')
+                res = copy.deepcopy(original_res)
+                res = replace_values_in_json(res, 'response')
+                if sortby is not None:
+                    logger.warning(f'Sorting the response by {sortby}')
+                    res[sortby] = sorted(res[sortby])
+                    logger.warning(f'Sorted {method} response: {res}')
+                logger.debug(f'Updated {method} response: {res}')
                 schema.setdefault('examples', []).append({'request': req, 'response': res} if description is None else {'description': description, 'request': req, 'response': res})
                 # Update the file with the new example
                 file.seek(0)
@@ -278,7 +291,7 @@ def update_example(node, method, params, res=None, description=None, execute=Tru
             # Exit if listed commands have been executed
             if all(RPCS_STATUS):
                 raise TaskFinished('All Done!!!')
-            return res
+            return original_res
     except FileNotFoundError as fnf_error:
         logger.error(f'File not found error {fnf_error} at: {file_path}')
 
@@ -311,12 +324,33 @@ def setup_test_nodes(node_factory, bitcoind):
                 'dev-hsmd-no-preapprove-check': None,
                 'allow-deprecated-apis': True,
                 'allow_bad_gossip': True,
-                'broken_log': '.*',  # plugin-topology: DEPRECATED API USED: *, lightningd-3: had memleak messages, lightningd: MEMLEAK:, lightningd: init_cupdate for unknown scid etc.
-                'dev-bitcoind-poll': 3,  # Default 1; increased to avoid rpc failures
+                'broken_log': '.*',    # plugin-topology: DEPRECATED API USED: *, lightningd-3: had memleak messages, lightningd: MEMLEAK:, lightningd: init_cupdate for unknown scid etc.
+                'dev-bitcoind-poll': 3,    # Default 1; increased to avoid rpc failures
             }.copy()
             for i in range(6)
         ]
         l1, l2, l3, l4, l5, l6 = node_factory.get_nodes(6, opts=options)
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'version', 'original_value': l1.info['version'], 'new_value': 'v24.08' },
+            { 'key': 'alias', 'original_value': l1.info['alias'], 'new_value': 'JUNIORBEAM' },
+            { 'key': 'port', 'original_value': l1.info['binding'][0]['port'], 'new_value': 19734 },
+            { 'key': 'addr', 'original_value': f'127.0.0.1:{l1.info["binding"][0]["port"]}', 'new_value': '127.0.0.1:19734' },
+            { 'key': 'alias', 'original_value': l2.info['alias'], 'new_value': 'SILENTARTIST' },
+            { 'key': 'port', 'original_value': l2.info['binding'][0]['port'], 'new_value': 19735 },
+            { 'key': 'addr', 'original_value': f'127.0.0.1:{l2.info["binding"][0]["port"]}', 'new_value': '127.0.0.1:19735' },
+            { 'key': 'alias', 'original_value': l3.info['alias'], 'new_value': 'HOPPINGFIRE' },
+            { 'key': 'port', 'original_value': l3.info['binding'][0]['port'], 'new_value': 19736 },
+            { 'key': 'addr', 'original_value': f'127.0.0.1:{l3.info["binding"][0]["port"]}', 'new_value': '127.0.0.1:19736' },
+            { 'key': 'alias', 'original_value': l4.info['alias'], 'new_value': 'JUNIORFELONY' },
+            { 'key': 'port', 'original_value': l4.info['binding'][0]['port'], 'new_value': 19737 },
+            { 'key': 'addr', 'original_value': f'127.0.0.1:{l4.info["binding"][0]["port"]}', 'new_value': '127.0.0.1:19737' },
+            { 'key': 'alias', 'original_value': l5.info['alias'], 'new_value': 'SOMBERFIRE' },
+            { 'key': 'port', 'original_value': l5.info['binding'][0]['port'], 'new_value': 19738 },
+            { 'key': 'addr', 'original_value': f'127.0.0.1:{l5.info["binding"][0]["port"]}', 'new_value': '127.0.0.1:19738' },
+            { 'key': 'alias', 'original_value': l6.info['alias'], 'new_value': 'LOUDPHOTO' },
+            { 'key': 'port', 'original_value': l6.info['binding'][0]['port'], 'new_value': 19739 },
+            { 'key': 'addr', 'original_value': f'127.0.0.1:{l6.info["binding"][0]["port"]}', 'new_value': '127.0.0.1:19739' },
+        ])
         # Upgrade wallet
         # Write the data/p2sh_wallet_hsm_secret to the hsm_path, so node can spend funds at p2sh_wrapped_addr
         p2sh_wrapped_addr = '2N2V4ee2vMkiXe5FSkRqFjQhiS9hKqNytv3'
@@ -337,10 +371,10 @@ def setup_test_nodes(node_factory, bitcoind):
         update_example(node=l2, method='connect', params={'id': l3.info['id'], 'host': 'localhost', 'port': l3.daemon.port})
         l3.rpc.connect(l4.info['id'], 'localhost', l4.port)
         l2.rpc.connect(l5.info['id'], 'localhost', l5.port)
-        c12, _ = l1.fundchannel(l2, FUND_CHANNEL_AMOUNT_SAT)
+        c12, c12res = l1.fundchannel(l2, FUND_CHANNEL_AMOUNT_SAT)
         c23, c23res = l2.fundchannel(l3, FUND_CHANNEL_AMOUNT_SAT)
-        c34, _ = l3.fundchannel(l4, FUND_CHANNEL_AMOUNT_SAT)
-        c25, _ = l2.fundchannel(l5, announce_channel=False)
+        c34, c34res = l3.fundchannel(l4, FUND_CHANNEL_AMOUNT_SAT)
+        c25, c25res = l2.fundchannel(l5, announce_channel=False)
         mine_funding_to_announce(bitcoind, [l1, l2, l3, l4])
         l1.wait_channel_active(c12)
         l1.wait_channel_active(c23)
@@ -350,6 +384,27 @@ def setup_test_nodes(node_factory, bitcoind):
         l2.rpc.pay(l3.rpc.invoice('500000sat', 'lbl balance l2 to l3', 'description send some sats l2 to l3')['bolt11'])
         l2.rpc.pay(l5.rpc.invoice('500000sat', 'lbl balance l2 to l5', 'description send some sats l2 to l5')['bolt11'])
         l3.rpc.pay(l4.rpc.invoice('500000sat', 'lbl balance l3 to l4', 'description send some sats l3 to l4')['bolt11'])
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'scid', 'original_value': c12, 'new_value': '109x1x1' },
+            { 'key': 'tx', 'original_value': c12res['tx'], 'new_value': 'tx02000000000101txtxtx' + ('12000' * 100) },
+            { 'key': 'txid', 'original_value': c12res['txid'], 'new_value': 'txidchannel012000012000012000012000012000012000012000012000012000' },
+            { 'key': 'channel_id', 'original_value': c12res['channel_id'], 'new_value': 'channelid0120000120000120000120000120000120000120000120000120000' },
+
+            { 'key': 'scid', 'original_value': c23, 'new_value': '111x1x1' },
+            { 'key': 'tx', 'original_value': c23res['tx'], 'new_value': 'tx02000000000101txtxtx' + ('23000' * 100) },
+            { 'key': 'txid', 'original_value': c23res['txid'], 'new_value': 'txidchannel023000023000023000023000023000023000023000023000023000' },
+            { 'key': 'channel_id', 'original_value': c23res['channel_id'], 'new_value': 'channelid0230000230000230000230000230000230000230000230000230000' },
+
+            { 'key': 'scid', 'original_value': c34, 'new_value': '113x1x1' },
+            { 'key': 'tx', 'original_value': c34res['tx'], 'new_value': 'tx02000000000101txtxtx' + ('34000' * 100) },
+            { 'key': 'txid', 'original_value': c34res['txid'], 'new_value': 'txidchannel034000034000034000034000034000034000034000034000034000' },
+            { 'key': 'channel_id', 'original_value': c34res['channel_id'], 'new_value': 'channelid0340000340000340000340000340000340000340000340000340000' },
+
+            { 'key': 'scid', 'original_value': c25, 'new_value': '115x1x1' },
+            { 'key': 'tx', 'original_value': c25res['tx'], 'new_value': 'tx02000000000101txtxtx' + ('25000' * 100) },
+            { 'key': 'txid', 'original_value': c25res['txid'], 'new_value': 'txidchannel025000025000025000025000025000025000025000025000025000' },
+            { 'key': 'channel_id', 'original_value': c25res['channel_id'], 'new_value': 'channelid0250000250000250000250000250000250000250000250000250000' },
+        ])
         return l1, l2, l3, l4, l5, l6, c12, c23, c25, c34, c23res
     except TaskFinished:
         raise
@@ -366,24 +421,60 @@ def generate_transactions_examples(l1, l2, l3, l4, l5, c25, bitcoind):
         inv_l31 = update_example(node=l3, method='invoice', params={'amount_msat': 10**4, 'label': 'lbl_l31', 'description': 'Invoice description l31'})
         route_l1_l3 = update_example(node=l1, method='getroute', params={'id': l3.info['id'], 'amount_msat': 10**4, 'riskfactor': 1})['route']
         inv_l32 = update_example(node=l3, method='invoice', params={'amount_msat': '50000msat', 'label': 'lbl_l32', 'description': 'l32 description'})
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'payment_hash', 'original_value': inv_l31['payment_hash'], 'new_value': 'paymenthashinvl0310003100031000310003100031000310003100031000310' },
+            { 'key': 'bolt11', 'original_value': inv_l31['bolt11'], 'new_value': 'lnbcrt100n1pnt2000000bolt11invl031000000000bolt11invl031000000000bolt11invl031000000000bolt11invl031000000000bolt11invl031000000000bolt11invl031000000000bolt11invl031000000000bolt11invl031000000000bolt11invl031000000000bolt11invl031000' },
+            { 'key': 'payment_secret', 'original_value': inv_l31['payment_secret'], 'new_value': 'paymentsecretinvl00310003100031000310003100031000310003100031000' },
+            { 'key': 'expires_at', 'original_value': inv_l31['expires_at'], 'new_value': 1731100000 },
+            { 'key': 'payment_hash', 'original_value': inv_l32['payment_hash'], 'new_value': 'paymenthashinvl0320003200032000320003200032000320003200032000320' },
+            { 'key': 'bolt11', 'original_value': inv_l32['bolt11'], 'new_value': 'lnbcrt100n1pnt2000000bolt11invl032000000000bolt11invl032000000000bolt11invl032000000000bolt11invl032000000000bolt11invl032000000000bolt11invl032000000000bolt11invl032000000000bolt11invl032000000000bolt11invl032000000000bolt11invl032000' },
+            { 'key': 'payment_secret', 'original_value': inv_l32['payment_secret'], 'new_value': 'paymentsecretinvl00320003200032000320003200032000320003200032000' },
+            { 'key': 'expires_at', 'original_value': inv_l32['expires_at'], 'new_value': 1732100000 },
+        ])
         update_example(node=l2, method='getroute', params={'id': l4.info['id'], 'amount_msat': 500000, 'riskfactor': 10, 'cltv': 9})
         update_example(node=l1, method='sendpay', params={'route': route_l1_l3, 'payment_hash': inv_l31['payment_hash'], 'payment_secret': inv_l31['payment_secret']})
         update_example(node=l1, method='waitsendpay', params={'payment_hash': inv_l31['payment_hash']})
         update_example(node=l1, method='keysend', params={'destination': l3.info['id'], 'amount_msat': 10000})
         update_example(node=l1, method='keysend', params={'destination': l4.info['id'], 'amount_msat': 10000000, 'extratlvs': {'133773310': '68656c6c6f776f726c64', '133773312': '66696c7465726d65'}})
+        scid = only_one([channel for channel in l2.rpc.listpeerchannels()['channels'] if channel['peer_id'] == l3.info['id']])['alias']['remote']
         routehints = [[{
-            'scid': only_one([channel for channel in l2.rpc.listpeerchannels()['channels'] if channel['peer_id'] == l3.info['id']])['alias']['remote'],
+            'scid': scid,
             'id': l2.info['id'],
             'feebase': '1msat',
             'feeprop': 10,
             'expirydelta': 9,
         }]]
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'scid', 'original_value': scid, 'new_value': '288x1x1' },
+        ])
         update_example(node=l1, method='keysend', params={'destination': l3.info['id'], 'amount_msat': 10000, 'routehints': routehints})
         inv_l11 = l1.rpc.invoice('10000msat', 'lbl_l11', 'l11 description')
         inv_l21 = l2.rpc.invoice('any', 'lbl_l21', 'l21 description')
         inv_l22 = l2.rpc.invoice('200000msat', 'lbl_l22', 'l22 description')
         inv_l33 = l3.rpc.invoice('100000msat', 'lbl_l33', 'l33 description')
         inv_l34 = l3.rpc.invoice(4000, 'failed', 'failed description')
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'payment_hash', 'original_value': inv_l11['payment_hash'], 'new_value': 'paymenthashinvl0110001100011000110001100011000110001100011000310' },
+            { 'key': 'bolt11', 'original_value': inv_l11['bolt11'], 'new_value': 'lnbcrt100n1pnt2000000bolt11invl011000000000bolt11invl011000000000bolt11invl011000000000bolt11invl011000000000bolt11invl011000000000bolt11invl011000000000bolt11invl011000000000bolt11invl011000000000bolt11invl011000000000bolt11invl011000' },
+            { 'key': 'payment_secret', 'original_value': inv_l11['payment_secret'], 'new_value': 'paymentsecretinvl00110001100011000110001100011000110001100011000' },
+            { 'key': 'expires_at', 'original_value': inv_l11['expires_at'], 'new_value': 1711100000 },
+            { 'key': 'payment_hash', 'original_value': inv_l21['payment_hash'], 'new_value': 'paymenthashinvl0210002100021000210002100021000210002100021000320' },
+            { 'key': 'bolt11', 'original_value': inv_l21['bolt11'], 'new_value': 'lnbcrt100n1pnt2000000bolt11invl021000000000bolt11invl021000000000bolt11invl021000000000bolt11invl021000000000bolt11invl021000000000bolt11invl021000000000bolt11invl021000000000bolt11invl021000000000bolt11invl021000000000bolt11invl021000' },
+            { 'key': 'payment_secret', 'original_value': inv_l21['payment_secret'], 'new_value': 'paymentsecretinvl00210002100021000210002100021000210002100021000' },
+            { 'key': 'expires_at', 'original_value': inv_l21['expires_at'], 'new_value': 1722100000 },
+            { 'key': 'payment_hash', 'original_value': inv_l22['payment_hash'], 'new_value': 'paymenthashinvl0220002200022000220002200022000220002200022000310' },
+            { 'key': 'bolt11', 'original_value': inv_l22['bolt11'], 'new_value': 'lnbcrt100n1pnt2000000bolt11invl022000000000bolt11invl022000000000bolt11invl022000000000bolt11invl022000000000bolt11invl022000000000bolt11invl022000000000bolt11invl022000000000bolt11invl022000000000bolt11invl022000000000bolt11invl022000' },
+            { 'key': 'payment_secret', 'original_value': inv_l22['payment_secret'], 'new_value': 'paymentsecretinvl00220002200022000220002200022000220002200022000' },
+            { 'key': 'expires_at', 'original_value': inv_l22['expires_at'], 'new_value': 1722100000 },
+            { 'key': 'payment_hash', 'original_value': inv_l33['payment_hash'], 'new_value': 'paymenthashinvl0330003300033000330003300033000330003300033000310' },
+            { 'key': 'bolt11', 'original_value': inv_l33['bolt11'], 'new_value': 'lnbcrt100n1pnt2000000bolt11invl033000000000bolt11invl033000000000bolt11invl033000000000bolt11invl033000000000bolt11invl033000000000bolt11invl033000000000bolt11invl033000000000bolt11invl033000000000bolt11invl033000000000bolt11invl033000' },
+            { 'key': 'payment_secret', 'original_value': inv_l33['payment_secret'], 'new_value': 'paymentsecretinvl00330003300033000330003300033000330003300033000' },
+            { 'key': 'expires_at', 'original_value': inv_l33['expires_at'], 'new_value': 1733100000 },
+            { 'key': 'payment_hash', 'original_value': inv_l34['payment_hash'], 'new_value': 'paymenthashinvl0340003400034000340003400034000340003400034000310' },
+            { 'key': 'bolt11', 'original_value': inv_l34['bolt11'], 'new_value': 'lnbcrt100n1pnt2000000bolt11invl034000000000bolt11invl034000000000bolt11invl034000000000bolt11invl034000000000bolt11invl034000000000bolt11invl034000000000bolt11invl034000000000bolt11invl034000000000bolt11invl034000000000bolt11invl034000' },
+            { 'key': 'payment_secret', 'original_value': inv_l34['payment_secret'], 'new_value': 'paymentsecretinvl00340003400034000340003400034000340003400034000' },
+            { 'key': 'expires_at', 'original_value': inv_l34['expires_at'], 'new_value': 1734100000 },
+        ])
         update_example(node=l1, method='pay', params=[inv_l32['bolt11']])
         update_example(node=l2, method='pay', params={'bolt11': inv_l33['bolt11']})
 
@@ -444,6 +535,12 @@ def generate_transactions_examples(l1, l2, l3, l4, l5, c25, bitcoind):
             hops.append({'pubkey': h['id'], 'payload': serialize_payload_tlv(n, blockheight)})
         hops.append({'pubkey': route[-1]['id'], 'payload': serialize_payload_final_tlv(route[-1], inv['payment_secret'], blockheight)})
         onion = update_example(node=l1, method='createonion', params={'hops': hops, 'assocdata': inv['payment_hash']})
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'shared_secrets', 'original_value': onion['shared_secrets'], 'new_value': [
+                'fd39a5f8c1d2c1b79451215b72b73530e9aea9a67074b1f123aed7abf58441c5',
+                'b24263214febff9fc0f73026e1e845b754d2a89d51cc875e84c2982055c81998',
+                '8124b02fdd7b6864f46749bccbb79ef6417b1a1eaa289588380266c5d964566e'] },
+        ])
         update_example(node=l1, method='createonion', params=[hops, inv['payment_hash'], '41' * 32])
         update_example(node=l1, method='sendonion', params={'onion': onion['onion'], 'first_hop': first_hop, 'payment_hash': inv['payment_hash']})
         l1.rpc.waitsendpay(payment_hash=inv['payment_hash'])
@@ -460,27 +557,65 @@ def generate_transactions_examples(l1, l2, l3, l4, l5, c25, bitcoind):
             l1.rpc.waitsendpay(inv_l34['payment_hash'])
 
         # Reopen channels for further examples
-        c23, _ = l2.fundchannel(l3, FUND_CHANNEL_AMOUNT_SAT)
-        l3.fundchannel(l4, FUND_CHANNEL_AMOUNT_SAT)
+        c23, c23res = l2.fundchannel(l3, FUND_CHANNEL_AMOUNT_SAT)
+        c34, c34res = l3.fundchannel(l4, FUND_CHANNEL_AMOUNT_SAT)
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'scid', 'original_value': c23, 'new_value': '123x1x1' },
+            { 'key': 'tx', 'original_value': c23res['tx'], 'new_value': 'tx02000000000101txtxtx' + ('23000' * 100) },
+            { 'key': 'txid', 'original_value': c23res['txid'], 'new_value': 'txidchannel02300002300002300002300002300002300002300002300002300' },
+            { 'key': 'channel_id', 'original_value': c23res['channel_id'], 'new_value': 'channelid0230000230000230000230000230000230000230000230000230000' },
+
+            { 'key': 'scid', 'original_value': c34, 'new_value': '125x1x1' },
+            { 'key': 'tx', 'original_value': c34res['tx'], 'new_value': 'tx02000000000101txtxtx' + ('34000' * 100) },
+            { 'key': 'txid', 'original_value': c34res['txid'], 'new_value': 'txidchannel03400003400003400003400003400003400003400003400003400' },
+            { 'key': 'channel_id', 'original_value': c34res['channel_id'], 'new_value': 'channelid0340000340000340000340000340000340000340000340000340000' },
+        ])
         mine_funding_to_announce(bitcoind, [l3, l4])
         l2.wait_channel_active(c23)
         update_example(node=l2, method='setchannel', params={'id': c23, 'ignorefeelimits': True})
         update_example(node=l2, method='setchannel', params={'id': c25, 'feebase': 4000, 'feeppm': 300, 'enforcedelay': 0})
 
         # Some more invoices for signing and preapproving
-        inv_l12 = l1.rpc.invoice(1000, 'label inv_l12', 'description inv_l12')['bolt11']
-        inv_l24 = l2.rpc.invoice(123000, 'label inv_l24', 'description inv_l24', 3600)['bolt11']
-        inv_l25 = l2.rpc.invoice(124000, 'label inv_l25', 'description inv_l25', 3600)['bolt11']
-        inv_l26 = l2.rpc.invoice(125000, 'label inv_l26', 'description inv_l26', 3600)['bolt11']
-        update_example(node=l2, method='signinvoice', params={'invstring': inv_l12})
-        update_example(node=l3, method='signinvoice', params=[inv_l26])
+        inv_l12 = l1.rpc.invoice(1000, 'label inv_l12', 'description inv_l12')
+        inv_l24 = l2.rpc.invoice(123000, 'label inv_l24', 'description inv_l24', 3600)
+        inv_l25 = l2.rpc.invoice(124000, 'label inv_l25', 'description inv_l25', 3600)
+        inv_l26 = l2.rpc.invoice(125000, 'label inv_l26', 'description inv_l26', 3600)
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'payment_hash', 'original_value': inv_l12['payment_hash'], 'new_value': 'paymenthashinvl0120001200012000120001200012000120001200012000310' },
+            { 'key': 'bolt11', 'original_value': inv_l12['bolt11'], 'new_value': 'lnbcrt100n1pnt2000000bolt11invl012000000000bolt11invl012000000000bolt11invl012000000000bolt11invl012000000000bolt11invl012000000000bolt11invl012000000000bolt11invl012000000000bolt11invl012000000000bolt11invl012000000000bolt11invl012000' },
+            { 'key': 'payment_secret', 'original_value': inv_l12['payment_secret'], 'new_value': 'paymentsecretinvl00120001200012000120001200012000120001200012000' },
+            { 'key': 'expires_at', 'original_value': inv_l12['expires_at'], 'new_value': 1712100000 },
+
+            { 'key': 'payment_hash', 'original_value': inv_l24['payment_hash'], 'new_value': 'paymenthashinvl0240002400024000240002400024000240002400024000310' },
+            { 'key': 'bolt11', 'original_value': inv_l24['bolt11'], 'new_value': 'lnbcrt100n1pnt2000000bolt11invl024000000000bolt11invl024000000000bolt11invl024000000000bolt11invl024000000000bolt11invl024000000000bolt11invl024000000000bolt11invl024000000000bolt11invl024000000000bolt11invl024000000000bolt11invl024000' },
+            { 'key': 'payment_secret', 'original_value': inv_l24['payment_secret'], 'new_value': 'paymentsecretinvl00240002400024000240002400024000240002400024000' },
+            { 'key': 'expires_at', 'original_value': inv_l24['expires_at'], 'new_value': 1724100000 },
+
+            { 'key': 'payment_hash', 'original_value': inv_l25['payment_hash'], 'new_value': 'paymenthashinvl0250002500025000250002500025000250002500025000310' },
+            { 'key': 'bolt11', 'original_value': inv_l25['bolt11'], 'new_value': 'lnbcrt100n1pnt2000000bolt11invl025000000000bolt11invl025000000000bolt11invl025000000000bolt11invl025000000000bolt11invl025000000000bolt11invl025000000000bolt11invl025000000000bolt11invl025000000000bolt11invl025000000000bolt11invl025000' },
+            { 'key': 'payment_secret', 'original_value': inv_l25['payment_secret'], 'new_value': 'paymentsecretinvl00250002500025000250002500025000250002500025000' },
+            { 'key': 'expires_at', 'original_value': inv_l25['expires_at'], 'new_value': 1725100000 },
+
+            { 'key': 'payment_hash', 'original_value': inv_l26['payment_hash'], 'new_value': 'paymenthashinvl0260002600026000260002600026000260002600026000310' },
+            { 'key': 'bolt11', 'original_value': inv_l26['bolt11'], 'new_value': 'lnbcrt100n1pnt2000000bolt11invl026000000000bolt11invl026000000000bolt11invl026000000000bolt11invl026000000000bolt11invl026000000000bolt11invl026000000000bolt11invl026000000000bolt11invl026000000000bolt11invl026000000000bolt11invl026000' },
+            { 'key': 'payment_secret', 'original_value': inv_l26['payment_secret'], 'new_value': 'paymentsecretinvl00260002600026000260002600026000260002600026000' },
+            { 'key': 'expires_at', 'original_value': inv_l26['expires_at'], 'new_value': 1726100000 },
+        ])
+        update_example(node=l2, method='signinvoice', params={'invstring': inv_l12['bolt11']})
+        update_example(node=l3, method='signinvoice', params=[inv_l26['bolt11']])
         update_example(node=l1, method='preapprovekeysend', params={'destination': l2.info['id'], 'payment_hash': '00' * 32, 'amount_msat': 1000})
         update_example(node=l5, method='preapprovekeysend', params=[l5.info['id'], '01' * 32, 2000])
-        update_example(node=l1, method='preapproveinvoice', params={'bolt11': inv_l24})
-        update_example(node=l1, method='preapproveinvoice', params=[inv_l25])
+        update_example(node=l1, method='preapproveinvoice', params={'bolt11': inv_l24['bolt11']})
+        update_example(node=l1, method='preapproveinvoice', params=[inv_l25['bolt11']])
         inv_req = update_example(node=l2, method='invoicerequest', params={'amount': 1000000, 'description': 'Simple test'})
         update_example(node=l1, method='sendinvoice', params={'invreq': inv_req['bolt12'], 'label': 'test sendinvoice'})
         inv_l13 = l1.rpc.invoice(amount_msat=100000, label='lbl_l13', description='l13 description', preimage='01' * 32)
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'payment_hash', 'original_value': inv_l13['payment_hash'], 'new_value': 'paymenthashinvl0130001300013000130001300013000130001300013000310' },
+            { 'key': 'bolt11', 'original_value': inv_l13['bolt11'], 'new_value': 'lnbcrt100n1pnt2000000bolt11invl013000000000bolt11invl013000000000bolt11invl013000000000bolt11invl013000000000bolt11invl013000000000bolt11invl013000000000bolt11invl013000000000bolt11invl013000000000bolt11invl013000000000bolt11invl013000' },
+            { 'key': 'payment_secret', 'original_value': inv_l13['payment_secret'], 'new_value': 'paymentsecretinvl00130001300013000130001300013000130001300013000' },
+            { 'key': 'expires_at', 'original_value': inv_l13['expires_at'], 'new_value': 1713100000 },
+        ])
         update_example(node=l2, method='createinvoice', params={'invstring': inv_l13['bolt11'], 'label': 'lbl_l13', 'preimage': '01' * 32})
         logger.info('Simple Transactions Done!')
         return inv_l11, inv_l21, inv_l22, inv_l31, inv_l32, inv_l34
@@ -504,8 +639,7 @@ def generate_runes_examples(l1, l2, l3):
                                                '',
                                                '1: `[\'method^list\', \'method^get\', \'method=summary\']`: You may call list, get or summary.',
                                                '',
-                                               '2: `[\'method/listdatastore\']`: But not listdatastore: that contains sensitive stuff!'
-                                               ])
+                                               '2: `[\'method/listdatastore\']`: But not listdatastore: that contains sensitive stuff!'])
         update_example(node=l2, method='createrune', params={'rune': rune_l21['rune'], 'restrictions': [['method^list', 'method^get', 'method=summary'], ['method/listdatastore']]}, description=['We can do the same manually (readonly), like so:'])
         rune_l23 = update_example(node=l2, method='createrune', params={'restrictions': [[f'id^{trimmed_id}'], ['method=listpeers']]}, description=[f'This will allow the rune to be used for id starting with {trimmed_id}, and for the method listpeers:'])
         rune_l24 = update_example(node=l2, method='createrune', params={'restrictions': [['method=pay'], ['pnameamountmsat<10000']]}, description=['This will allow the rune to be used for the method pay, and for the parameter amount\\_msat to be less than 10000:'])
@@ -537,8 +671,7 @@ def generate_runes_examples(l1, l2, l3):
                                     '',
                                     '1: `[\'method^list\', \'method^get\', \'method=summary\']`: You may call list, get or summary.',
                                     '',
-                                    '2: `[\'method/listdatastore\']`: But not listdatastore: that contains sensitive stuff!'
-                                    ])
+                                    '2: `[\'method/listdatastore\']`: But not listdatastore: that contains sensitive stuff!'])
         update_example(node=l1, method='commando-rune', params={'rune': rune_l11['rune'], 'restrictions': [['method^list', 'method^get', 'method=summary'], ['method/listdatastore']]}, description=['We can do the same manually (readonly), like so:'])
         update_example(node=l1, method='commando-rune', params={'restrictions': [[f'id^{trimmed_id}'], ['method=listpeers']]}, description=[f'This will allow the rune to be used for id starting with {trimmed_id}, and for the method listpeers:'])
         update_example(node=l1, method='commando-rune', params={'restrictions': [['method=pay'], ['pnameamountmsat<10000']]}, description=['This will allow the rune to be used for the method pay, and for the parameter amount\\_msat to be less than 10000:'])
@@ -596,30 +729,32 @@ def generate_bookkeeper_examples(l2, l3, c23_chan_id):
         logger.error(f'Error in generating bookkeeper examples: {e}')
 
 
-def generate_askrene_examples(l1, l2, l3, c12, c23):
+def generate_askrene_examples(node_factory, l1, l2, l3, c12, c23):
     """Generates askrene examples"""
     try:
         logger.info('Askrene Start...')
-        update_example(node=l2, filename='askrene-disable-node', method='askrene-disable-node', params={'layer': 'test_layer', 'node': l1.info['id']})
-        update_example(node=l2, filename='askrene-create-channel', method='askrene_create_channel',
-                       params={'layer': 'test_layers', 'source': l3.info['id'], 'destination': l1.info['id'], 'short_channel_id': c12, 'capacity_msat': '1000000sat', 'htlc_min': 100, 'htlc_max': '900000sat', 'base_fee': 1, 'proportional_fee': 2, 'delay': 18})
-        update_example(node=l2, filename='askrene-listlayers', method='askrene_listlayers', params={})
-        update_example(node=l2, filename='askrene-inform-channel', method='askrene_inform_channel', params={'layer': 'test_layer', 'short_channel_id': c23, 'direction': 1, 'maximum_msat': 100000})
-        listlayers = update_example(node=l2, filename='askrene-listlayers', method='askrene_listlayers', params={'layer': 'test_layer'})
+        update_example(node=l2, method='askrene-disable-node', params={'layer': 'test_layer', 'node': l1.info['id']})
+        update_example(node=l2, method='askrene-create-channel', params={'layer': 'test_layers', 'source': l3.info['id'], 'destination': l1.info['id'], 'short_channel_id': c12, 'capacity_msat': '1000000sat', 'htlc_minimum_msat': 100, 'htlc_maximum_msat': '900000sat', 'fee_base_msat': 1, 'fee_proportional_millionths': 2, 'delay': 18})
+        update_example(node=l2, method='askrene-listlayers', params={})
+        update_example(node=l2, method='askrene-inform-channel', params={'layer': 'test_layer', 'short_channel_id': c23, 'direction': 1, 'maximum_msat': 100000})
+        listlayers = update_example(node=l2, method='askrene-listlayers', params={'layer': 'test_layer'})
         ts1 = only_one(only_one(listlayers['layers'])['constraints'])['timestamp']
         time.sleep(2)
-        update_example(node=l2, filename='askrene-inform-channel', method='askrene_inform_channel', params=['test_layer', c12, 0, 12341234])
-        update_example(node=l2, filename='askrene-age', method='askrene_age', params={'layer': 'test_layer', 'cutoff': ts1})
-        update_example(node=l2, filename='askrene-age', method='askrene_age', params=['test_layer', ts1 + 1])
-        update_example(node=l2, filename='askrene-reserve', method='askrene_reserve', params={'path': [{'short_channel_id': c23, 'direction': 1, 'amount_msat': 1000000}]})
-        update_example(node=l2, filename='askrene-unreserve', method='askrene_unreserve', params={'path': [{'short_channel_id': c23, 'direction': 1, 'amount_msat': 1000000}]})
-        _, nodemap = generate_gossip_store([GenChannel(0, 1, forward=GenChannel.Half(propfee=10000)),
-                                            GenChannel(0, 2, capacity_sats=9000),
-                                            GenChannel(1, 3, forward=GenChannel.Half(propfee=20000)),
-                                            GenChannel(0, 2, capacity_sats=10000),
-                                            GenChannel(2, 4, forward=GenChannel.Half(delay=2000))])
-        update_example(node=l1, method='getroutes',
-                       params={'source': nodemap[0], 'destination': nodemap[2], 'amount_msat': 1000000, 'layers': [], 'maxfee_msat': 5000, 'finalcltv': 99})
+        update_example(node=l2, method='askrene-inform-channel', params=['test_layer', c12, 0, 12341234])
+        update_example(node=l2, method='askrene-age', params={'layer': 'test_layer', 'cutoff': ts1})
+        update_example(node=l2, method='askrene-age', params=['test_layer', ts1 + 1])
+        update_example(node=l2, method='askrene-reserve', params={'path': [{'short_channel_id': c23, 'direction': 1, 'amount_msat': 1000000}]})
+        update_example(node=l2, method='askrene-unreserve', params={'path': [{'short_channel_id': c23, 'direction': 1, 'amount_msat': 1000000}]})
+
+        # Set up l1 with the new gossip_store for getroutes
+        gsfile, nodemap = generate_gossip_store([GenChannel(0, 1, forward=GenChannel.Half(propfee=10000)),
+                                                GenChannel(0, 2, capacity_sats=9000),
+                                                GenChannel(1, 3, forward=GenChannel.Half(propfee=20000)),
+                                                GenChannel(0, 2, capacity_sats=10000),
+                                                GenChannel(2, 4, forward=GenChannel.Half(delay=2000))])
+        gsnode = node_factory.get_node(gossip_store_file=gsfile.name)
+        update_example(node=gsnode, method='getroutes',
+                       params={'source': nodemap[0], 'destination': nodemap[2], 'amount_msat': 1000000, 'layers': [], 'maxfee_msat': 5000, 'final_cltv': 99})
         logger.info('Askrene Done!')
     except TaskFinished:
         raise
@@ -636,6 +771,14 @@ def generate_offers_renepay_examples(l1, l2, inv_l21, inv_l34):
         offer_l21 = update_example(node=l2, method='offer', params={'amount': '10000msat', 'description': 'Fish sale!'})
         offer_l22 = update_example(node=l2, method='offer', params={'amount': '1000sat', 'description': 'Coffee', 'quantity_max': 10})
         offer_l23 = l2.rpc.offer('2000sat', 'Offer to Disable')
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'offer_id', 'original_value': offer_l21['offer_id'], 'new_value': 'offeridl21000002100000210000021000002100000210000021000002100000' },
+            { 'key': 'bolt12', 'original_value': offer_l21['bolt12'], 'new_value': 'lno1qgsq000000bolt12000210002100021000210002100021000210002100021000210002100021000210002100021000210002100021000210002100021000210002100021' },
+            { 'key': 'offer_id', 'original_value': offer_l22['offer_id'], 'new_value': 'offeridl22000002200000220000022000002200000220000022000002200000' },
+            { 'key': 'bolt12', 'original_value': offer_l22['bolt12'], 'new_value': 'lno1qgsq000000bolt12000220002200022000220002200022000220002200022000220002200022000220002200022000220002200022000220002200022000220002200022' },
+            { 'key': 'offer_id', 'original_value': offer_l23['offer_id'], 'new_value': 'offeridl23000002300000230000023000002300000230000023000002300000' },
+            { 'key': 'bolt12', 'original_value': offer_l23['bolt12'], 'new_value': 'lno1qgsq000000bolt12000230002300023000230002300023000230002300023000230002300023000230002300023000230002300023000230002300023000230002300023' },
+        ])
         update_example(node=l1, method='fetchinvoice', params={'offer': offer_l21['bolt12'], 'payer_note': 'Thanks for the fish!'})
         update_example(node=l1, method='fetchinvoice', params={'offer': offer_l22['bolt12'], 'amount_msat': 2000000, 'quantity': 2})
         update_example(node=l2, method='disableoffer', params={'offer_id': offer_l23['offer_id']})
@@ -681,8 +824,8 @@ def generate_list_examples(l1, l2, l3, c12, c23, inv_l31, inv_l32):
         update_example(node=l3, method='listclosedchannels', params={})
 
         # Network & Nodes Lists
-        update_example(node=l2, method='listconfigs', params={'config': 'network'})
-        update_example(node=l2, method='listconfigs', params={'config': 'experimental-dual-fund'})
+        update_example(node=l2, method='listconfigs', params={'config': 'network'}, sortby='configs')
+        update_example(node=l2, method='listconfigs', params={'config': 'experimental-dual-fund'}, sortby='configs')
         # Schema checker error: listconfigs.json: Additional properties are not allowed ('plugin' was unexpected)
         l2.rpc.jsonschemas = {}
         update_example(node=l2, method='listconfigs', params={})
@@ -712,7 +855,6 @@ def generate_wait_examples(l1, l2, bitcoind, executor):
         inv3 = l2.rpc.invoice(3000, 'inv3', 'inv3')
         inv4 = l2.rpc.invoice(4000, 'inv4', 'inv4')
         inv5 = l2.rpc.invoice(5000, 'inv5', 'inv5')
-
         # Wait invoice
         wi3 = executor.submit(l2.rpc.waitinvoice, 'inv3')
         time.sleep(1)
@@ -890,11 +1032,23 @@ def generate_splice_examples(node_factory, bitcoind):
         l7, l8 = node_factory.get_nodes(2, opts=options)
         l7.fundwallet(FUND_WALLET_AMOUNT_SAT)
         l7.rpc.connect(l8.info['id'], 'localhost', l8.port)
-        c1112, _ = l7.fundchannel(l8, FUND_CHANNEL_AMOUNT_SAT)
+        c78, c78res = l7.fundchannel(l8, FUND_CHANNEL_AMOUNT_SAT)
         mine_funding_to_announce(bitcoind, [l7, l8])
-        l7.wait_channel_active(c1112)
+        l7.wait_channel_active(c78)
         chan_id = l7.get_channel_id(l8)
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'alias', 'original_value': l7.info['alias'], 'new_value': 'SILENTTRINITY' },
+            { 'key': 'port', 'original_value': l7.info['binding'][0]['port'], 'new_value': 19740 },
+            { 'key': 'addr', 'original_value': f'127.0.0.1:{l7.info["binding"][0]["port"]}', 'new_value': '127.0.0.1:19740' },
+            { 'key': 'alias', 'original_value': l8.info['alias'], 'new_value': 'GREENPLOW' },
+            { 'key': 'port', 'original_value': l8.info['binding'][0]['port'], 'new_value': 19741 },
+            { 'key': 'addr', 'original_value': f'127.0.0.1:{l8.info["binding"][0]["port"]}', 'new_value': '127.0.0.1:19741' },
 
+            { 'key': 'scid', 'original_value': c78, 'new_value': '142x1x1' },
+            { 'key': 'tx', 'original_value': c78res['tx'], 'new_value': 'tx02000000000101txtxtx' + ('78000' * 100) },
+            { 'key': 'txid', 'original_value': c78res['txid'], 'new_value': 'txidchannel07800007800007800007800007800007800007800007800007800' },
+            { 'key': 'channel_id', 'original_value': c78res['channel_id'], 'new_value': 'channelid0780000780000780000780000780000780000780000780000780000' },
+        ])
         # Splice
         funds_result = l7.rpc.fundpsbt('109000sat', 'slow', 166, excess_as_change=True)
         result = update_example(node=l7, method='splice_init', params={'channel_id': chan_id, 'relative_amount': 100000, 'initialpsbt': funds_result['psbt']})
@@ -940,6 +1094,14 @@ def generate_channels_examples(node_factory, bitcoind, l1, l3, l4, l5):
             for i in range(2)
         ]
         l9, l10 = node_factory.get_nodes(2, opts=options)
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'alias', 'original_value': l9.info['alias'], 'new_value': 'SOMBERCHIPMUNK' },
+            { 'key': 'port', 'original_value': l9.info['binding'][0]['port'], 'new_value': 19742 },
+            { 'key': 'addr', 'original_value': f'127.0.0.1:{l9.info["binding"][0]["port"]}', 'new_value': '127.0.0.1:19742' },
+            { 'key': 'alias', 'original_value': l10.info['alias'], 'new_value': 'LIGHTNINGWALK' },
+            { 'key': 'port', 'original_value': l10.info['binding'][0]['port'], 'new_value': 19743 },
+            { 'key': 'addr', 'original_value': f'127.0.0.1:{l10.info["binding"][0]["port"]}', 'new_value': '127.0.0.1:19743' },
+        ])
         amount = 2 ** 24
         l9.fundwallet(amount + 10000000)
         bitcoind.generate_block(1)
@@ -948,11 +1110,20 @@ def generate_channels_examples(node_factory, bitcoind, l1, l3, l4, l5):
 
         fund_start = update_example(node=l9, method='fundchannel_start', params=[l10.info['id'], amount])
         tx_prep = update_example(node=l9, method='txprepare', params=[[{fund_start['funding_address']: amount}]])
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'unsigned_tx', 'original_value': tx_prep['unsigned_tx'], 'new_value': '020000000' + ('01' * 33) + '000000000fdffffff02000000010000000022002046724c258acd36bbb7e5545f2b957187bf9d0cdbcfa1a6d0b008bb8d428d2a2e418398000000000022512086d4d7f658bd7d7502c2df596165ccdab5562d9e665cfed1687cf404859170e595000000' }
+        ])
         update_example(node=l9, method='fundchannel_cancel', params=[l10.info['id']])
         update_example(node=l9, method='txdiscard', params=[tx_prep['txid']])
         fund_start = update_example(node=l9, method='fundchannel_start', params={'id': l10.info['id'], 'amount': amount})
         tx_prep = update_example(node=l9, method='txprepare', params={'outputs': [{fund_start['funding_address']: amount}]})
-        update_example(node=l9, method='fundchannel_complete', params=[l10.info['id'], tx_prep['psbt']])
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'unsigned_tx', 'original_value': tx_prep['unsigned_tx'], 'new_value': '020000000' + ('02' * 33) + '000000000fdffffff02000000010000000022002046724c258acd36bbb7e5545f2b957187bf9d0cdbcfa1a6d0b008bb8d428d2a2e418398000000000022512086d4d7f658bd7d7502c2df596165ccdab5562d9e665cfed1687cf404859170e595000000' }
+        ])
+        fcc_res1 = update_example(node=l9, method='fundchannel_complete', params=[l10.info['id'], tx_prep['psbt']])
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'channel_id', 'original_value': fcc_res1['channel_id'], 'new_value': 'channelid0091010091010091010091010091010091010091010091010091010' },
+        ])
         update_example(node=l9, method='txsend', params=[tx_prep['txid']])
         l9.rpc.close(l10.info['id'])
 
@@ -966,7 +1137,10 @@ def generate_channels_examples(node_factory, bitcoind, l1, l3, l4, l5):
         update_example(node=l9, method='txdiscard', params={'txid': tx_prep['txid']})
         funding_addr = l9.rpc.fundchannel_start(l10.info['id'], amount)['funding_address']
         tx_prep = l9.rpc.txprepare([{funding_addr: amount}])
-        update_example(node=l9, method='fundchannel_complete', params={'id': l10.info['id'], 'psbt': tx_prep['psbt']})
+        fcc_res2 = update_example(node=l9, method='fundchannel_complete', params={'id': l10.info['id'], 'psbt': tx_prep['psbt']})
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'channel_id', 'original_value': fcc_res2['channel_id'], 'new_value': 'channelid0091020091020091020091020091020091020091020091020091020' },
+        ])
         update_example(node=l9, method='txsend', params={'txid': tx_prep['txid']})
         l9.rpc.close(l10.info['id'])
 
@@ -987,9 +1161,22 @@ def generate_channels_examples(node_factory, bitcoind, l1, l3, l4, l5):
         l11, l12 = node_factory.get_nodes(2, opts=options)
         l11.fundwallet(FUND_WALLET_AMOUNT_SAT)
         l11.rpc.connect(l12.info['id'], 'localhost', l12.port)
-        c78res = l11.rpc.fundchannel(l12.info['id'], FUND_CHANNEL_AMOUNT_SAT)
-        chan_id = c78res['channel_id']
-        vins = bitcoind.rpc.decoderawtransaction(c78res['tx'])['vin']
+        c1112, c1112res = l11.rpc.fundchannel(l12.info['id'], FUND_CHANNEL_AMOUNT_SAT)
+        chan_id = c1112res['channel_id']
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'alias', 'original_value': l11.info['alias'], 'new_value': 'SLICKERMONTANA' },
+            { 'key': 'port', 'original_value': l11.info['binding'][0]['port'], 'new_value': 19744 },
+            { 'key': 'addr', 'original_value': f'127.0.0.1:{l11.info["binding"][0]["port"]}', 'new_value': '127.0.0.1:19744' },
+            { 'key': 'alias', 'original_value': l12.info['alias'], 'new_value': 'STRANGEWAFFLE' },
+            { 'key': 'port', 'original_value': l12.info['binding'][0]['port'], 'new_value': 19745 },
+            { 'key': 'addr', 'original_value': f'127.0.0.1:{l12.info["binding"][0]["port"]}', 'new_value': '127.0.0.1:19745' },
+
+            { 'key': 'scid', 'original_value': c1112, 'new_value': '180x1x1' },
+            { 'key': 'tx', 'original_value': c1112res['tx'], 'new_value': 'tx02000000000101txtxtx' + ('01112' * 100) },
+            { 'key': 'txid', 'original_value': c1112res['txid'], 'new_value': 'txidchannel01112001112001112001112001112001112001112001112001112' },
+            { 'key': 'channel_id', 'original_value': c1112res['channel_id'], 'new_value': 'channelid0111200111200111200111200111200111200111200111200111200' },
+        ])
+        vins = bitcoind.rpc.decoderawtransaction(c1112res['tx'])['vin']
         assert(only_one(vins))
         prev_utxos = ["{}:{}".format(vins[0]['txid'], vins[0]['vout'])]
 
@@ -1051,15 +1238,29 @@ def generate_channels_examples(node_factory, bitcoind, l1, l3, l4, l5):
         # Multifundchannel 1
         l3.rpc.connect(l5.info['id'], 'localhost', l5.port)
         l4.rpc.connect(l1.info['id'], 'localhost', l1.port)
-        c35res = update_example(node=l3, method='fundchannel', params={'id': l5.info['id'], 'amount': FUND_CHANNEL_AMOUNT_SAT, 'announce': True})
+        c35, c35res = update_example(node=l3, method='fundchannel', params={'id': l5.info['id'], 'amount': FUND_CHANNEL_AMOUNT_SAT, 'announce': True})
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'scid', 'original_value': c35, 'new_value': '182x1x1' },
+            { 'key': 'tx', 'original_value': c35res['tx'], 'new_value': 'tx02000000000101txtxtx' + ('35000' * 100) },
+            { 'key': 'txid', 'original_value': c35res['txid'], 'new_value': 'txidchannel035000035000035000035000035000035000035000035000035000' },
+            { 'key': 'channel_id', 'original_value': c35res['channel_id'], 'new_value': 'channelid0350000350000350000350000350000350000350000350000350000' },
+        ])
         outputs = l4.rpc.listfunds()['outputs']
         utxo = f"{outputs[0]['txid']}:{outputs[0]['output']}"
-        c41res = update_example(node=l4, method='fundchannel',
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'utxo', 'original_value': utxo, 'new_value': 'txidchannel035000035000035000035000035000035000035000035000035000:0' },
+        ])
+        c41, c41res = update_example(node=l4, method='fundchannel',
                                 params={'id': l1.info['id'], 'amount': 'all', 'feerate': 'normal', 'push_msat': 100000, 'utxos': [utxo]},
-                                description=[f'This example shows how to to open new channel with peer {l1.info["id"]} from one whole utxo {utxo} (you can use **listfunds** command to get txid and vout):'])
+                                description=[f'This example shows how to to open new channel with peer 1 from one whole utxo (you can use **listfunds** command to get txid and vout):'])
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'scid', 'original_value': c41, 'new_value': '182x1x1' },
+            { 'key': 'tx', 'original_value': c41res['tx'], 'new_value': 'tx02000000000101txtxtx' + ('41000' * 100) },
+            { 'key': 'txid', 'original_value': c41res['txid'], 'new_value': 'txidchannel041000041000041000041000041000041000041000041000041000' },
+            { 'key': 'channel_id', 'original_value': c41res['channel_id'], 'new_value': 'channelid0410000410000410000410000410000410000410000410000410000' },
+        ])
         # Close newly funded channels to bring the setup back to initial state
         l3.rpc.close(c35res['channel_id'])
-        print(f'c41res: {c41res}')
         l4.rpc.close(c41res['channel_id'])
         l3.rpc.disconnect(l5.info['id'], True)
         l4.rpc.disconnect(l1.info['id'], True)
@@ -1094,6 +1295,11 @@ def generate_channels_examples(node_factory, bitcoind, l1, l3, l4, l5):
         ])
         for channel in multifund_res1['channel_ids']:
             l1.rpc.close(channel['channel_id'])
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'channel_id', 'original_value': multifund_res1['channel_ids'][0]['channel_id'], 'new_value': 'channelid0130000130000130000130000130000130000130000130000130000' },
+            { 'key': 'channel_id', 'original_value': multifund_res1['channel_ids'][1]['channel_id'], 'new_value': 'channelid0140000140000140000140000140000140000140000140000140000' },
+            { 'key': 'channel_id', 'original_value': multifund_res1['channel_ids'][2]['channel_id'], 'new_value': 'channelid0151000151000151000151000151000151000151000151000151000' },
+        ])
         l1.fundwallet(10**8)
         multifund_res2 = update_example(node=l1, method='multifundchannel', params={
             'destinations':
@@ -1115,6 +1321,9 @@ def generate_channels_examples(node_factory, bitcoind, l1, l3, l4, l5):
         # Close newly funded channels to bring the setup back to initial state
         for channel in multifund_res2['channel_ids']:
             l1.rpc.close(channel['channel_id'])
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'channel_id', 'original_value': multifund_res2['channel_ids'][0]['channel_id'], 'new_value': 'channelid0152000152000152000152000152000152000152000152000152000' },
+        ])
         l1.rpc.disconnect(l3.info['id'], True)
         l1.rpc.disconnect(l4.info['id'], True)
         l1.rpc.disconnect(l5.info['id'], True)
@@ -1143,7 +1352,13 @@ def generate_autoclean_delete_examples(l1, l2, l3, l4, l5, c12, c23):
         # For MPP payment from l1 to l4; will use for delpay groupdid and partid example
         inv_l41 = l4.rpc.invoice('5000sat', 'lbl_l41', 'l41 description')
         l2.rpc.connect(l4.info['id'], 'localhost', l4.port)
-        c24, _ = l2.fundchannel(l4, FUND_CHANNEL_AMOUNT_SAT)
+        c24, c24res = l2.fundchannel(l4, FUND_CHANNEL_AMOUNT_SAT)
+        REPLACE_RESPONSE_VALUES.extend([
+            { 'key': 'scid', 'original_value': c24, 'new_value': '189x1x1' },
+            { 'key': 'tx', 'original_value': c24res['tx'], 'new_value': 'tx02000000000101txtxtx' + ('24000' * 100) },
+            { 'key': 'txid', 'original_value': c24res['txid'], 'new_value': 'txidchannel02400002400002400002400002400002400002400002400002400' },
+            { 'key': 'channel_id', 'original_value': c24res['channel_id'], 'new_value': 'channelid0240000240000240000240000240000240000240000240000240000' },
+        ])
         l2.rpc.pay(l4.rpc.invoice(500000000, 'lbl balance l2 to l4', 'description send some sats l2 to l4')['bolt11'])
         # Create two routes; l1->l2->l3->l4 and l1->l2->l4
         route_l1_l4 = l1.rpc.getroute(l4.info['id'], '4000sat', 1)['route']
@@ -1202,7 +1417,7 @@ def generate_backup_recovery_examples(node_factory, l4, l5, l6):
 
         update_example(node=l5, method='makesecret', params=['73636220736563726574'])
         update_example(node=l5, method='makesecret', params={'string': 'scb secret'})
-        update_example(node=l4, method='emergencyrecover', params={})
+        update_example(node=l4, method='emergencyrecover', params={}, sortby='stubs')
         backup_l4 = update_example(node=l4, method='staticbackup', params={})
 
         # Recover channels
@@ -1217,7 +1432,7 @@ def generate_backup_recovery_examples(node_factory, l4, l5, l6):
         os.unlink(os.path.join(l5.daemon.lightning_dir, TEST_NETWORK, 'lightningd.sqlite3'))
         l5.start()
         time.sleep(1)
-        update_example(node=l5, method='emergencyrecover', params={})
+        update_example(node=l5, method='emergencyrecover', params={}, sortby='stubs')
 
         # Recover
         def get_hsm_secret(n):
@@ -1289,7 +1504,7 @@ def test_generate_examples(node_factory, bitcoind, executor):
                 logger.error(f'Error in listing all examples: {e}')
 
         def list_missing_examples():
-            """Checks for missing example file or example & log an error if missing."""
+            """Checks for missing example & log an error if missing."""
             try:
                 global ALL_METHOD_NAMES
                 for file_name in os.listdir('doc/schemas'):
@@ -1298,7 +1513,7 @@ def test_generate_examples(node_factory, bitcoind, executor):
                     file_name_str = str(file_name).replace('lightning-', '').replace('.json', '')
                     # Log an error if the method is not in the list
                     if file_name_str not in ALL_METHOD_NAMES:
-                        logger.error(f'Missing File or Example {file_name_str}.')
+                        logger.error(f'Missing Example {file_name_str}.')
             except Exception as e:
                 logger.error(f'Error in listing missing examples: {e}')
 
@@ -1328,7 +1543,7 @@ def test_generate_examples(node_factory, bitcoind, executor):
         ALL_RPC_EXAMPLES = list_all_examples()
         ALL_METHOD_NAMES = [example['method'] for example in ALL_RPC_EXAMPLES]
         logger.info(f'This test can reproduce examples for {len(ALL_RPC_EXAMPLES)} methods: {ALL_METHOD_NAMES}')
-        REGENERATING_RPCS = [rpc.strip() for rpc in os.getenv("REGENERATE").split(',')] if os.getenv("REGENERATE") else ALL_METHOD_NAMES
+        REGENERATING_RPCS = [rpc.strip() for rpc in os.getenv("REGENERATE").split(', ')] if os.getenv("REGENERATE") else ALL_METHOD_NAMES
         logger.info(f'Regenerating examples for: {REGENERATING_RPCS}')
         RPCS_STATUS = [False] * len(REGENERATING_RPCS)
         list_missing_examples()
@@ -1338,7 +1553,7 @@ def test_generate_examples(node_factory, bitcoind, executor):
         rune_l21 = generate_runes_examples(l1, l2, l3)
         generate_datastore_examples(l2)
         generate_bookkeeper_examples(l2, l3, c23res['channel_id'])
-        generate_askrene_examples(l1, l2, l3, c12, c23)
+        generate_askrene_examples(node_factory, l1, l2, l3, c12, c23)
         generate_offers_renepay_examples(l1, l2, inv_l21, inv_l34)
         generate_list_examples(l1, l2, l3, c12, c23, inv_l31, inv_l32)
         generate_wait_examples(l1, l2, bitcoind, executor)
