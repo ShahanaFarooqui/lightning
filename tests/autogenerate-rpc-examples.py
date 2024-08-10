@@ -9,7 +9,7 @@ from fixtures import TEST_NETWORK
 from io import BytesIO
 from pyln.client import RpcError, Millisatoshi
 from pyln.proto.onion import TlvPayload
-from utils import only_one, mine_funding_to_announce, sync_blockheight, wait_for, first_scid
+from utils import only_one, mine_funding_to_announce, sync_blockheight, wait_for, first_scid, GenChannel, generate_gossip_store
 import os
 import re
 import time
@@ -38,7 +38,7 @@ if os.path.exists(LOG_FILE):
 logging.basicConfig(level=logging.INFO,
                     format='%(levelname)s - %(message)s',
                     handlers=[
-                        # logging.FileHandler(LOG_FILE),
+                        logging.FileHandler(LOG_FILE),
                         logging.StreamHandler()
                     ])
 
@@ -489,6 +489,37 @@ def generate_bookkeeper_examples(l2, l3, c23_chan_id):
         raise
     except Exception as e:
         logger.error(f'Error in generating bookkeeper examples: {e}')
+
+
+def generate_askrene_examples(l1, l2, l3, c12, c23):
+    """Generates askrene examples"""
+    try:
+        logger.info('Askrene Start...')
+        update_example(node=l2, filename='askrene-disable-node', method='askrene-disable-node', params={'layer': 'test_layer', 'node': l1.info['id']})
+        update_example(node=l2, filename='askrene-create-channel', method='askrene_create_channel',
+                       params={'layer': 'test_layers', 'source': l3.info['id'], 'destination': l1.info['id'], 'short_channel_id': c12, 'capacity_msat': '1000000sat', 'htlc_min': 100, 'htlc_max': '900000sat', 'base_fee': 1, 'proportional_fee': 2, 'delay': 18})
+        update_example(node=l2, filename='askrene-listlayers', method='askrene_listlayers', params={})
+        update_example(node=l2, filename='askrene-inform-channel', method='askrene_inform_channel', params={'layer': 'test_layer', 'short_channel_id': c23, 'direction': 1, 'maximum_msat': 100000})
+        listlayers = update_example(node=l2, filename='askrene-listlayers', method='askrene_listlayers', params={'layer': 'test_layer'})
+        ts1 = only_one(only_one(listlayers['layers'])['constraints'])['timestamp']
+        time.sleep(2)
+        update_example(node=l2, filename='askrene-inform-channel', method='askrene_inform_channel', params=['test_layer', c12, 0, 12341234])
+        update_example(node=l2, filename='askrene-age', method='askrene_age', params={'layer': 'test_layer', 'cutoff': ts1})
+        update_example(node=l2, filename='askrene-age', method='askrene_age', params=['test_layer', ts1 + 1])
+        update_example(node=l2, filename='askrene-reserve', method='askrene_reserve', params={'path': [{'short_channel_id': c23, 'direction': 1, 'amount_msat': 1000000}]})
+        update_example(node=l2, filename='askrene-unreserve', method='askrene_unreserve', params={'path': [{'short_channel_id': c23, 'direction': 1, 'amount_msat': 1000000}]})
+        _, nodemap = generate_gossip_store([GenChannel(0, 1, forward=GenChannel.Half(propfee=10000)),
+                                            GenChannel(0, 2, capacity_sats=9000),
+                                            GenChannel(1, 3, forward=GenChannel.Half(propfee=20000)),
+                                            GenChannel(0, 2, capacity_sats=10000),
+                                            GenChannel(2, 4, forward=GenChannel.Half(delay=2000))])
+        update_example(node=l1, method='getroutes',
+                       params={'source': nodemap[0], 'destination': nodemap[2], 'amount_msat': 1000000, 'layers': [], 'maxfee_msat': 5000, 'finalcltv': 99})
+        logger.info('Askrene Done!')
+    except TaskFinished:
+        raise
+    except Exception as e:
+        logger.error(f'Error in generating askrene examples: {e}')
 
 
 def generate_offers_renepay_examples(l1, l2, inv_l21, inv_l34):
@@ -1126,7 +1157,8 @@ def test_generate_examples(node_factory, bitcoind, executor):
                     if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == 'update_example':
                         for keyword in node.keywords:
                             if (keyword.arg == 'method' and isinstance(keyword.value, ast.Str)) or (keyword.arg == 'filename' and isinstance(keyword.value, ast.Str)):
-                                method_name = keyword.value.s
+                                # Replace askrene's '_' with '-' in method name to match with the file name
+                                method_name = keyword.value.s.replace('_', '-') if keyword.value.s.startswith('askrene') else keyword.value.s
                                 if method_name not in methods:
                                     methods[method_name] = {'method': method_name, 'num_examples': 1, 'executed': 0}
                                 else:
@@ -1185,6 +1217,7 @@ def test_generate_examples(node_factory, bitcoind, executor):
         rune_l21 = generate_runes_examples(l1, l2, l3)
         generate_datastore_examples(l2)
         generate_bookkeeper_examples(l2, l3, c23res['channel_id'])
+        generate_askrene_examples(l1, l2, l3, c12, c23)
         generate_offers_renepay_examples(l1, l2, inv_l21, inv_l34)
         generate_list_examples(l1, l2, l3, c12, c23, inv_l31, inv_l32)
         generate_wait_examples(l1, l2, bitcoind, executor)
