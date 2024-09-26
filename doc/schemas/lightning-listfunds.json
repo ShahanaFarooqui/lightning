@@ -354,46 +354,106 @@
       "response": {
         "outputs": [
           {
-            "txid": "9454852bb62e304ee8933662284e10bd22a7f3710c262da4c94bdcc8b05ae407",
-            "output": 0,
-            "amount_msat": 19993653000,
-            "scriptpubkey": "51206c27e1956acfa61e68292c80908880e813450f754132e8a2ac471a86bf1326b5",
-            "address": "bcrt1pdsn7r9t2e7npu6pf9jqfpzyqaqf52rm4gyew3g4vgudgd0cny66srft45s",
+            "txid": "channeltxid01050000500005000050000500005000050000500005000050000",
+            "output": 1,
+            "amount_msat": 25000000,
+            "scriptpubkey": "512018ece00b736f9ed77ed3a87426643c242223e3d6116a4cd6d90946f73de2ce71",
+            "address": "bcrt1prrkwqzmnd70dwlkn4p6zvepuys3z8c7kz94ye4kep9r0w00zeecs9tj48v",
             "status": "confirmed",
-            "blockheight": 103,
+            "blockheight": 156,
             "reserved": false
           },
           {
-            "txid": "7547ffc11396c62852104f7100d5ca27a2b9c0d5d43d08122147b2b03eb157a5",
-            "output": 0,
-            "amount_msat": 2000000000,
-            "scriptpubkey": "00149fb67bfcefee6cb7db4c7e55d9c6bfd749e31d1e",
-            "address": "bcrt1qn7m8hl80aekt0k6v0e2an34l6ay7x8g703x07y",
+            "txid": "db1e61756ef2f55328d67945342434014774c6f45b1d8a7e17ca6f1e8f45b1ea",
+            "output": 1,
+            "amount_msat": 100000000000,
+            "scriptpubkey": "001443120e0f201f7d32d7949f4c9960fbd2d69ea45b",
+            "address": "bcrt1qgvfqureqra7n94u5naxfjc8m6ttfafzmxhakpe",
             "status": "confirmed",
-            "blockheight": 108,
+            "blockheight": 156,
             "reserved": false
           },
           {
-            "txid": "737d6835ddafd515ba9e9def733bb4e4211f6053a32b1422bf1c8cc240850f96",
-            "output": 0,
-            "amount_msat": 198995073000,
-            "scriptpubkey": "512035f1184f6b470c9df347da62c4b28e7ec9ee10b220bac3accd22209def0036ea",
-            "address": "bcrt1pxhc3snmtguxfmu68mf3vfv5w0my7uy9jyzav8txdygsfmmcqxm4q0mms62",
+            "txid": "channeltxid02060000600006000060000600006000060000600006000060000",
+            "output": 1,
+            "amount_msat": 300883906000,
+            "scriptpubkey": "5120def24e878a66b695c4d5b414b42b7ce94471dac985bb0afb0367e8bbb92c5a52",
+            "address": "bcrt1pmmeyapu2v6mft3x4ks2tg2mua9z8rkkfskas47crvl5thwfvtffqtsxl98",
             "status": "confirmed",
-            "blockheight": 109,
+            "blockheight": 157,
+            "reserved": false
+          },
+          {
+            "txid": "6359ffa21ad0ba9ddbae3723141132af923ebc9c5c37c7cea1f3ad0c0464a91c",
+            "output": 0,
+            "amount_msat": 47750000,
+            "scriptpubkey": "5120d41c550d30a802d368917f215c86d3351f161ebf00fc495b98e87e67ca344876",
+            "address": "bcrt1p6sw92rfs4qpdx6y30us4epknx503v84lqr7yjkucaplx0j35fpmq8nfuwr",
+            "status": "confirmed",
+            "blockheight": 157,
             "reserved": false
           }
         ],
         "channels": [
           {
-            "peer_id": "022d223620a359a47ff7f7ac447c85c46c923da53389221a0054c11c1e3ca31d59",
+            "peer_id": "nodeid050505050505050505050505050505050505050505050505050505050505",
+            "connected": false,
+            "state": "ONCHAIN",
+            "channel_id": "channelid1300013000130001300013000130001300013000130001300013000",
+            "our_amount_msat": 300899648000,
+            "amount_msat": 300899648000,
+            "funding_txid": "cab6b8dd0318b3355ddb92d394ecb3e70881e7abf05baab82d46de45dc629dbc",
+            "funding_output": 2
+          },
+          {
+            "peer_id": "nodeid030303030303030303030303030303030303030303030303030303030303",
+            "connected": false,
+            "state": "ONCHAIN",
+            "channel_id": "channelid1100011000110001100011000110001100011000110001100011000",
+            "our_amount_msat": 20000000,
+            "amount_msat": 20000000,
+            "funding_txid": "cab6b8dd0318b3355ddb92d394ecb3e70881e7abf05baab82d46de45dc629dbc",
+            "funding_output": 3
+          },
+          {
+            "peer_id": "nodeid040404040404040404040404040404040404040404040404040404040404",
+            "connected": false,
+            "state": "ONCHAIN",
+            "channel_id": "channelid0410000410000410000410000410000410000410000410000410000",
+            "our_amount_msat": 0,
+            "amount_msat": 199996363000,
+            "funding_txid": "27d586e52f26c40886a5289a3fb2874d4b15f382ec28a405fa78c483a45232c6",
+            "funding_output": 0
+          },
+          {
+            "peer_id": "nodeid040404040404040404040404040404040404040404040404040404040404",
+            "connected": false,
+            "state": "ONCHAIN",
+            "channel_id": "channelid1200012000120001200012000120001200012000120001200012000",
+            "our_amount_msat": 30000000,
+            "amount_msat": 30000000,
+            "funding_txid": "cab6b8dd0318b3355ddb92d394ecb3e70881e7abf05baab82d46de45dc629dbc",
+            "funding_output": 0
+          },
+          {
+            "peer_id": "nodeid040404040404040404040404040404040404040404040404040404040404",
+            "connected": false,
+            "state": "ONCHAIN",
+            "channel_id": "channelid1520015200152001520015200152001520015200152001520015200",
+            "our_amount_msat": 50000000,
+            "amount_msat": 50000000,
+            "funding_txid": "d8b6495e71f6fc5bd9230a501dc9127fdd7b62bf9a589cc192924d2ad327d19f",
+            "funding_output": 0
+          },
+          {
+            "peer_id": "nodeid020202020202020202020202020202020202020202020202020202020202",
             "connected": true,
             "state": "CHANNELD_NORMAL",
-            "channel_id": "252d1b0a1e57895e84137f28cf19ab2c35847e284c112fefdecc7afeaa5c1de7",
+            "channel_id": "channelid0120000120000120000120000120000120000120000120000120000",
             "short_channel_id": "109x1x1",
-            "our_amount_msat": 490518792,
+            "our_amount_msat": 390502790,
             "amount_msat": 1000000000,
-            "funding_txid": "737d6835ddafd515ba9e9def733bb4e4211f6053a32b1422bf1c8cc240850f96",
+            "funding_txid": "5cf9e2b10d8db91a32011967c88844f1ec7ca61f3abad0cff2939efb680671d2",
             "funding_output": 1
           }
         ]

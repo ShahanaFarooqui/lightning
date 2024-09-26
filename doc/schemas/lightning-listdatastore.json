@@ -104,17 +104,7 @@
         }
       },
       "response": {
-        "datastore": [
-          {
-            "key": [
-              "test",
-              "name"
-            ],
-            "generation": 0,
-            "hex": "736176696e67206461746120746f207468652073746f7265",
-            "string": "saving data to the store"
-          }
-        ]
+        "datastore": []
       }
     },
     {
@@ -126,16 +116,7 @@
         }
       },
       "response": {
-        "datastore": [
-          {
-            "key": [
-              "otherkey"
-            ],
-            "generation": 1,
-            "hex": "666f6f626172",
-            "string": "foobar"
-          }
-        ]
+        "datastore": []
       }
     }
   ]
