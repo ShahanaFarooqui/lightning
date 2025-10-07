@@ -5004,19 +5004,11 @@ pub mod requests {
 	    #[serde(skip_serializing_if = "Option::is_none")]
 	    pub amount_msat: Option<Amount>,
 	    #[serde(skip_serializing_if = "Option::is_none")]
-	    pub dev_use_shadow: Option<bool>,
-	    #[serde(skip_serializing_if = "Option::is_none")]
-	    pub label: Option<String>,
-	    #[serde(skip_serializing_if = "Option::is_none")]
-	    pub localinvreqid: Option<String>,
-	    #[serde(skip_serializing_if = "Option::is_none")]
 	    pub maxdelay: Option<u32>,
 	    #[serde(skip_serializing_if = "Option::is_none")]
 	    pub maxfee: Option<Amount>,
 	    #[serde(skip_serializing_if = "Option::is_none")]
 	    pub partial_msat: Option<Amount>,
-	    #[serde(skip_serializing_if = "Option::is_none")]
-	    pub payer_note: Option<String>,
 	    #[serde(skip_serializing_if = "Option::is_none")]
 	    pub retry_for: Option<u32>,
 	    #[serde(skip_serializing_if = "crate::is_none_or_empty")]
@@ -7942,6 +7934,9 @@ pub mod responses {
 
 	#[derive(Clone, Debug, Deserialize, Serialize)]
 	pub struct ListpeerchannelsChannels {
+	    #[deprecated]
+	    #[serde(skip_serializing_if = "Option::is_none")]
+	    pub max_total_htlc_in_msat: Option<Amount>,
 	    #[serde(skip_serializing_if = "Option::is_none")]
 	    pub alias: Option<ListpeerchannelsChannelsAlias>,
 	    #[serde(skip_serializing_if = "Option::is_none")]
@@ -9466,10 +9461,6 @@ pub mod responses {
 
 	#[derive(Clone, Debug, Deserialize, Serialize)]
 	pub struct ListoffersOffers {
-	    #[serde(skip_serializing_if = "Option::is_none")]
-	    pub description: Option<String>,
-	    #[serde(skip_serializing_if = "Option::is_none")]
-	    pub force_paths: Option<bool>,
 	    #[serde(skip_serializing_if = "Option::is_none")]
 	    pub label: Option<String>,
 	    pub active: bool,

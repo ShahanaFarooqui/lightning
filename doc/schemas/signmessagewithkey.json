@@ -78,15 +78,15 @@
         "id": "example:signmessagewithkey#1",
         "method": "signmessagewithkey",
         "params": {
-          "message": "a test message",
-          "address": "bcrt1qgrh5vtf63mtayzhxwp480aww3j3qfr5qpq65un"
+          "message": "signing this message with key",
+          "address": "bcrt1qyrnegh4gp7mfhhqzky5z9up8lsmgh02yz2u5qu"
         }
       },
       "response": {
-        "address": "bcrt1qgrh5vtf63mtayzhxwp480aww3j3qfr5qpq65un",
-        "pubkey": "03bc4a456585ba21ba26af4a0e5399ec76410b2e0ca67db0f3bcb2f47b232fa4b0",
-        "signature": "28564edf260a72d991cbb38cf608e293124f8b8f478d13d4544fe27b9d76c65df1284ca395ccdfd3d5f151729ef18f56c028f5f860155d6aa4d0aaaa176a00db01",
-        "base64": "KFZO3yYKctmRy7OM9gjikxJPi49HjRPUVE/ie512xl3xKEyjlczf09XxUXKe8Y9WwCj1+GAVXWqk0KqqF2oA2wE="
+        "address": "bcrt1qyrnegh4gp7mfhhqzky5z9up8lsmgh02yz2u5qu",
+        "pubkey": "0256814bc97dc6ab4f239d95954443834a3b4783dd8073ffa24e74c82428afb5ae",
+        "signature": "273266abdf49ccb2d4641b5a2e302b3c8d685ec3d32745da40158ae86c49bd9ec85b5d483e0615b6d4198cc256706b386ef2e1d58c0ad229429ac1588634d3ce37",
+        "base64": "JzJmq99JzLLUZBtaLjArPI1oXsPTJ0XaQBWK6GxJvZ7IW11IPgYVttQZjMJWcGs4bvLh1YwK0ilCmsFYhjTTzjc="
       }
     }
   ]

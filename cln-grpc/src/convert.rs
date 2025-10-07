@@ -1365,7 +1365,7 @@ impl From<responses::ListpeerchannelsChannelsUpdates> for pb::ListpeerchannelsCh
     }
 }
 
-#[allow(unused_variables)]
+#[allow(unused_variables,deprecated)]
 impl From<responses::ListpeerchannelsChannels> for pb::ListpeerchannelsChannels {
     fn from(c: responses::ListpeerchannelsChannels) -> Self {
         Self {
@@ -1401,6 +1401,8 @@ impl From<responses::ListpeerchannelsChannels> for pb::ListpeerchannelsChannels 
             lost_state: c.lost_state, // Rule #2 for type boolean?
             max_accepted_htlcs: c.max_accepted_htlcs, // Rule #2 for type u32?
             max_to_us_msat: c.max_to_us_msat.map(|f| f.into()), // Rule #2 for type msat?
+            #[allow(deprecated)]
+            max_total_htlc_in_msat: c.max_total_htlc_in_msat.map(|f| f.into()), // Rule #2 for type msat?
             maximum_htlc_out_msat: c.maximum_htlc_out_msat.map(|f| f.into()), // Rule #2 for type msat?
             min_to_us_msat: c.min_to_us_msat.map(|f| f.into()), // Rule #2 for type msat?
             minimum_htlc_in_msat: c.minimum_htlc_in_msat.map(|f| f.into()), // Rule #2 for type msat?
@@ -2298,8 +2300,6 @@ impl From<responses::ListoffersOffers> for pb::ListoffersOffers {
         Self {
             active: c.active, // Rule #2 for type boolean
             bolt12: c.bolt12, // Rule #2 for type string
-            description: c.description, // Rule #2 for type string?
-            force_paths: c.force_paths, // Rule #2 for type boolean?
             label: c.label, // Rule #2 for type string?
             offer_id: <Sha256 as AsRef<[u8]>>::as_ref(&c.offer_id).to_vec(), // Rule #2 for type hash
             single_use: c.single_use, // Rule #2 for type boolean
@@ -7090,16 +7090,12 @@ impl From<requests::XpayRequest> for pb::XpayRequest {
     fn from(c: requests::XpayRequest) -> Self {
         Self {
             amount_msat: c.amount_msat.map(|f| f.into()), // Rule #2 for type msat?
-            dev_use_shadow: c.dev_use_shadow, // Rule #2 for type boolean?
             invstring: c.invstring, // Rule #2 for type string
-            label: c.label, // Rule #2 for type string?
             // Field: Xpay.layers[]
             layers: c.layers.map(|arr| arr.into_iter().map(|i| i.into()).collect()).unwrap_or(vec![]), // Rule #3
-            localinvreqid: c.localinvreqid.map(|v| hex::decode(v).unwrap()), // Rule #2 for type hex?
             maxdelay: c.maxdelay, // Rule #2 for type u32?
             maxfee: c.maxfee.map(|f| f.into()), // Rule #2 for type msat?
             partial_msat: c.partial_msat.map(|f| f.into()), // Rule #2 for type msat?
-            payer_note: c.payer_note, // Rule #2 for type string?
             retry_for: c.retry_for, // Rule #2 for type u32?
         }
     }
@@ -9150,15 +9146,11 @@ impl From<pb::XpayRequest> for requests::XpayRequest {
     fn from(c: pb::XpayRequest) -> Self {
         Self {
             amount_msat: c.amount_msat.map(|a| a.into()), // Rule #1 for type msat?
-            dev_use_shadow: c.dev_use_shadow, // Rule #1 for type boolean?
             invstring: c.invstring, // Rule #1 for type string
-            label: c.label, // Rule #1 for type string?
             layers: Some(c.layers.into_iter().map(|s| s.into()).collect()), // Rule #4
-            localinvreqid: c.localinvreqid.map(|v| hex::encode(v)), // Rule #1 for type hex?
             maxdelay: c.maxdelay, // Rule #1 for type u32?
             maxfee: c.maxfee.map(|a| a.into()), // Rule #1 for type msat?
             partial_msat: c.partial_msat.map(|a| a.into()), // Rule #1 for type msat?
-            payer_note: c.payer_note, // Rule #1 for type string?
             retry_for: c.retry_for, // Rule #1 for type u32?
         }
     }

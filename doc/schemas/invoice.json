@@ -212,10 +212,10 @@
         }
       },
       "response": {
-        "payment_hash": "paymenthashinvl0310031003100310031003100310031003100310031003100",
-        "expires_at": 1739000000,
-        "bolt11": "lnbcrt100n1pnt2bolt11invl030100000000bolt11invl030100000000bolt11invl030100000000bolt11invl030100000000bolt11invl030100000000bolt11invl030100000000bolt11invl030100000000bolt11invl030100000000bolt11invl030100000000bolt11invl030100000000",
-        "payment_secret": "paymentsecretinvl00310003100031000310003100031000310003100031000",
+        "payment_hash": "64d4c6c428e813cb46061ff76408081e60d4758edaf63f6ee113d6a2d33fb5e9",
+        "expires_at": 1738604800,
+        "bolt11": "lnbcrt100n1pne035qsp5hcjp3axyfv0vaqdjgs8jf8zzm768ymqd7yvxgsgjyysu3knqlz5qpp5vn2vd3pgaqfuk3sxrlmkgzqgresdgavwmtmr7mhpz0t295elkh5sdp9f9h8vmmfvdjjqer9wd3hy6tsw35k7m3qdsenzxqyjw5qcqp9rzjqvuytqpdyk6wqaxvl47d3vee5swuwklej79qxjqqg394r4ptqaue5qqqwqqqqqgqqqqqqqqpqqqqqzsqqc9qxpqysgqyly9hadh5tz09k5cmqg402kr2y7kfaawtq59ue7t0jt4c9ewanh5avgya8lceuqyf3va3jmks0s07p3m34sagdw9eueg0h9znmsu0kcq30mupp",
+        "payment_secret": "be2418f4c44b1ece81b2440f249c42dfb4726c0df1186441122121c8da60f8a8",
         "created_index": 2
       }
     },
@@ -230,10 +230,10 @@
         }
       },
       "response": {
-        "payment_hash": "paymenthashinvl0320032003200320032003200320032003200320032003200",
-        "expires_at": 1739000000,
-        "bolt11": "lnbcrt100n1pnt2bolt11invl032000000000bolt11invl032000000000bolt11invl032000000000bolt11invl032000000000bolt11invl032000000000bolt11invl032000000000bolt11invl032000000000bolt11invl032000000000bolt11invl032000000000bolt11invl032000000000",
-        "payment_secret": "paymentsecretinvl00032003200320032003200320032003200320032003200",
+        "payment_hash": "e355d0883ba01ee21010aea712f3fc3f8c8d2861283243114605fe71c44ed513",
+        "expires_at": 1738604800,
+        "bolt11": "lnbcrt500n1pne035qsp5hk3v7uu800vf5ju9c07emfuqh7c0ma0yfm5lcn0dcenplww2y0mqpp5ud2apzpm5q0wyyqs46n39ulu87xg62rp9qeyxy2xqhl8r3zw65fsdqcdsenygryv4ekxunfwp6xjmmwxqyjw5qcqp9rzjqvuytqpdyk6wqaxvl47d3vee5swuwklej79qxjqqg394r4ptqaue5qqqwqqqqqgqqqqqqqqpqqqqqzsqqc9qxpqysgq0u4wng86j3vxxs0rq5dscm6nqrh2vftacw9x5yphacgv437gkpjphpyz99kpdlhfr0yffvcdauxcr0gsx3kg6nu4afejjtqzdvqvkugqwtutsx",
+        "payment_secret": "bda2cf73877bd89a4b85c3fd9da780bfb0fdf5e44ee9fc4dedc6661fb9ca23f6",
         "created_index": 3
       }
     }

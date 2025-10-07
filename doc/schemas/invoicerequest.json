@@ -133,10 +133,10 @@
         }
       },
       "response": {
-        "invreq_id": "invreqid01010101010101010101010101010101010101010101010101010101",
+        "invreq_id": "7f849ba7b17507b157ee88c64f0a8708272632cdc7edb02028cda3b68281f32a",
         "active": true,
         "single_use": true,
-        "bolt12": "lno1qgsq000bolt210002100021000210002100021000210002100021000210002100021000210002100021000210002100021000210002100021000210002100021000",
+        "bolt12": "lnr1qqgrm2asu2e8fs9n8k4mpc4jwnqtxzst2d5k6urvv5s8getnw3gzqp3zderpzxstt8927ynqg044h0egcd8n5h3n9g0u0v4h8ncc3yg02gps7sjqtqssxwz9sqkjtd8qwnx06lxckvu6g8w8t0ue0zsrfqqygj636s4sw7v67pqrd7zspven4x95dcyhlk8hrmjahpxsvczsfx644zn0ek7x2u0zqpsygvd4nsy0ztd6njs79qn4tqucq4503wtr6rxqms3ufcrz4xq0pg",
         "used": false
       }
     },
@@ -151,10 +151,10 @@
         }
       },
       "response": {
-        "invreq_id": "invreqid02020202020202020202020202020202020202020202020202020202",
+        "invreq_id": "f4591200ff342f88ac8a5d3b27b9e088e9c645b742bbf897f654115843c006ed",
         "active": true,
         "single_use": true,
-        "bolt12": "lno1qgsq000bolt240002400024000240002400024000240002400024000240002400024000240002400024000240002400024000240002400024000240002400024000",
+        "bolt12": "lnr1qqgrm2asu2e8fs958k4mpc4jwnqtgzsk2fjhzat9wd6xjmn8ypnx7u3qd9h8vmmfvdj3yyrrd35kw6r5de5kueeqwd6x7un92qsqvgnwgcg35z6ee2h3yczraddm72xrfua9uve2rlrm9deu7xyfzr6jqwvfdqzcyypns3vq95jmfcr5en7hek9n8xjpm36mlxtc5q6gqpzyk5w59vrhnxhsgq5zvpxrdnx4h46p7p4kaadxpll9s2w3c0he47spljw2musk0vmqyx3j4yhexvk335sacqq27v7wpeetf364demmvhhwlzscs45jmfal",
         "used": false
       }
     }

@@ -1026,6 +1026,7 @@ def listpeerchannels_channels2py(m):
         "lost_state": m.lost_state,  # PrimitiveField in generate_composite
         "max_accepted_htlcs": m.max_accepted_htlcs,  # PrimitiveField in generate_composite
         "max_to_us_msat": amount2msat(m.max_to_us_msat),  # PrimitiveField in generate_composite
+        "max_total_htlc_in_msat": amount2msat(m.max_total_htlc_in_msat),  # PrimitiveField in generate_composite
         "maximum_htlc_out_msat": amount2msat(m.maximum_htlc_out_msat),  # PrimitiveField in generate_composite
         "min_to_us_msat": amount2msat(m.min_to_us_msat),  # PrimitiveField in generate_composite
         "minimum_htlc_in_msat": amount2msat(m.minimum_htlc_in_msat),  # PrimitiveField in generate_composite
@@ -1689,8 +1690,6 @@ def listoffers_offers2py(m):
     return remove_default({
         "active": m.active,  # PrimitiveField in generate_composite
         "bolt12": m.bolt12,  # PrimitiveField in generate_composite
-        "description": m.description,  # PrimitiveField in generate_composite
-        "force_paths": m.force_paths,  # PrimitiveField in generate_composite
         "label": m.label,  # PrimitiveField in generate_composite
         "offer_id": hexlify(m.offer_id),  # PrimitiveField in generate_composite
         "single_use": m.single_use,  # PrimitiveField in generate_composite

@@ -196,124 +196,129 @@
         "method": "plugin",
         "params": {
           "subcommand": "start",
-          "plugin": "/root/lightning/tests/plugins/allow_even_msgs.py"
+          "plugin": "/home/shahana/workspace/lightning/tests/plugins/allow_even_msgs.py"
         }
       },
       "response": {
         "command": "start",
         "plugins": [
           {
-            "name": "/root/lightning/plugins/autoclean",
+            "name": "/home/shahana/workspace/lightning/plugins/autoclean",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/chanbackup",
+            "name": "/home/shahana/workspace/lightning/plugins/chanbackup",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/bcli",
+            "name": "/home/shahana/workspace/lightning/plugins/bcli",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/commando",
+            "name": "/home/shahana/workspace/lightning/plugins/cln-bwatch",
+            "active": true,
+            "dynamic": true
+          },
+          {
+            "name": "/home/shahana/workspace/lightning/plugins/commando",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/funder",
+            "name": "/home/shahana/workspace/lightning/plugins/funder",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/topology",
+            "name": "/home/shahana/workspace/lightning/plugins/topology",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/exposesecret",
+            "name": "/home/shahana/workspace/lightning/plugins/exposesecret",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/keysend",
+            "name": "/home/shahana/workspace/lightning/plugins/keysend",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/offers",
+            "name": "/home/shahana/workspace/lightning/plugins/offers",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/pay",
+            "name": "/home/shahana/workspace/lightning/plugins/pay",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/recklessrpc",
+            "name": "/home/shahana/workspace/lightning/plugins/recklessrpc",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/recover",
+            "name": "/home/shahana/workspace/lightning/plugins/recover",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/txprepare",
+            "name": "/home/shahana/workspace/lightning/plugins/txprepare",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/cln-renepay",
+            "name": "/home/shahana/workspace/lightning/plugins/cln-renepay",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/cln-xpay",
+            "name": "/home/shahana/workspace/lightning/plugins/cln-xpay",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/spenderp",
+            "name": "/home/shahana/workspace/lightning/plugins/spenderp",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/cln-askrene",
+            "name": "/home/shahana/workspace/lightning/plugins/cln-askrene",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/sql",
+            "name": "/home/shahana/workspace/lightning/plugins/sql",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/cln-grpc",
+            "name": "/home/shahana/workspace/lightning/plugins/cln-grpc",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/cln-lsps-client",
-            "active": true,
-            "dynamic": false
-          },
-          {
-            "name": "/root/lightning/plugins/cln-bip353",
+            "name": "/home/shahana/workspace/lightning/plugins/cln-bip353",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/bookkeeper",
+            "name": "/home/shahana/workspace/lightning/plugins/cln-currencyrate",
+            "active": true,
+            "dynamic": true
+          },
+          {
+            "name": "/home/shahana/workspace/lightning/plugins/bookkeeper",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/tests/plugins/allow_even_msgs.py",
+            "name": "/home/shahana/workspace/lightning/tests/plugins/allow_even_msgs.py",
             "active": true,
             "dynamic": true
           }
@@ -326,7 +331,7 @@
         "method": "plugin",
         "params": {
           "subcommand": "stop",
-          "plugin": "/root/lightning/tests/plugins/allow_even_msgs.py"
+          "plugin": "/home/shahana/workspace/lightning/tests/plugins/allow_even_msgs.py"
         }
       },
       "response": {
@@ -346,112 +351,117 @@
         "command": "list",
         "plugins": [
           {
-            "name": "/root/lightning/plugins/autoclean",
+            "name": "/home/shahana/workspace/lightning/plugins/autoclean",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/chanbackup",
+            "name": "/home/shahana/workspace/lightning/plugins/chanbackup",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/bcli",
+            "name": "/home/shahana/workspace/lightning/plugins/bcli",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/commando",
+            "name": "/home/shahana/workspace/lightning/plugins/cln-bwatch",
+            "active": true,
+            "dynamic": true
+          },
+          {
+            "name": "/home/shahana/workspace/lightning/plugins/commando",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/funder",
+            "name": "/home/shahana/workspace/lightning/plugins/funder",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/topology",
+            "name": "/home/shahana/workspace/lightning/plugins/topology",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/exposesecret",
+            "name": "/home/shahana/workspace/lightning/plugins/exposesecret",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/keysend",
+            "name": "/home/shahana/workspace/lightning/plugins/keysend",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/offers",
+            "name": "/home/shahana/workspace/lightning/plugins/offers",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/pay",
+            "name": "/home/shahana/workspace/lightning/plugins/pay",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/recklessrpc",
+            "name": "/home/shahana/workspace/lightning/plugins/recklessrpc",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/recover",
+            "name": "/home/shahana/workspace/lightning/plugins/recover",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/txprepare",
+            "name": "/home/shahana/workspace/lightning/plugins/txprepare",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/cln-renepay",
+            "name": "/home/shahana/workspace/lightning/plugins/cln-renepay",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/cln-xpay",
+            "name": "/home/shahana/workspace/lightning/plugins/cln-xpay",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/spenderp",
+            "name": "/home/shahana/workspace/lightning/plugins/spenderp",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/cln-askrene",
+            "name": "/home/shahana/workspace/lightning/plugins/cln-askrene",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/sql",
+            "name": "/home/shahana/workspace/lightning/plugins/sql",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/cln-grpc",
+            "name": "/home/shahana/workspace/lightning/plugins/cln-grpc",
             "active": true,
             "dynamic": false
           },
           {
-            "name": "/root/lightning/plugins/cln-lsps-client",
-            "active": true,
-            "dynamic": false
-          },
-          {
-            "name": "/root/lightning/plugins/cln-bip353",
+            "name": "/home/shahana/workspace/lightning/plugins/cln-bip353",
             "active": true,
             "dynamic": true
           },
           {
-            "name": "/root/lightning/plugins/bookkeeper",
+            "name": "/home/shahana/workspace/lightning/plugins/cln-currencyrate",
+            "active": true,
+            "dynamic": true
+          },
+          {
+            "name": "/home/shahana/workspace/lightning/plugins/bookkeeper",
             "active": true,
             "dynamic": false
           }

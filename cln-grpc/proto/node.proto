@@ -1467,6 +1467,7 @@ message ListpeerchannelsChannels {
 	optional Amount fee_base_msat = 27;
 	optional uint32 fee_proportional_millionths = 28;
 	optional Amount dust_limit_msat = 29;
+	optional Amount max_total_htlc_in_msat = 30 [deprecated = true];
 	optional Amount their_reserve_msat = 31;
 	optional Amount our_reserve_msat = 32;
 	optional Amount spendable_msat = 33;
@@ -2391,8 +2392,6 @@ message ListoffersOffers {
 	string bolt12 = 4;
 	bool used = 5;
 	optional string label = 6;
-	optional string description = 7;
-	optional bool force_paths = 8;
 }
 
 message ListpaysRequest {
@@ -4315,10 +4314,6 @@ message XpayRequest {
 	optional uint32 retry_for = 5;
 	optional Amount partial_msat = 6;
 	optional uint32 maxdelay = 7;
-	optional string payer_note = 8;
-	optional string label = 9;
-	optional bytes localinvreqid = 10;
-	optional bool dev_use_shadow = 11;
 }
 
 message XpayResponse {

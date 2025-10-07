@@ -61,11 +61,11 @@
         "id": "example:signinvoice#1",
         "method": "signinvoice",
         "params": {
-          "invstring": "lnbcrt100n1pnt2bolt11invl010200000000bolt11invl010200000000bolt11invl010200000000bolt11invl010200000000bolt11invl010200000000bolt11invl010200000000bolt11invl010200000000bolt11invl010200000000bolt11invl010200000000bolt11invl010200000000"
+          "invstring": "lnbcrt10n1pne035qsp5nttf7sx95vtmdwpvrqhxv9ph5vz8kw59a7zzjc77fhwmdh6yxyfspp5uaqkgjuaghdgruux5pnvmht406f2kzsajz9t2v2jh0ehw04gr5qsdqlv3jhxcmjd9c8g6t0dcsxjmnktakrzvsxqyjw5qcqp9rzjqvuytqpdyk6wqaxvl47d3vee5swuwklej79qxjqqg394r4ptqaue5qqqdcqqqqgqqyqqqqqpqqqqqzsqqc9qxpqysgqh3nhm8jeq62s880r6acuk08veurfdujxe5u2s39k4r5ge4pl09r3cyzfyx3wakxgw6y20dv78khd8gh5sa9yy9nnwtw7lrztsfxlduspslvy2p"
         }
       },
       "response": {
-        "bolt11": "lnbcrt100n1pnt2bolt11invl060600000000bolt11invl060600000000bolt11invl060600000000bolt11invl060600000000bolt11invl060600000000bolt11invl060600000000bolt11invl060600000000bolt11invl060600000000bolt11invl060600000000bolt11invl060600000000"
+        "bolt11": "lnbcrt10n1pne035qsp5nttf7sx95vtmdwpvrqhxv9ph5vz8kw59a7zzjc77fhwmdh6yxyfspp5uaqkgjuaghdgruux5pnvmht406f2kzsajz9t2v2jh0ehw04gr5qsdqlv3jhxcmjd9c8g6t0dcsxjmnktakrzvsxqyjw5qcqp9rzjqvuytqpdyk6wqaxvl47d3vee5swuwklej79qxjqqg394r4ptqaue5qqqdcqqqqgqqyqqqqqpqqqqqzsqqc9qxpqysgq5vnd8wgnyp7zafp3w4xp9g8522qk734m2zd0mdxzywrafqru3za36re6mg8s4c6y90lclq97eqnvy9dadugv286xsjlfkn2gknanv3spkwc742"
       }
     },
     {
@@ -73,11 +73,11 @@
         "id": "example:signinvoice#2",
         "method": "signinvoice",
         "params": [
-          "lnbcrt100n1pnt2bolt11invl020600000000bolt11invl020600000000bolt11invl020600000000bolt11invl020600000000bolt11invl020600000000bolt11invl020600000000bolt11invl020600000000bolt11invl020600000000bolt11invl020600000000bolt11invl020600000000"
+          "lnbcrt1250n1pne035qsp53knk6jyrarp0lyggru25t40espmgjxjtfyxemdhqmk5epjj6fcuspp5vefz376hl6dpy7pkg4ag5l5hv0thdeef4qfs9pdcy62h8zyawlvqdqlv3jhxcmjd9c8g6t0dcsxjmnktakrydscqp99qxpqysgqgyvv7cfasfhlgc6rq7684v4cvlh64tl6p57zt0s9dkg6276gulxrc93wja4j4xze22uvm9k7rhu3gdalysqkf3ht3t5tmkn0zpkj6rcqmgcvet"
         ]
       },
       "response": {
-        "bolt11": "lnbcrt100n1pnt2bolt11invl060700000000bolt11invl060700000000bolt11invl060700000000bolt11invl060700000000bolt11invl060700000000bolt11invl060700000000bolt11invl060700000000bolt11invl060700000000bolt11invl060700000000bolt11invl060700000000"
+        "bolt11": "lnbcrt1250n1pne035qsp53knk6jyrarp0lyggru25t40espmgjxjtfyxemdhqmk5epjj6fcuspp5vefz376hl6dpy7pkg4ag5l5hv0thdeef4qfs9pdcy62h8zyawlvqdqlv3jhxcmjd9c8g6t0dcsxjmnktakrydscqp99qxpqysgqw2lqnahq4yqkygp3fcsmhtl9uxsn97h04udvr70p8xzn56x4fxck5n7zxtl4a9laauexxsqnsx9zw3gac6gtq8ezw9j6efjrmykdmdqq8jr0la"
       }
     }
   ]

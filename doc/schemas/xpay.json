@@ -1,14 +1,14 @@
 {
   "$schema": "../rpc-schema-draft.json",
   "type": "object",
-  "added": "v24.11",
   "additionalProperties": false,
   "rpc": "xpay",
-  "title": "Command for sending a payment",
+  "title": "Command for sending a payment for an invoice",
+  "added": "v24.11",
   "description": [
-    "The **xpay** RPC command attempts to make the specified payment: it can look up BIP353 names (such as ₿rusty@blockstream.com), it can resolve simple offers (lno1...), and pay bolt11 (lnbc...) and bolt12 invoices (lni1...).",
+    "The **xpay** RPC command attempts to find routes to the given destination, and send the funds it asks for.",
     "",
-    "This plugin is both simpler and more sophisticated than the older 'pay' plugin."
+    "This plugin is simpler and more sophisticated than the older 'pay' plugin, but does not have all the same features."
   ],
   "request": {
     "required": [
@@ -37,7 +37,7 @@
       "layers": {
         "type": "array",
         "description": [
-          "These are askrene layers to apply in addition to xpay's own: these can alter the topology or provide additional information on the lightning network.  This lets you exclude particular nodes or channels, or bias against them: see askrene-create-layer."
+          "These are askrene layers to apply in addition to xpay's own: these can alter the topology or provide additional information on the lightning network.  See askrene-create-layer."
         ],
         "items": {
           "type": "string",
@@ -66,32 +66,6 @@
           "A payment may be delayed for up to `maxdelay` blocks by another node; clients should be prepared for this worst case."
         ],
         "default": "2016"
-      },
-      "payer_note": {
-        "type": "string",
-        "added": "v26.04",
-        "description": [
-          "A message that a payer is willing to send to a payee within an invoice request."
-        ]
-      },
-      "label": {
-        "type": "string",
-        "added": "v26.06",
-        "description": [
-          "Attach a label to payments for which is returned in `listpays` and `listsendpays`.  This is for your own use: it is not visible to the recipient."
-        ]
-      },
-      "localinvreqid": {
-        "type": "hex",
-        "added": "v26.06",
-        "description": [
-          "`localinvreqid` is used by offers to link a payment attempt to a local `invoice_request` offer created by lightningd-invoicerequest(7). This  ensures that we only make a single payment for an offer, and that the offer is marked `used` once paid."
-        ]
-      },
-      "dev_use_shadow": {
-        "hidden": true,
-        "type": "boolean",
-        "added": "v26.06"
       }
     }
   },
@@ -147,14 +121,14 @@
     "- 209: Other payment error."
   ],
   "author": [
-    "Rusty Russell [rusty@rustcorp.com.au](mailto:rusty@rustcorp.com.au) is mainly responsible."
+    "Rusty Russell <<rusty@rustcorp.com.au>> is mainly responsible."
   ],
   "see_also": [
-    "lightning-listpays(7)",
-    "lightning-decode(7)"
+    "lightning-pay(7)",
+    "lightning-decodepay(7)"
   ],
   "resources": [
-    "Main web site: [https://github.com/ElementsProject/lightning](https://github.com/ElementsProject/lightning)"
+    "Main web site: <https://github.com/ElementsProject/lightning>"
   ],
   "examples": [
     {
@@ -162,11 +136,11 @@
         "id": "example:xpay#1",
         "method": "xpay",
         "params": [
-          "lnbcrt100n1pnt2bolt11invl040100000000bolt11invl040100000000bolt11invl040100000000bolt11invl040100000000bolt11invl040100000000bolt11invl040100000000bolt11invl040100000000bolt11invl040100000000bolt11invl040100000000bolt11invl040100000000"
+          "lnbcrt100n1pne035qsp5undrf08ef89syd4e6yxu4lemacfytqn5pfrfamdan2zcmyvl0nrspp5f9u44ydhrwfjks5vnjkmsm4cpw092tt9us4uq376qjy2jzjkq55qdp9w3jhxazl0pcxz72lwd5k6urvv5sxymmvwscnzxqyjw5qcqp9rzjq08vhlwxs4zvcktzywmgecr3pj096tyukvt7upuz9k2s0xkvwq7nzqqqwgqqqqgqqqqqqqqpqqqqqzsqqc9qxpqysgq4ztcaeu0rpezmlghvv6fm42mknju85th2nyudz02ks6j089tm90hsd7gs0m2yr96cn5qjvl8k2vy8w37g9d5fqsmw4r388m3u9xfrkcqgep705"
         ]
       },
       "response": {
-        "payment_preimage": "paymentpreimgxp1010101010101010101010101010101010101010101010101",
+        "payment_preimage": "a23af6838ba86c3ea23af6838ba86c3ea23af6838ba86c3ea23af6838ba86c3e",
         "amount_msat": 10000,
         "amount_sent_msat": 10002,
         "failed_parts": 0,
@@ -178,12 +152,11 @@
         "id": "example:xpay#2",
         "method": "xpay",
         "params": {
-          "invstring": "lni1qqg0qe03030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303",
-          "payer_note": "Coffee payment"
+          "invstring": "lni1qqgpn4famjyw2eakr82nmhygu4nmvq3qqc3xu3s3rg94nj40zfsy866mhu5vxne6tcej5878k2mneuvgjy83pmsr8pzcqtf9kns8fn8a0nvtxwdyrhr4h7vh3gp5sqzyfdgag2c80xdqys4ylzf0ryt08yxdyskespu6pysngqmc2n83y0vfanr8ut9wujhmqgpa78ntzvt4ldv03frwhqak98fegydsdtad5tnxwe0x5mkzz5kn52qqxv0v3tgy3ezp9dret9ks0wmww462x8gp83pefp5p42g5cp64ntkj0ggpaszv24jw6kqef4pa5hhypkjhnswq92e76qwpht8qvkshn4uljs6l3dk2d4fhks84qrmz9huz4rge7v4vqqepf0q9rl52m9eu8zsll6u6p7rxkez8qarphgu3258qgyreclzs56870j32wp2a0cs89cu3lqnzv33a88a3vggrsx2ttuetmu92txqjepkyaaad9u55zp86qf734n5mg6dmd7yv7da4qgqxyfhyvyg6pdvu4tcjvpp7kkal9rp57wj7xv4pl3ajku70rzy3pafqyqlg2sq9sggz9rh3hynd2f6czucjrdhg7j4demlhfw5hmwmnz2dxt78qldzr8hm2pxqrsx2ttuetmu92txqjepkyaaad9u55zp86qf734n5mg6dmd7yv7das9cu7z4q3sc3ylzdth90gf9sfv0el4ew9z26zxs49gjwy45v7jcjhqypvlrkqpfeuej9pa8xmkurg8nqete9grp5jux562zdqvhv8ugw4tpsqxgrzlw6nm7r3uurn9thghtux0qkmtds44hhs7j9f68yg9vu80xjl0uwad6lnfs9xqmcgefzx69djf403v63pcqqqqqqqqqqqqqqq2qqqqqqqqqqqqqwjfvkl43fqqqqqqzjqgeuhc6q2sgy83jqz26pupdew7r4a2zvydhr5fg3g5dhv8ty0x84cefgcuye0a24qyqlg4cpsyqqqkqss8qv5khejhhc25kvp9jrvfmm66tefgyz05qnart8fk35mkmugeumm7pq8tpj52pk4r4c5t7zlfamke65546d78jk40necf708n806hph7x9ypl2hdg52l0qeu4hcjjppnh32qh68pca8fawuj6ekawqjpmf6kys"
         }
       },
       "response": {
-        "payment_preimage": "paymentpreimgxp2020202020202020202020202020202020202020202020202",
+        "payment_preimage": "19d53ddc88e5736d19d53ddc88e5736d19d53ddc88e5736d19d53ddc88e5736d",
         "amount_msat": 1000,
         "amount_sent_msat": 1000,
         "failed_parts": 0,
