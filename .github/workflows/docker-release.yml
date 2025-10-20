@@ -116,3 +116,5 @@ jobs:
         push: true
         platforms: ${{ env.PLATFORMS }}
         tags: ${{ env.TAGS }}
+        build-args: |
+          VERSION=${{ env.VERSION }}
