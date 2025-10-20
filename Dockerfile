@@ -115,6 +115,8 @@ ARG COPTFLAGS="-O1 -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=hard"
 
 FROM base-builder-${TARGETOS}-${TARGETARCH} AS builder
 
+ARG VERSION
+ENV VERSION=${VERSION}
 ENV LIGHTNINGD_VERSION=master
 
 RUN dpkg --add-architecture ${target_arch_dpkg}
