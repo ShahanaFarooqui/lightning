@@ -86,7 +86,7 @@ ADD --chmod=750 https://sh.rustup.rs                 install-rust.sh
 
 WORKDIR /opt/lightningd
 
-COPY --exclude=.git/ . .
+COPY . .
 
 FROM base-builder AS base-builder-linux-amd64
 
@@ -115,6 +115,8 @@ ARG COPTFLAGS="-O1 -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=hard"
 
 FROM base-builder-${TARGETOS}-${TARGETARCH} AS builder
 
+ARG VERSION
+ENV VERSION=${VERSION}
 ENV LIGHTNINGD_VERSION=master
 
 RUN dpkg --add-architecture ${target_arch_dpkg}
@@ -160,10 +162,6 @@ RUN ./install-rust.sh -y -q --profile minimal --component rustfmt --target ${tar
 ENV PATH="/root/.cargo/bin:/root/.local/bin:${PATH}"
 
 WORKDIR /opt/lightningd
-
-#TODO: find a way to avoid copying the .git/ directory (it always invalidates the cache)
-COPY .git/ .git/
-RUN git submodule update --init --recursive --jobs $(nproc) --depth 1
 
 RUN ./configure --prefix=/tmp/lightning_install --enable-static --disable-compat --disable-valgrind
 RUN uv run make install-program -j$(nproc)

@@ -67,7 +67,7 @@ jobs:
         if [[ "${{ github.event.inputs.repository-name }}" != "" ]]; then
           REPONAME=${{ github.event.inputs.repository-name }}
         else
-          REPONAME="elementsproject"
+          REPONAME="shahanafarooqui"
         fi
         echo "REPONAME=$REPONAME" >> $GITHUB_ENV
 
@@ -116,3 +116,5 @@ jobs:
         push: true
         platforms: ${{ env.PLATFORMS }}
         tags: ${{ env.TAGS }}
+        build-args: |
+          VERSION=${{ env.VERSION }}
