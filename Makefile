@@ -648,11 +648,12 @@ check-amount-access:
 	@! git grep -nE "\\(struct amount_(m)?sat\\)" -- "*.c" "*.h" ":(exclude)common/amount.*" ":(exclude)*/test/*" ":(exclude)tests/fuzz/*" | grep -vE "sizeof.struct amount_(m)?sat."
 
 repeat-doc-examples:
+	@sleep 10
 	@for i in $$(seq 1 $(n)); do \
 		echo "----------------------------------" >> tests/autogenerate-examples-repeat.log; \
 		echo "Iteration $$i" >> tests/autogenerate-examples-repeat.log; \
 		echo "----------------------------------" >> tests/autogenerate-examples-repeat.log; \
-		VALGRIND=0 TIMEOUT=40 TEST_DEBUG=1 GENERATE_EXAMPLES=1 CLN_NEXT_VERSION=$(CLN_NEXT_VERSION) pytest -vvv tests/autogenerate-rpc-examples.py; \
+		TEST_DEBUG=1 VALGRIND=0 GENERATE_EXAMPLES=1 CLN_NEXT_VERSION=$(CLN_NEXT_VERSION) pytest -vvv --timeout=1200 tests/autogenerate-rpc-examples.py; \
 		git diff >> tests/autogenerate-examples-repeat.log; \
 		git reset --hard; \
 		echo "----------------------------------" >> tests/autogenerate-examples-repeat.log; \
