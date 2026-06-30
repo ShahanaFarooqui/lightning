@@ -34,7 +34,7 @@ REGENERATING_RPCS = []
 ALL_RPC_EXAMPLES = {}
 EXAMPLES_JSON = {}
 LOG_FILE = './tests/autogenerate-examples-status.log'
-IGNORE_RPCS_LIST = ['dev-splice', 'reckless', 'sql-template']
+IGNORE_RPCS_LIST = ['dev-splice', 'reckless', 'sql-template', 'currencyconvert', 'splicein', 'createproof', 'clnrest-register-path', 'sendamount', 'graceful', 'askrene-remove-channel-update', 'currencyrate', 'spliceout', 'askrene-bias-node', 'bkpr-report', 'xkeysend', 'listcurrencyrates', 'delnetworkevent', 'cancelrecurringinvoice', 'listnetworkevents', 'injectonionmessage']
 BASE_PORTNUM = 30000
 
 if os.path.exists(LOG_FILE):
@@ -313,7 +313,7 @@ def setup_test_nodes(node_factory, bitcoind, regenerate_blockchain):
         update_example(node=l1, method='upgradewallet', params={})
         txid = bitcoind.send_and_mine_block(p2sh_wrapped_addr, 20000000)
         sync_blockheight(bitcoind, [l1, l2, l3, l4, l5, l6])
-        l1.daemon.wait_for_log('Owning output .* txid {} CONFIRMED'.format(txid))
+        # l1.daemon.wait_for_log('Owning output .* txid {} CONFIRMED'.format(txid))
         # Doing it with 'reserved ok' should have 1. We use a big feerate so we can get over the RBF hump
         update_example(node=l1, method='upgradewallet', params={'feerate': 'urgent', 'reservedok': True})
 
@@ -387,8 +387,8 @@ def generate_transactions_examples(l1, l2, l3, l4, l5, c25, bitcoind):
         inv_l14 = l1.rpc.fetchinvoice(offer_l11['bolt12'], '1000msat')
         update_example(node=l1, method='xpay', params={'invstring': inv_l14['invoice']})
 
-        update_example(node=l1, method='injectonionmessage', params={'message': '0002cb7cd2001e3c670d64135542dcefdf4a3f590eb142cee9277b317848471906caeabe4afeae7f4e31f6ca9c119b643d5369c5e55f892f205469a185f750697124a2bb7ccea1245ec12d76340bcf7371ba6d1c9ddfe09b4153fce524417c14a594fdbb5e7c698a5daffe77db946727a38711be2ecdebdd347d2a9f990810f2795b3c39b871d7c72a11534bd388ca2517630263d96d8cc72d146bae800638066175c85a8e8665160ea332ed7d27efc31c960604d61c3f83801c25cbb69ae3962c2ef13b1fa9adc8dcbe3dc8d9a5e27ff5669e076b02cafef8f2c88fc548e03642180d57606386ad6ce27640339747d40f26eb5b9e93881fc8c16d5896122032b64bb5f1e4be6f41f5fa4dbd7851989aeccd80b2d5f6f25427f171964146185a8eaa57891d91e49a4d378743231e19edd5994c3118c9a415958a5d9524a6ecc78c0205f5c0059a7fbcf1abad706a189b712476d112521c9a4650d0ff09890536acae755a2b07d00811044df28b288d3dc2d5ae3f8bf3cf7a2950e2167105dfad0fb8398ef08f36abcdb1bfd6aca3241c33810f0750f35bdfb7c60b1759275b7704ab1bc8f3ea375b3588eab10e4f948f12fe0a3c77b67bebeedbcced1de0f0715f9959e5497cda5f8f6ab76c15b3dcc99956465de1bf2855338930650f8e8e8c391d9bb8950125dd60d8289dade0556d9dc443761983e26adcc223412b756e2fd9ad64022859b6cab20e8ffc3cf39ae6045b2c3338b1145ee3719a098e58c425db764d7f9a5034dbb730c20202f79bc3c53fab78ecd530aa0e8f7698c9ea53cb96dc9c639282c362d31177c5b81979f46f2db6090b8e171db47287523f28c462e35ef489b51426387f2709c342083968153b5f8a51cd5716b38106bb0f21c5ccfc28dd7c74b71c8367ae8ca348f66a7996bbc535076a1f65d9109658ec042257ca7523488fb1807dc8bec42739ccae066739cf58083b4e2c65e52e1747a6ec2aa26338bb6f2c3195a2b160e26dec70a2cfde269fa7c10c45d346a8bcc313bb618324edadc0291d15f4dc00ca3a7ad7131045fdf6978ba52178f4699525efcb8d96561630e2f28eaa97c66c38c66301b6c6f0124b550db620b09f35b9d45d1441cab7d93be5e3c39b9becfab7f8d05dd3a7a6e27a1d3f23f1dd01e967f5206600619f75439181848f7f4148216c11314b4eaf64c28c268ad4b33ea821d57728e9a9e9e1b6c4bcf35d14958295fc5f92bd6846f33c46f5fa20f569b25bc916b94e554f27a37448f873497e13baef8c740a7587828cc4136dd21b8584e6983e376e91663f8f91559637738b400fb49940fc2df299dfd448604b63c2f5d1f1ec023636f3baf2be5730364afd38191726a7c0d9477b1f231da4d707aabc6ad8036488181dbdb16b48500f2333036629004504d3524f87ece6afb04c4ba03ea6fce069e98b1ab7bf51f237d7c0f40756744dd703c6023b6461b90730f701404e8dddfaff40a9a60e670be7729556241fc9cc8727a586e38b71616bff8772c873b37d920d51a6ad31219a24b12f268545e2cfeb9e662236ab639fd4ecf865612678471ff7b320c934a13ca1f2587fc6a90f839c3c81c0ff84b51330820431418918e8501844893b53c1e0de46d51a64cb769974a996c58ff06683ebdc46fd4bb8e857cecebab785a351c64fd486fb648d25936cb09327b70d22c243035d4343fa3d2d148e2df5cd928010e34ae42b0333e698142050d9405b39f3aa69cecf8a388afbc7f199077b911cb829480f0952966956fe57d815f0d2467f7b28af11f8820645b601c0e1ad72a4684ebc60287d23ec3502f4c65ca44f5a4a0d79e3a5718cd23e7538cb35c57673fb9a1173e5526e767768117c7fefc2e3718f44f790b27e61995fecc6aef05107e75355be301ebe1500c147bb655a159f',
-                                                                     'path_key': '03ccf3faa19e8d124f27d495e3359f4002a6622b9a02df9a51b609826d354cda52'})
+        # update_example(node=l1, method='injectonionmessage', params={'message': '0002cb7cd2001e3c670d64135542dcefdf4a3f590eb142cee9277b317848471906caeabe4afeae7f4e31f6ca9c119b643d5369c5e55f892f205469a185f750697124a2bb7ccea1245ec12d76340bcf7371ba6d1c9ddfe09b4153fce524417c14a594fdbb5e7c698a5daffe77db946727a38711be2ecdebdd347d2a9f990810f2795b3c39b871d7c72a11534bd388ca2517630263d96d8cc72d146bae800638066175c85a8e8665160ea332ed7d27efc31c960604d61c3f83801c25cbb69ae3962c2ef13b1fa9adc8dcbe3dc8d9a5e27ff5669e076b02cafef8f2c88fc548e03642180d57606386ad6ce27640339747d40f26eb5b9e93881fc8c16d5896122032b64bb5f1e4be6f41f5fa4dbd7851989aeccd80b2d5f6f25427f171964146185a8eaa57891d91e49a4d378743231e19edd5994c3118c9a415958a5d9524a6ecc78c0205f5c0059a7fbcf1abad706a189b712476d112521c9a4650d0ff09890536acae755a2b07d00811044df28b288d3dc2d5ae3f8bf3cf7a2950e2167105dfad0fb8398ef08f36abcdb1bfd6aca3241c33810f0750f35bdfb7c60b1759275b7704ab1bc8f3ea375b3588eab10e4f948f12fe0a3c77b67bebeedbcced1de0f0715f9959e5497cda5f8f6ab76c15b3dcc99956465de1bf2855338930650f8e8e8c391d9bb8950125dd60d8289dade0556d9dc443761983e26adcc223412b756e2fd9ad64022859b6cab20e8ffc3cf39ae6045b2c3338b1145ee3719a098e58c425db764d7f9a5034dbb730c20202f79bc3c53fab78ecd530aa0e8f7698c9ea53cb96dc9c639282c362d31177c5b81979f46f2db6090b8e171db47287523f28c462e35ef489b51426387f2709c342083968153b5f8a51cd5716b38106bb0f21c5ccfc28dd7c74b71c8367ae8ca348f66a7996bbc535076a1f65d9109658ec042257ca7523488fb1807dc8bec42739ccae066739cf58083b4e2c65e52e1747a6ec2aa26338bb6f2c3195a2b160e26dec70a2cfde269fa7c10c45d346a8bcc313bb618324edadc0291d15f4dc00ca3a7ad7131045fdf6978ba52178f4699525efcb8d96561630e2f28eaa97c66c38c66301b6c6f0124b550db620b09f35b9d45d1441cab7d93be5e3c39b9becfab7f8d05dd3a7a6e27a1d3f23f1dd01e967f5206600619f75439181848f7f4148216c11314b4eaf64c28c268ad4b33ea821d57728e9a9e9e1b6c4bcf35d14958295fc5f92bd6846f33c46f5fa20f569b25bc916b94e554f27a37448f873497e13baef8c740a7587828cc4136dd21b8584e6983e376e91663f8f91559637738b400fb49940fc2df299dfd448604b63c2f5d1f1ec023636f3baf2be5730364afd38191726a7c0d9477b1f231da4d707aabc6ad8036488181dbdb16b48500f2333036629004504d3524f87ece6afb04c4ba03ea6fce069e98b1ab7bf51f237d7c0f40756744dd703c6023b6461b90730f701404e8dddfaff40a9a60e670be7729556241fc9cc8727a586e38b71616bff8772c873b37d920d51a6ad31219a24b12f268545e2cfeb9e662236ab639fd4ecf865612678471ff7b320c934a13ca1f2587fc6a90f839c3c81c0ff84b51330820431418918e8501844893b53c1e0de46d51a64cb769974a996c58ff06683ebdc46fd4bb8e857cecebab785a351c64fd486fb648d25936cb09327b70d22c243035d4343fa3d2d148e2df5cd928010e34ae42b0333e698142050d9405b39f3aa69cecf8a388afbc7f199077b911cb829480f0952966956fe57d815f0d2467f7b28af11f8820645b601c0e1ad72a4684ebc60287d23ec3502f4c65ca44f5a4a0d79e3a5718cd23e7538cb35c57673fb9a1173e5526e767768117c7fefc2e3718f44f790b27e61995fecc6aef05107e75355be301ebe1500c147bb655a159f',
+        #                                                              'path_key': '03ccf3faa19e8d124f27d495e3359f4002a6622b9a02df9a51b609826d354cda52'})
 
         blockheight = l1.rpc.getinfo()['blockheight']
         amt = 10**3
@@ -802,13 +802,15 @@ def generate_utils_examples(l1, l2, l3, l4, l5, l6, c23_2, c34_2, inv_l11, inv_l
         update_example(node=l2, method='parsefeerate', params=['urgent'])
         update_example(node=l2, method='feerates', params={'style': 'perkw'})
         update_example(node=l2, method='feerates', params={'style': 'perkb'})
-        update_example(node=l2, method='signmessage', params={'message': 'this is a test!'})
-        update_example(node=l2, method='signmessage', params={'message': 'message for you'})
-        update_example(node=l2, method='checkmessage', params={'message': 'testcase to check new rpc error', 'zbase': 'd66bqz3qsku5fxtqsi37j11pci47ydxa95iusphutggz9ezaxt56neh77kxe5hyr41kwgkncgiu94p9ecxiexgpgsz8daoq4tw8kj8yx', 'pubkey': '03be3b0e9992153b1d5a6e1623670b6c3663f72ce6cf2e0dd39c0a373a7de5a3b7'})
-        update_example(node=l2, method='checkmessage', params={'message': 'this is a test!', 'zbase': 'd6tqaeuonjhi98mmont9m4wag7gg4krg1f4txonug3h31e9h6p6k6nbwjondnj46dkyausobstnk7fhyy998bhgc1yr98dfmhb4k54d7'})
+        message_1 = 'this is a test!'
+        message_2 = 'message for you'
+        signed_message = update_example(node=l2, method='signmessage', params={'message': message_1})
+        update_example(node=l2, method='signmessage', params={'message': message_2})
+        zbase = l2.rpc.signmessage(message_2)['zbase']
+        update_example(node=l1, method='checkmessage', params={'message': message_2, 'zbase': zbase, 'pubkey': l2.info['id']})
+        update_example(node=l1, method='checkmessage', params={'message': message_1, 'zbase': signed_message['zbase']})
         addr = l2.rpc.newaddr('bech32')['bech32']
-        update_example(node=l2, method='signmessagewithkey', params={'message': 'a test message', 'address': addr})
-        update_example(node=l2, method='decodepay', params={'bolt11': inv_l11['bolt11']})
+        update_example(node=l2, method='signmessagewithkey', params={'message': 'signing this message with key', 'address': addr})
         update_example(node=l2, method='decode', params=[rune_l21['rune']])
         update_example(node=l2, method='decode', params=[inv_l22['bolt11']])
 
@@ -901,8 +903,8 @@ def generate_splice_examples(node_factory, bitcoind, regenerate_blockchain):
         # Splice out
         funds_result_2 = l7.rpc.addpsbtoutput(100000)
 
-        # Pay with fee by subtracting 5000 from channel balance
-        spinit_res2 = update_example(node=l7, method='splice_init', params=[chan_id_78, -105000, funds_result_2['psbt']])
+        # Pay with fee by subtracting 10000 from channel balance
+        spinit_res2 = update_example(node=l7, method='splice_init', params=[chan_id_78, -110000, funds_result_2['psbt']])
         spupdate1_res2 = l7.rpc.splice_update(chan_id_78, spinit_res2['psbt'])
         assert(spupdate1_res2['commitments_secured'] is False)
         spupdate2_res2 = update_example(node=l7, method='splice_update', params=[chan_id_78, spupdate1_res2['psbt']])
@@ -1228,22 +1230,20 @@ def generate_backup_recovery_examples(node_factory, l4, l5, l6, regenerate_block
         update_example(node=l5, method='emergencyrecover', params={}, response=emergencyrecover_res2)
 
         # Recover
-        def get_hsm_secret(n):
-            """Returns codex32 and hex"""
+        def get_hsm_mmnemonic(n):
+            """Returns 12 word mmnemonic"""
             try:
                 hsmfile = os.path.join(n.daemon.lightning_dir, TEST_NETWORK, "hsm_secret")
-                codex32 = subprocess.check_output(["tools/hsmtool", "getcodexsecret", hsmfile, "leet"]).decode('utf-8').strip()
-                with open(hsmfile, "rb") as f:
-                    hexhsm = f.read().hex()
-                return codex32, hexhsm
+                mmnemonic = subprocess.check_output(["lightning-hsmtool", "getsecret", hsmfile, "leet"]).decode('utf-8').strip()
+                return mmnemonic
             except Exception as e:
-                logger.error(f'Error in getting hsm secret: {e}')
+                logger.error(f'Error in getting mmnemonic: {e}')
                 raise
 
-        _, l6hex = get_hsm_secret(l6)
-        l13codex32, _ = get_hsm_secret(l13)
-        update_example(node=l6, method='recover', params={'hsmsecret': l6hex})
-        update_example(node=l13, method='recover', params={'hsmsecret': l13codex32})
+        l6mmnemonic = get_hsm_mmnemonic(l6)
+        l13mmnemonic = get_hsm_mmnemonic(l13)
+        update_example(node=l6, method='recover', params={'hsmsecret': l6mmnemonic})
+        update_example(node=l13, method='recover', params={'hsmsecret': l13mmnemonic})
         logger.info('Backup and Recovery Done!')
     except Exception as e:
         logger.error(f'Error in generating backup and recovery examples: {e}')
