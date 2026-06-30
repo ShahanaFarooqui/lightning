@@ -113,13 +113,13 @@
         "id": "example:reserveinputs#1",
         "method": "reserveinputs",
         "params": {
-          "psbt": "cHNidP8BADMCAAAAARrX73shixZVX2DAZn4eC1JRNgz9XIjn6AHeyshn60APAQAAAAD9////AAAAAAAAAA=="
+          "psbt": "cHNidP8BADMCAAAAARPRWAdD27ofGhuKux0IwYAXGx/vFy2AlqPQYGMB0SnqAQAAAAD9////AAAAAAAAAA=="
         }
       },
       "response": {
         "reservations": [
           {
-            "txid": "0f40eb67c8cade01e8e7885cfd0c3651520b1e7e66c0605f55168b217befd71a",
+            "txid": "ea29d1016360d0a396802d17ef1f1b1780c1081dbb8a1b1a1fbadb430758d113",
             "vout": 1,
             "was_reserved": false,
             "reserved": true,
@@ -133,13 +133,13 @@
         "id": "example:reserveinputs#2",
         "method": "reserveinputs",
         "params": {
-          "psbt": "cHNidP8BADMCAAAAASVUkRXz/BI6oSdFXQD8ACVbf+ZFaaq1fKk5kZlo6/X/AAAAAAD9////AAAAAAAAAA=="
+          "psbt": "cHNidP8BADMCAAAAAXPeQ37GfyoDVUKG1905AWhsz5fnMZ/RgRdiJrsqUW3rAAAAAAD9////AAAAAAAAAA=="
         }
       },
       "response": {
         "reservations": [
           {
-            "txid": "fff5eb68999139a97cb5aa6945e67f5b2500fc005d4527a13a12fcf315915425",
+            "txid": "eb6d512abb26621781d19f31e797cf6c680139ddd7864255032a7fc67e43de73",
             "vout": 0,
             "was_reserved": false,
             "reserved": true,

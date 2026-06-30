@@ -270,7 +270,7 @@
             "time": "0.000000000",
             "node_id": "03cecbfdc68544cc596223b68ce0710c9e5d2c9cb317ee07822d95079acc703d31",
             "source": "chan#2",
-            "log": "Peer permanent failure in CLOSINGD_COMPLETE: Funding transaction spent: onchain txid 4a9d2d2217f35c9c764c6f3a97e07cf4f4abcb83dec40399b666024558bbf1a5 (reason=unknown)",
+            "log": "Peer permanent failure in CLOSINGD_COMPLETE: Funding transaction spent: onchain txid 4c74897b692da8bf4954316d22ac613b904c1fc8373399532f3c03330b6bb57f (reason=unknown)",
             "num_skipped": 4554
           },
           {
@@ -278,7 +278,7 @@
             "time": "0.000000000",
             "node_id": "03cecbfdc68544cc596223b68ce0710c9e5d2c9cb317ee07822d95079acc703d31",
             "source": "chan#2",
-            "log": "Not dropping our unilateral close onchain since we already saw 4a9d2d2217f35c9c764c6f3a97e07cf4f4abcb83dec40399b666024558bbf1a5 confirm."
+            "log": "Not dropping our unilateral close onchain since we already saw 4c74897b692da8bf4954316d22ac613b904c1fc8373399532f3c03330b6bb57f confirm."
           }
         ]
       }

@@ -219,9 +219,9 @@
       "response": {
         "txs": [
           {
-            "txid": "4d567153942197a40cac53cd74089f9fbc70f565313244b746709291e1110746",
+            "txid": "2068618bdc440e58c31d5fa3fa07c9fa6d3f07fa800644edc32b5d71245dc2cc",
             "blockheight": 124,
-            "fees_paid_msat": 6652000,
+            "fees_paid_msat": 6345000,
             "outputs": [
               {
                 "account": "60a870b5b9d8a5a59213cb7b3ad81b3548ed107d0d627c3615746097b1374b55",

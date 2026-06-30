@@ -1525,7 +1525,7 @@
             "short_channel_id": "110x1x1",
             "direction": 0,
             "channel_id": "2c383675809577b343f57acbea98d51dd913817874a3b621173f3fe2ea519c45",
-            "funding_txid": "22648c93b833fe6c6aa00906db3640d33b8539a3942f281706b006ec42076da2",
+            "funding_txid": "29d29fd93df3b4d192e0c6cc0ad0a14f303ab01278475b234242fc529836addc",
             "funding_outnum": 1,
             "close_to_addr": "bcrt1pra6c2rduuue0lqmwztg9mhccsxyamu4xtar6m5pumkyr8qgjqkxqtutu20",
             "close_to": "51201f75850dbce732ff836e12d05ddf188189ddf2a65f47add03cdd88338112058c",
@@ -1656,7 +1656,7 @@
             "short_channel_id": "110x1x1",
             "direction": 0,
             "channel_id": "2c383675809577b343f57acbea98d51dd913817874a3b621173f3fe2ea519c45",
-            "funding_txid": "22648c93b833fe6c6aa00906db3640d33b8539a3942f281706b006ec42076da2",
+            "funding_txid": "29d29fd93df3b4d192e0c6cc0ad0a14f303ab01278475b234242fc529836addc",
             "funding_outnum": 1,
             "close_to_addr": "bcrt1pra6c2rduuue0lqmwztg9mhccsxyamu4xtar6m5pumkyr8qgjqkxqtutu20",
             "close_to": "51201f75850dbce732ff836e12d05ddf188189ddf2a65f47add03cdd88338112058c",
@@ -1766,7 +1766,7 @@
             },
             "last_stable_connection": 1738000000,
             "state": "CHANNELD_NORMAL",
-            "scratch_txid": "8bcf4fe60537f74c6c956607a8689620114f7a8d27e00f217505027db7ff420c",
+            "scratch_txid": "9d4b466ae26e19a53b60e65aacf3c9e8d86cdc7cc0c09fa2d01771bc5e5fe197",
             "last_tx_fee_msat": 4867000,
             "lost_state": false,
             "feerate": {
@@ -1777,7 +1777,7 @@
             "short_channel_id": "124x1x0",
             "direction": 0,
             "channel_id": "60a870b5b9d8a5a59213cb7b3ad81b3548ed107d0d627c3615746097b1374b55",
-            "funding_txid": "4d567153942197a40cac53cd74089f9fbc70f565313244b746709291e1110746",
+            "funding_txid": "2068618bdc440e58c31d5fa3fa07c9fa6d3f07fa800644edc32b5d71245dc2cc",
             "funding_outnum": 0,
             "close_to_addr": "bcrt1psf44655cjcww96w8eqted6n5nxx8xk6taluuq9jxtwjhg0t7h5ysd07wrp",
             "close_to": "5120826b5d5298961ce2e9c7c81796ea74998c735b4beff9c016465ba5743d7ebd09",
@@ -1795,7 +1795,7 @@
               "local_funds_msat": 1000000000,
               "remote_funds_msat": 0,
               "pushed_msat": 0,
-              "psbt": "cHNidP8BAgQCAAAAAQMEewAAAAEEAQIBBQECAQYBAwH7BAIAAAAAAQCJAgAAAAHhFi6rzzFOcxsud6IwdoJQL9mDc3OH+Y5lL3Oc2dzBPAAAAAAA/f///wJAQg8AAAAAACIAILIJjWyJ8si43ZhmyhQ0vMkFItN42hE/iO2ZEqk3QCQsAS8PAAAAAAAiUSDF0lmFDKY6GQWdC1FfKcjDf8KkRl1lVOTB99fjt2pqTnMAAAABASsBLw8AAAAAACJRIMXSWYUMpjoZBZ0LUV8pyMN/wqRGXWVU5MH31+O3ampOAQhCAUC1MZ2Q7sCdNtRIs7iyYk072W/GfmxWyN9lj/hpM91aId7hc13Xjd2Jc/ifHqzB2/fb4topgooaX5FEEE2x4XU3AQ4gBStr8pCugidIrUoWw+k7QoYZy64a+QG91h57eFdPwGkBDwQBAAAAARAE/f///wz8CWxpZ2h0bmluZwICAAEM/AlsaWdodG5pbmcBCPPCCYQtWFAAAAEAcQIAAAAB4RYuq88xTnMbLneiMHaCUC/Zg3Nzh/mOZS9znNncwTwBAAAAAP3///8CWF6h7AAAAAAWABQ3mTv5YYhEey9XFyXjda+CrG0Ca4CEHgAAAAAAFgAUInWT7GMNIrpiPh6Xg8f7OcAbxD16AAAAAQEfgIQeAAAAAAAWABQidZPsYw0iumI+HpeDx/s5wBvEPQEIawJHMEQCIFia5tk+rEW+dxJmnMZiESlr4ejGmqOTjQj8eHXkSRjCAiBpJEY4Nm0Tbj567lxORMjw3jpP4zwm9Iu2A9clxBPwFwEhAuIYOI5d1PAOKhbT0aTgF3NMV8SvnkVfiz5DwNl4roXcAQ4gIFVLj/oO5AHhxFydrilUm3YA+j2J5B+Ep1MYnqRiuSkBDwQBAAAAARAE/f///wz8CWxpZ2h0bmluZwICAAEM/AlsaWdodG5pbmcBCPXCCYQtWFAAAAEDCEBCDwAAAAAAAQQiACCJxlsiU9FlTBffO4c0UPCE0uLC+SvgGDLzM15EqXECawz8CWxpZ2h0bmluZwEI6VVb3VjPC7YAAQMIRVceAAAAAAABBCJRILg7a3prBQ3yhktNYQuIqzPSmhp4oJYGKRTAcaR5iZBxIQfttiT+5dovSI/bGTo2wdixVAsluggE6qoPmV+jD+PG3gkASUVX7QoAAAAM/AlsaWdodG5pbmcBCPfCCYQtWFAAAA==",
+              "psbt": "cHNidP8BAgQCAAAAAQMEewAAAAEEAQIBBQECAQYBAwH7BAIAAAAAAQCJAgAAAAFV3/BPxIeOB+d84FYd+IIqRrZyNhGlmO/9HhdZguDx6gEAAAAA/f///wJAQg8AAAAAACIAILIJjWyJ8si43ZhmyhQ0vMkFItN42hE/iO2ZEqk3QCQsAS8PAAAAAAAiUSDF0lmFDKY6GQWdC1FfKcjDf8KkRl1lVOTB99fjt2pqTnMAAAABASsBLw8AAAAAACJRIMXSWYUMpjoZBZ0LUV8pyMN/wqRGXWVU5MH31+O3ampOAQhCAUDO3vgjDa2cx3fXOw5qdwjvVRaZFZr8K1HIVo0uQ3ZGFP5/IZlxL4Bt8ePGZJWIZG7RnApV3ZTP0/XVoxesqKzpAQ4gZVfAaSnwmnOfw2bfQOMBUWJGOBkVDRxvZYdNIxcNPpMBDwQBAAAAARAE/f///wz8CWxpZ2h0bmluZwICAAEM/AlsaWdodG5pbmcBCPPCCYQtWFAAAAEAiQIAAAAB1dLQ6rVodTzGXU5cEw8K9AzlKz4J5acBAu65c2jJChkAAAAAAP////8CAm4HAAAAAAAiUSAPRbwNSPChe/1/2N191M7TFYm4azbqJ7xIVbs4EcSu0u7IBwAAAAAAIlEg7d/cBoSEXaxxKx8fPfMlg8yqRJQXz080GQF7ywP+ZPcAAAAAAQErAm4HAAAAAAAiUSAPRbwNSPChe/1/2N191M7TFYm4azbqJ7xIVbs4EcSu0gEIQgFAVil2s9c7p9aBEEGJs8u03hz016yp4Io/C2W50o/4yT99lIRaD4/tl/8Xtw+vywV28bG5XGvLrmqYQBM/cxnhEwEOIH+1awszAzwvU5kzN8gfTJA7YawibTFUSb+oLWl7iXRMAQ8EAAAAAAEQBP3///8M/AlsaWdodG5pbmcCAgABDPwJbGlnaHRuaW5nAQj1wgmELVhQAAABAwhAQg8AAAAAAAEEIgAgicZbIlPRZUwX3zuHNFDwhNLiwvkr4Bgy8zNeRKlxAmsM/AlsaWdodG5pbmcBCOlVW91Yzwu2AAEDCPpBBwAAAAAAAQQiUSC4O2t6awUN8oZLTWELiKsz0poaeKCWBikUwHGkeYmQcSEH7bYk/uXaL0iP2xk6NsHYsVQLJboIBOqqD5lfow/jxt4JAElFV+0KAAAADPwJbGlnaHRuaW5nAQj3wgmELVhQAAA=",
               "withheld": false
             },
             "to_us_msat": 899996000,
@@ -1885,7 +1885,7 @@
               }
             },
             "state": "CLOSINGD_COMPLETE",
-            "scratch_txid": "cebaa1c43f7f4e523e3eec4c689680823a2288956e91b6ada9610ad6d089f460",
+            "scratch_txid": "a21238266c555fabadd0f1e239dc4d062ae3794321c9b28af498993f8a8d899e",
             "last_tx_fee_msat": 2895000,
             "lost_state": false,
             "feerate": {
@@ -1895,7 +1895,7 @@
             "short_channel_id": "160x1x0",
             "direction": 1,
             "channel_id": "473851bb98a42329724d897b5ea85fcda29e9973b70e4e7b2bbce82ff996c601",
-            "funding_txid": "c7eac4a6788b9e202b991567c2da00590769637f7200ad94a70b8e5484a19c7a",
+            "funding_txid": "cd4dc13429bec1b423999743c15b4cd245d30b5ced8a534016ba38d954adf563",
             "funding_outnum": 0,
             "close_to_addr": "bcrt1p54gvdfeuzl75dgfhqkqaza6fnyh5dauesj0y3wlllg284yh8f0hq39gnqc",
             "close_to": "5120a550c6a73c17fd46a1370581d17749992f46f799849e48bbfffa147a92e74bee",
@@ -1914,7 +1914,7 @@
               "local_funds_msat": 1000000000,
               "remote_funds_msat": 0,
               "pushed_msat": 0,
-              "psbt": "cHNidP8BAgQCAAAAAQMEnwAAAAEEAQIBBQECAQYBAwH7BAIAAAAAAQCcAgAAAAEQOi3dzEKW2LsPtq8GGHD00sfm4332suX7Bjd+f818PgAAAAAA/f///wP3TggAAAAAACJRIGzx26aWmh3r2gUXQ2t3EwUm6C9idLC+WNeTpZ2Twqb5BQ0AAAAAAAAWABQNaabAxtIbpykdeapr3IfFfhy+m64IAAAAAAAAFgAUnCtIV9LfE1mAZ+is15UIoJ1YqZ58AAAAAQEr904IAAAAAAAiUSBs8dumlpod69oFF0NrdxMFJugvYnSwvljXk6Wdk8Km+QEIQgFAItHg00TcOCcUgwAuOaK0/B3jmb5V5HhPv774KYvCj7djoqFwdjdVn30m9e4n2JwBI36Bct25IxvnjYCo0ZVVYgEOIAjW14Lvw7TOQxlFerlqZdhe2y8WjigmtrGjtNsJXHqPAQ8EAAAAAAEQBP3///8M/AlsaWdodG5pbmcCAgABDPwJbGlnaHRuaW5nAQj5wgmELVhQAAABAHECAAAAAVvRu8ISqxSdSUshT04QrXsLIYszNw0NIdCVW2v5sX0kAQAAAAD9////AoCEHgAAAAAAFgAURMMe4gFrvmmFbUaJd+ubw3Qx+mDmo+nGAAAAABYAFK8y4L0eovmUVB0nT7NkU8tA/k8ungAAAAEBH4CEHgAAAAAAFgAURMMe4gFrvmmFbUaJd+ubw3Qx+mABCGsCRzBEAiAkHCgr0TqXWO/krR+4hzqo0MTjb8/ra8Wxeoj9pHvhCgIgFlwRLskqRc+SNVMW45DWNCrmcvRWQqCVpQmhFmB4msoBIQPEm5hyN9xL6iseIy01Rj26d0GTB324/YkjjaUs9DRuHAEOIBTfbxoAMnag0zxwp+OtmwfrykWQW6OLT5Au9VvdipNVAQ8EAAAAAAEQBP3///8M/AlsaWdodG5pbmcCAgABDPwJbGlnaHRuaW5nAQj7wgmELVhQAAABAwhAQg8AAAAAAAEEIgAgWyUqe68saAMnTiZUBFdJ3XMJJLh9RZDRsLg61GbCJVcM/AlsaWdodG5pbmcBCBN6SCVuiZtCAAEDCDt3FwAAAAAAAQQiUSDcKbnjNGDQ52BzNnwTn1iW59o2Z+Sm808v0Ib4R2sxeyEHYA5OsLxRzyMadVpheyQ+tDppDIT4sdblYytSu7ezsTwJACWqACsVAAAADPwJbGlnaHRuaW5nAQj9wgmELVhQAAA=",
+              "psbt": "cHNidP8BAgQCAAAAAQMEnwAAAAEEAQIBBQECAQYBAwH7BAIAAAAAAQD9TwECAAAAAYWgJBOtb0JxjRhNRNCBpR0bz1pPuOyRLPitzW1FxDt+AAAAAAD9////CFg0CAAAAAAAIlEgusK1nbzWtM8FRVDJdI9/4bDOItrDNEtEwwVAckZ2L6PoAwAAAAAAACJRIAlY3uvciuAfSvLCoasFQj4yCrpJhj0OQ3a9ShzZRaCR6AMAAAAAAAAWABTBPfmKCfYofeN74AtNqU5mUThCAOgDAAAAAAAAFgAUK3KmTL8emCjiN7MgVr8mY4qyeULoAwAAAAAAABYAFKFAOqfeanp56JlF9tkvkSl/edck6AMAAAAAAAAWABQPbllFTb/Q50SjQybVklwX+mPtNugDAAAAAAAAFgAU5OeJWizfbOd59cYgLJnePjs7NujoAwAAAAAAACJRIG2j7bvxEBieoOt8leGNTqzhp10YxVeBO1V0W7hizst6jAAAAAEBK1g0CAAAAAAAIlEgusK1nbzWtM8FRVDJdI9/4bDOItrDNEtEwwVAckZ2L6MBCEIBQMYjiVmVGkwV4iA21N1/mtbGpPjj6bQXujTd/m+HiSsn3RzgMVn7RK91xW3+p7zbAISTkztfgpUR8BNLNTVMCfoBDiB2ILxA6f9oANGn4jyjNjniizpx4yqjRxaRm/7xSLKRPQEPBAAAAAABEAT9////DPwJbGlnaHRuaW5nAgIAAQz8CWxpZ2h0bmluZwEI+cIJhC1YUAAAAQB9AgAAAAG4WBKqZtM/u8fQnaAWzoUFt7lYzwHLCTTRVe6T66fsAgAAAAAA/f///wIjeggAAAAAABYAFLUxgrxufDxNcBmuq+hNzZ2cbrUYBjbjCwAAAAAiUSC8fj4wl0S6zx/bUTO+1/34doBwxGRcVK01CcV5oNWOM4QAAAABASsGNuMLAAAAACJRILx+PjCXRLrPH9tRM77X/fh2gHDEZFxUrTUJxXmg1Y4zAQhCAUA4ZAXQOqkuORwQ5SW9XdjShf5/76qfUbFrl+ePZR1Z3yctX1wGLAorfbEZ0XHNERAzEbMZ1h5pt8YOld+m8XjeAQ4ghaAkE61vQnGNGE1E0IGlHRvPWk+47JEs+K3NbUXEO34BDwQBAAAAARAE/f///wz8CWxpZ2h0bmluZwICAAEM/AlsaWdodG5pbmcBCPvCCYQtWFAAAAEDCEBCDwAAAAAAAQQiACBbJSp7ryxoAydOJlQEV0ndcwkkuH1FkNGwuDrUZsIlVwz8CWxpZ2h0bmluZwEIE3pIJW6Jm0IAAQMIVQ/cCwAAAAABBCJRINwpueM0YNDnYHM2fBOfWJbn2jZn5KbzTy/QhvhHazF7IQdgDk6wvFHPIxp1WmF7JD60OmkMhPix1uVjK1K7t7OxPAkAJaoAKxUAAAAM/AlsaWdodG5pbmcBCP3CCYQtWFAAAA==",
               "withheld": false
             },
             "to_us_msat": 500000000,
@@ -1974,7 +1974,7 @@
               }
             ],
             "status": [
-              "CLOSINGD_SIGEXCHANGE:We agreed on a closing fee of 2895 satoshi for tx:cebaa1c43f7f4e523e3eec4c689680823a2288956e91b6ada9610ad6d089f460"
+              "CLOSINGD_SIGEXCHANGE:We agreed on a closing fee of 2895 satoshi for tx:a21238266c555fabadd0f1e239dc4d062ae3794321c9b28af498993f8a8d899e"
             ],
             "in_payments_offered": 0,
             "in_offered_msat": 0,

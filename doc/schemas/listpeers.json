@@ -360,7 +360,7 @@
             "connected": true,
             "num_channels": 1,
             "netaddr": [
-              "127.0.0.1:51132"
+              "127.0.0.1:44154"
             ],
             "features": "800898882a8a59a1"
           },

@@ -2114,6 +2114,11 @@
             "source": "cmdline",
             "plugin": "/usr/local/libexec/plugins/bcli"
           },
+          "dev-ignore-ibd": {
+            "value_bool": true,
+            "source": "cmdline",
+            "plugin": "/usr/local/libexec/plugins/bcli"
+          },
           "askrene-max-threads": {
             "value_int": 4,
             "source": "default",
